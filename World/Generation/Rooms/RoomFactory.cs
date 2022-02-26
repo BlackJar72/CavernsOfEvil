@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static DLD.RoomType;
+using static CevarnsOfEvil.RoomType;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class RoomFactory

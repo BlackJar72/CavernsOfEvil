@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     [CreateAssetMenu(menuName = "DLD/Audio/SoundSet", fileName = "SoundSet", order = 101)]
     public class SoundSet : ScriptableObject

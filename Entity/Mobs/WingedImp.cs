@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class WingedImp : EntityRangedMob
@@ -11,11 +11,10 @@ namespace DLD
         [SerializeField] protected Collider hitbox;
 
 
-        public override void Start()
+        /*public override void Start()
         {
-            base.Start();
-            SetFactorSpeed(0);
-        }
+            base.Start();            
+        }*/
 
 
         public override Collider GetCollider()
@@ -60,8 +59,7 @@ namespace DLD
             {
                 nextAttack = Time.time + attackTime;
                 entitySounds.PlayAttack(voice, 0);
-                routingAgent.isStopped = true;
-
+                
                 MeleeAttack();
             }
         }
@@ -71,7 +69,7 @@ namespace DLD
         {
             if (!isDead && (other.gameObject == targetObject))
             {
-                routingAgent.isStopped = false;
+                
             }
         }
 
@@ -79,7 +77,6 @@ namespace DLD
         public override void MeleeAttack()
         {
             base.MeleeAttack();
-            SetFactorSpeed(0);
             anim.SetInteger("AnimID", 2);
             entitySounds.PlayAttack(voice, 1);
             nextFireTime = Mathf.Max(nextFireTime, nextAttack);
@@ -96,7 +93,6 @@ namespace DLD
                 GameObject proj = Instantiate(projectile, aim.from, ProjSpawn.rotation);
                 proj.GetComponent<SimpleProjectile>().LaunchSimple(aim.toward, this);
             }
-            SetFactorSpeed(0);
             anim.SetInteger("AnimID", 1);
             entitySounds.PlayAttack(voice, 0);
         }

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     [System.Serializable]
     public class Sound

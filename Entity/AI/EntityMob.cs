@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     public abstract partial class EntityMob : Entity
     {
@@ -27,10 +26,6 @@ namespace DLD
         protected IBehaviorState previousBehavior = EmptyState.Instance;
         protected float stasisAI; // To force some AI state to linger
 
-        protected NavMeshAgent routingAgent;
-        protected float navmeshTimer;
-        protected bool useNavmesh;
-
 
         //Properties
         public BehaviorObject[] Behaviors { get { return behaviorStates; } }
@@ -46,7 +41,7 @@ namespace DLD
             }
         }
         public IBehaviorState PreviousBehavior { get { return previousBehavior; } }
-        public NavMeshAgent RoutingAgent { get { return routingAgent; } }
+        public Vector3 Destination { get { return destination; } set { destination = value; } }
 
 
         #region Behavior States
@@ -66,83 +61,6 @@ namespace DLD
 
 
         #region Movement
-        #region NavMesh Integration
-        // NavMesh integration
-        public void SetNavmeshDestination(Vector3 destination)
-        {
-            this.destination = destination;
-            useNavmesh = true;
-            setAnimSpeed = SetAnimSpeedNavMesh;
-        }
-
-        public void SetDestination(Vector3 destination)
-        {
-            this.destination = destination;
-        }
-
-
-        public void ClearNavmeshDestination()
-        {
-            if ((routingAgent != null) && routingAgent.isActiveAndEnabled && routingAgent.isOnNavMesh)
-            {
-                routingAgent.ResetPath();
-            }
-            useNavmesh = false;
-            setAnimSpeed = SetAnimSpeedVelocity;
-        }
-
-
-        public void SetNavmeshDestination()
-        {
-            if ((routingAgent != null) && routingAgent.isActiveAndEnabled && routingAgent.isOnNavMesh)
-            {
-                routingAgent.SetDestination(destination);
-            }
-        }
-
-
-        public void EnableNavmesh()
-        {
-            useNavmesh = true;
-            navmeshTimer = Time.time + Random.value;
-            setAnimSpeed = SetAnimSpeedNavMesh;
-        }
-
-
-        public void DisableNavmesh()
-        {
-            useNavmesh = false;
-            routingAgent.isStopped =  true;
-            routingAgent.ResetPath();
-            setAnimSpeed = SetAnimSpeedVelocity;
-        }
-
-
-        public void UpdateNavmesh()
-        {
-            if (useNavmesh && (routingAgent.destination != destination) && routingAgent.isOnNavMesh
-                && ((Time.time > navmeshTimer)
-                    || (routingAgent.remainingDistance < routingAgent.stoppingDistance)))
-            {
-                routingAgent.SetDestination(destination);
-                navmeshTimer = Time.time + 1.0f;
-            }
-        }
-
-
-        public void SetDestinationAndUpdate(Vector3 destination)
-        {
-            SetNavmeshDestination(destination);
-            UpdateNavmesh();
-        }
-
-
-        public bool LineToTargetClear()
-        {            
-            NavMeshHit hit;
-            return !routingAgent.Raycast(targetObject.transform.position, out hit);
-        }
-        #endregion
 
 
         // Non-Navmesh Movement
@@ -178,26 +96,27 @@ namespace DLD
         }
 
 
-        public void SetDirection(Vector3 dir)
+        public virtual void SetDirection(Vector3 dir)
         {
             desiredDirection = dir;
         }
 
 
-        public void StartTurnToDestination()
+        public virtual void TurnToDestination()
         {
             desiredDirection = destination - transform.position;
+            desiredDirection.y = 0;
             if(desiredDirection != Vector3.zero) desiredDirection.Normalize();
         }
 
 
-        public void FaceHeading()
+        public virtual void FaceHeading()
         {
             transform.LookAt(transform.position + direction);
         }
 
 
-        public void SetDirectionZero()
+        public virtual void SetDirectionZero()
         {
             AIVelocity = direction = desiredDirection = Vector3.zero;
             setAnimSpeed = setAnimToZero;
@@ -253,7 +172,7 @@ namespace DLD
         }
 
 
-        public bool IsOnGround()
+        public virtual bool IsOnGround()
         {
             if(feet != null) { 
                 return (Physics.OverlapSphereNonAlloc(feet.position,

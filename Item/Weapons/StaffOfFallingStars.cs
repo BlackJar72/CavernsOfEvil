@@ -2,7 +2,7 @@ using UnityEngine;
 using RootMotion.FinalIK;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class StaffOfFallingStars : Wand

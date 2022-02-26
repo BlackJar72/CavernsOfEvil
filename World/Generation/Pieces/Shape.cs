@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static DLD.Rectangle;
-using static DLD.Shape;
+using static CevarnsOfEvil.Rectangle;
+using static CevarnsOfEvil.Shape;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class Shape

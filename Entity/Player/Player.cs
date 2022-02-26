@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class Player : Entity

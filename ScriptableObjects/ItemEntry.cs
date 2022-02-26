@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 
 {
     public enum ItemCategory

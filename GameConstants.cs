@@ -1,4 +1,4 @@
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public static class GameConstants

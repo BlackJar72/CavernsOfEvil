@@ -3,7 +3,7 @@ using UnityEngine;
 using DigitalRuby.ThunderAndLightning;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class WandOfLightning : Wand

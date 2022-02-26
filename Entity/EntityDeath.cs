@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class EntityDeath : MonoBehaviour

@@ -14,7 +14,7 @@ using System.Collections.Generic;
 */
 using System;
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     public class Xorshift
     {

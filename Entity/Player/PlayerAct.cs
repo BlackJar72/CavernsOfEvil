@@ -4,7 +4,7 @@ using RootMotion.FinalIK;
 using TMPro;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     public static class InventoryHolder
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public abstract class SpawnableByProjectile : MonoBehaviour

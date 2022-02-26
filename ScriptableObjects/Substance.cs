@@ -2,7 +2,7 @@ using UnityEngine;
 
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     /// <summary>

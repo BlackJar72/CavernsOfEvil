@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     [CreateAssetMenu(menuName = "DLD/Episode", fileName = "Episode", order = 111)]
     public class Episode : ScriptableObject

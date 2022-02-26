@@ -1,5 +1,5 @@
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     public interface IBehaviorState
     {

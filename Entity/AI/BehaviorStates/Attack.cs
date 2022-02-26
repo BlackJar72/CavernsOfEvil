@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     [CreateAssetMenu(menuName = "DLD/AI/Generic Attack", fileName = "Attack", order = 4)]
     public class Attack : BehaviorObject
@@ -27,7 +25,6 @@ namespace DLD
 
         public override void StateEnter(EntityMob ownerIn)
         {
-            ownerIn.SetFactorSpeed(AnimMoveSpeed);
             ownerIn.Attack();
         }
     }

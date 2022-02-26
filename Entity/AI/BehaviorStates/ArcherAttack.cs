@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     [CreateAssetMenu(menuName = "DLD/AI/Archer Attack", fileName = "ArcherAttack", order = 10)]
     public class ArcherAttack : BehaviorObject
@@ -40,7 +38,6 @@ namespace DLD
         public override void StateEnter(EntityMob ownerIn)
         {
             ownerIn.Anim.SetInteger("AnimID", AnimID);
-            ownerIn.SetFactorSpeed(AnimMoveSpeed);
             IArcher archer = ownerIn as IArcher;
             archer.ArrowAttack();
         }

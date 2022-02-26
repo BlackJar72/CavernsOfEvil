@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class MovePlayer : MonoBehaviour

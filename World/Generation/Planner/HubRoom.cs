@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class HubRoom
@@ -29,6 +29,11 @@ namespace DLD
 			if (theRoom != null) theRoom.FixHub();
 		}
 
+
+		public HubRoom(TestRoom room)
+		{
+			theRoom = room;
+		}
 
 		private void TryAgain(int y, Xorshift random, Level dungeon)
         {

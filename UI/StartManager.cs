@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class StartManager : MonoBehaviour
