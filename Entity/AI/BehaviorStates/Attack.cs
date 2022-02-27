@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -6,6 +8,8 @@ namespace CevarnsOfEvil
     [CreateAssetMenu(menuName = "DLD/AI/Generic Attack", fileName = "Attack", order = 4)]
     public class Attack : BehaviorObject
     {
+        [SerializeField] BehaviorObject parentState;
+
         public override bool IsValidState(EntityMob ownerIn)
         {
             return ownerIn.StasisAI > Time.time;
@@ -16,7 +20,7 @@ namespace CevarnsOfEvil
         {
             if(!IsValidState(ownerIn))
             {
-                ownerIn.CurrentBehavior = ownerIn.PreviousBehavior;
+                ownerIn.CurrentBehavior = parentState;
                 return true;
             }
             return true;

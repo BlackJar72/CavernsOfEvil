@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CevarnsOfEvil
 {
 
-    public class WingedImp : EntityRangedMob
+    public class WingedImp : EntityRangedNavMeshUser
     {
         [SerializeField] protected Collider hitbox;
 

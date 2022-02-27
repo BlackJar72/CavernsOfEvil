@@ -94,7 +94,7 @@ namespace CevarnsOfEvil
         {
             BuildLevel();
             PlacePlayer();
-            //PlaceMobs();
+            PlaceMobs();
             PlacePickups();
 
             BuildTests();

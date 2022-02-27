@@ -17,13 +17,37 @@ namespace CevarnsOfEvil
 
         public override void Start()
         {
-            base.Start();
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.stoppingDistance = meleeStopDistance
                 = Mathf.Clamp(meleeRange - 1, meleeRange / 2, 3)
                     + GetCollider().bounds.extents.z;
-            navmeshTimer = Time.time;
+            anim = GetComponent<Animator>();
+            aggroRangeSq = aggroRange * aggroRange;
+            CurrentBehavior = EmptyState.Instance.NextState(this);
+            player = GameObject.Find("FemalePlayer");
+            navmeshTimer = enviroCooldown = nextIdleTalk = stasisAI = nextAttack = Time.time;
             setAnimByNavmesh = new SetAnimSpeed(SetAnimSpeedNavMesh);
+            setAnimByVelocity = new SetAnimSpeed(SetAnimSpeedVelocity);
+            setAnimToZero = new SetAnimSpeed(SetAnimSpeedZero);
+            setAnimSpeed = setAnimByNavmesh;
+        }
+
+
+        public virtual void Update()
+        {
+            if (!currentBehavior.StateUpdate(this)) FindNewBehavior();
+#if UNITY_EDITOR
+            if (dungeon != null)
+            {
+                stepData = dungeon.map.GetStepData(transform.position, dungeon,
+                    health, ref enviroCooldown);
+            }
+#else
+            stepData = dungeon.map.GetStepData(transform.position, dungeon,
+                health, ref enviroCooldown);
+#endif
+            float tFactor = Time.deltaTime * 10;
+            setAnimSpeed();
         }
 
 

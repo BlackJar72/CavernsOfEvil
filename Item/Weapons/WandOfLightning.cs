@@ -50,14 +50,7 @@ namespace CevarnsOfEvil
 
         public override void OnMobUse(Entity mob)
         {
-            if (Time.time > fireTime)
-            {
-                fireTime = Time.time + (1.0f / rateOfFire);
-                AimParams aim;
-                mob.GetAimParams(out aim);
-                LightnightBlast(aim.from, aim.toward, mob);
-                thunder.Play();
-            }
+            // Mobs Don't Use This
         }
 
 
@@ -77,7 +70,7 @@ namespace CevarnsOfEvil
                     {
                         lightning.Trigger(last, target.point);
                         hit = target.collider.gameObject;
-                        EntityHealth victim = hit.GetComponent<EntityHealth>();
+                        MobHealth victim = hit.GetComponent<MobHealth>();
                         if (hit.CompareTag("Floor") || hit.CompareTag("Wall"))
                         {
                             GameObject hitParticles = hit.GetComponent<Mesher>().Substance.HitParticles;

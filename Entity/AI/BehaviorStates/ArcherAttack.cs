@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -35,9 +37,11 @@ namespace CevarnsOfEvil
         }
 
 
-        public override void StateEnter(EntityMob ownerIn)
+        public override void StateEnter(EntityMob entityMob)
         {
+            EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
             ownerIn.Anim.SetInteger("AnimID", AnimID);
+            ownerIn.SetFactorSpeed(AnimMoveSpeed);
             IArcher archer = ownerIn as IArcher;
             archer.ArrowAttack();
         }

@@ -165,7 +165,6 @@ namespace CevarnsOfEvil
             velocity = movement + physicalVelocity;
             velocity.y += vSpeed;
             GetComponent<CharacterController>().Move(velocity * Time.deltaTime);
-            //transform.Translate(velocity * Time.deltaTime, Space.World);
             shouldJump = false;
             physicalVelocity *= (1 - Time.deltaTime);
             AIVelocity = Vector3.zero;

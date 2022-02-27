@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -8,14 +10,16 @@ namespace CevarnsOfEvil
     {
         [SerializeField] Attack attackState;
 
-        public override bool StateUpdate(EntityMob ownerIn)
+        public override bool StateUpdate(EntityMob entityMob)
         {
-            EntityRangedMob owner = ownerIn as EntityRangedMob;
+            EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
+            EntityRangedNavMeshUser owner = entityMob as EntityRangedNavMeshUser;
             if (IsValidState(owner))
             {
                 owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, 
                     Quaternion.LookRotation(owner.targetObject.transform.position - owner.transform.position, 
                         owner.transform.up), Time.deltaTime);
+                ownerIn.SetDestinationAndUpdate(ownerIn.targetObject.gameObject.transform.position);
                 if (owner.CanSeeTarget() && (owner.NextAttack < Time.time))
                 {
                     owner.CurrentBehavior = attackState;
@@ -40,10 +44,13 @@ namespace CevarnsOfEvil
         }
 
 
-        public override void StateEnter(EntityMob ownerIn)
+        public override void StateEnter(EntityMob entityMob)
         {
-            EntityRangedMob owner = (ownerIn as EntityRangedMob);
+            EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
+            EntityRangedNavMeshUser owner = (entityMob as EntityRangedNavMeshUser);
             ownerIn.Anim.SetInteger("AnimID", AnimID);
+            ownerIn.SetFactorSpeed(AnimMoveSpeed);
+            ownerIn.RoutingAgent.isStopped = false;
         }
     }
 

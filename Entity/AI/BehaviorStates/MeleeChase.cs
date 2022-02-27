@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -7,16 +9,15 @@ namespace CevarnsOfEvil
     [CreateAssetMenu(menuName = "DLD/AI/Melee Chase", fileName = "MeleeChase", order = 1)]
     public class MeleeChase : BehaviorObject
     {
-        public BehaviorObject clearAttackPath;
-
-        public override bool StateUpdate(EntityMob ownerIn)
+        public override bool StateUpdate(EntityMob entityMob)
         {
+            EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
             if (IsValidState(ownerIn))
             {
-                if((clearAttackPath != null) && clearAttackPath.IsValidState(ownerIn)) 
-                    ownerIn.CurrentBehavior = clearAttackPath;
+                ownerIn.SetDestinationAndUpdate(ownerIn.targetObject.gameObject.transform.position);
                 return true;
             }
+            ownerIn.RoutingAgent.isStopped = true;
             return false;
         }
 
@@ -30,8 +31,12 @@ namespace CevarnsOfEvil
         }
 
 
-        public override void StateEnter(EntityMob ownerIn)
+        public override void StateEnter(EntityMob entityMob)
         {
+            EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
+            ownerIn.SetFactorSpeed(AnimMoveSpeed);
+            ownerIn.RoutingAgent.isStopped = false;
+            ownerIn.EnableNavmesh();
         }
     }
 
