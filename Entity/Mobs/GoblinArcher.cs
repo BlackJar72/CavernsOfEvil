@@ -17,6 +17,7 @@ namespace CevarnsOfEvil
 
         protected float? targetAngle;
         protected AimParams aim;
+        protected Vector3 relVelocity;
 
         protected bool readyToShoot;
 
@@ -33,7 +34,9 @@ namespace CevarnsOfEvil
         public override void Update()
         {
             base.Update();
-            anim.SetFloat("SpeedFactor", (navMeshAgent.velocity.magnitude / baseMoveSpeed));
+            relVelocity = transform.InverseTransformVector(navMeshAgent.velocity).normalized;
+            anim.SetFloat("ZSpeed", (relVelocity.z * animSpeed));
+            anim.SetFloat("XSpeed", (relVelocity.x * animSpeed));
         }
 
 
@@ -128,7 +131,9 @@ namespace CevarnsOfEvil
             bow.GetComponent<EntityDeath>().enabled = true;
             Rigidbody bowrb = bow.GetComponent<Rigidbody>();
             bowrb.isKinematic = false;
-            bowrb.velocity = (Vector3.down * 9.8f) + new Vector3(Random.value, Random.value, Random.value);
+            bowrb.velocity = (Vector3.down * 9.8f) 
+                + new Vector3(Random.value - 0.5f, Random.value - 0.5f, Random.value - 0.5f); ;
+            bowrb.angularVelocity = new Vector3(Random.value - 0.5f, Random.value - 0.5f, Random.value - 0.5f);
             base.Die(damages);
         }
     }

@@ -31,23 +31,25 @@ namespace CevarnsOfEvil {
             EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
             // TODO: Go to maneuver when close to and can see target!
             ownerIn.SetDestinationAndUpdate(ownerIn.targetObject.transform.position);
+            Vector3 toTarget = ownerIn.targetObject.transform.position - ownerIn.transform.position;
             IArcher archer = ownerIn as IArcher;
             if (ownerIn.CanSeeTarget())
             {
-                ownerIn.RoutingAgent.stoppingDistance = 10;
                 if (archer.ReadyToShoot && (ownerIn.NextAttack < Time.time))
                 {
+                    ownerIn.RoutingAgent.stoppingDistance = 10;
                     ownerIn.CurrentBehavior = attackState;
                 }
-                if(ownerIn.RoutingAgent.remainingDistance > 10)
+                else if(toTarget.sqrMagnitude < 64)
                 {
-                    ownerIn.UpdateNavmesh();
+                    ownerIn.RoutingAgent.stoppingDistance = ownerIn.MeleeStopDistance;
+                    ownerIn.SetNavmeshDestination(ownerIn.transform.position - toTarget.normalized * 10);
+                    ownerIn.ForceNavmeshUpdate();
                 }
             }
             else
             {
                 ownerIn.RoutingAgent.stoppingDistance = ownerIn.MeleeStopDistance;
-                ownerIn.UpdateNavmesh();
             }
 
             return IsValidState(ownerIn);

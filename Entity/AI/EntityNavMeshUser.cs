@@ -82,6 +82,13 @@ namespace CevarnsOfEvil
         }
 
 
+        public void ForceNavmeshUpdate()
+        {
+            navMeshAgent.SetDestination(destination);
+            navmeshTimer = Time.time + 1.0f;
+        }
+
+
         public bool LineToTargetClear()
         {
             NavMeshHit hit;
