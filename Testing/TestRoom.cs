@@ -55,14 +55,14 @@ namespace CevarnsOfEvil
         public void PopulateSpawnRoom(TestArena dungeon)
         {
             GameObject.Instantiate(dungeon.stuffPrefab,
-                new Vector3(midX, floorY + 0.5f, midZ), Quaternion.Euler(0, 90, 0));
+                new Vector3(realX, floorY + 0.5f, realZ), Quaternion.Euler(0, 90, 0));
         }
 
 
         public void PoulateMobRoom(TestArena dungeon)
         {
             GameObject.Instantiate(dungeon.mobPrefab,
-                new Vector3((midX + endX) / 2, floorY, midZ), Quaternion.Euler(0, 270, 0));
+                new Vector3((midX + endX) / 2, floorY, realZ), Quaternion.Euler(0, 270, 0));
 
         }
 
