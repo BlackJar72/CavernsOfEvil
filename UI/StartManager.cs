@@ -19,6 +19,7 @@ namespace CevarnsOfEvil
         void Start()
         {
             Time.timeScale = 1;
+            QualitySettings.vSyncCount = 1;
             Cursor.lockState = CursorLockMode.None;
         }
 
