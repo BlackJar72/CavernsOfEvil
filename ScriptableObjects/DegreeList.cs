@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD {
+namespace CevarnsOfEvil {
 
 
     [CreateAssetMenu(menuName = "DLD/Degree List", fileName = "DegreeList", order = 104)]

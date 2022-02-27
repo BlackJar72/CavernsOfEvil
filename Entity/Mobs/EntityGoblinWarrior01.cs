@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     public class EntityGoblinWarrior01 : EntityMob
     {
@@ -50,10 +49,7 @@ namespace DLD
                 nextAttack = Time.time + attackTime;
                 anim.SetInteger("Variant", Random.Range(0, 3));
                 anim.SetTrigger("Attack");
-                SetFactorSpeed(0);
                 entitySounds.PlayAttack(voice, 0); 
-                routingAgent.isStopped = false;
-                useNavmesh = false;
                 AIVelocity = Vector3.zero;
 
                 EntityHealth victim = other.gameObject.GetComponent<EntityHealth>();
@@ -67,11 +63,8 @@ namespace DLD
 
         public override void TriggerLeft(Collider other)
         {
-            if (!isDead && (other.gameObject == targetObject) && routingAgent.isOnNavMesh)
+            if (!isDead && (other.gameObject == targetObject))
             {
-                routingAgent.isStopped = false;
-                useNavmesh = true;
-                SetFactorSpeed(prefferedSpeedFactor);
             }
         }
 

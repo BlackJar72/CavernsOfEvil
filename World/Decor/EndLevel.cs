@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-namespace DLD {
+namespace CevarnsOfEvil {
 
     public class EndLevel : MonoBehaviour
     {

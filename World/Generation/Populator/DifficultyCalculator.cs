@@ -1,6 +1,6 @@
 using System;
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     public static class DifficultyCalculator
     {

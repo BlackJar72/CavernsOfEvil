@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Nito.Collections;
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public partial class Room

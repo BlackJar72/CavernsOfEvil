@@ -2,9 +2,9 @@ using UnityEngine;
 using RootMotion.FinalIK;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
-    public class BoomMob : EntityRangedMob
+    public class BoomMob : EntityRangedNavMeshUser
     {
         private AimIK aimik;
 

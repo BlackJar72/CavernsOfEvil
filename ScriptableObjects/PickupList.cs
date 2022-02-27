@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     [CreateAssetMenu(menuName = "DLD/Pickup List", fileName = "PickupList", order = 201)]
     public class PickupList : ScriptableObject

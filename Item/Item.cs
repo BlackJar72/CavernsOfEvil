@@ -4,7 +4,7 @@ using UnityEngine;
 using RootMotion.FinalIK;
 
 
-namespace DLD {
+namespace CevarnsOfEvil {
 
     public abstract class Item : MonoBehaviour, IInventoryItem
     {

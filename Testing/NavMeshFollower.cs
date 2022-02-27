@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using DLD;
+using CevarnsOfEvil;
 
 public class NavMeshFollower : MonoBehaviour
 {

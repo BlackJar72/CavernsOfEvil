@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD {
+namespace CevarnsOfEvil {
 
 
     [CreateAssetMenu(menuName = "DLD/AI/Archer Chase", fileName = "ArcherChase", order = 11)]
@@ -15,9 +13,7 @@ namespace DLD {
 
         public override void StateEnter(EntityMob ownerIn)
         {
-            ownerIn.RoutingAgent.isStopped = false;
             ownerIn.Anim.SetInteger("AnimID", AnimID);
-            ownerIn.SetFactorSpeed(AnimMoveSpeed);
         }
 
 
@@ -31,24 +27,17 @@ namespace DLD {
         {
 
             // TODO: Go to maneuver when close to and can see target!
-            ownerIn.SetNavmeshDestination(ownerIn.targetObject.transform.position);
             IArcher archer = ownerIn as IArcher;
             if (ownerIn.CanSeeTarget())
             {
-                ownerIn.RoutingAgent.stoppingDistance = 10;
                 if (archer.ReadyToShoot && (ownerIn.NextAttack < Time.time))
                 {
                     ownerIn.CurrentBehavior = attackState;
                 }
-                if(ownerIn.RoutingAgent.remainingDistance > 10)
-                {
-                    ownerIn.UpdateNavmesh();
-                }
             }
             else
             {
-                ownerIn.RoutingAgent.stoppingDistance = ownerIn.MeleeStopDistance;
-                ownerIn.UpdateNavmesh();
+
             }
 
             return IsValidState(ownerIn);

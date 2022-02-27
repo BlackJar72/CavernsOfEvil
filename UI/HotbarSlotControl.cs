@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class HotbarSlotControl : MonoBehaviour

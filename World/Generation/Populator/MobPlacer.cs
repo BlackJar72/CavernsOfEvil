@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     public static class MobPlacer
     {

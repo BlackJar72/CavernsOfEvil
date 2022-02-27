@@ -5,7 +5,7 @@ using UnityEngine;
 using PriorityQueue;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
 	/**This meant to represent a Tile (block column / xz coordinate) that acts

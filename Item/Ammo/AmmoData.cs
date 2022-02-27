@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class AmmoData

@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     [CreateAssetMenu(menuName = "DLD/Player Loadout", fileName = "PlayerInvetory", order = 1)]
     public class PlayerInventoryLoadout : ScriptableObject

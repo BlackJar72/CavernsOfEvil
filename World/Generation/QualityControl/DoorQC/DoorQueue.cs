@@ -4,7 +4,7 @@ using UnityEngine;
 using PriorityQueue;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class DoorQueue : PriorityQueue.SimplePriorityQueue<Doorway, Doorway>

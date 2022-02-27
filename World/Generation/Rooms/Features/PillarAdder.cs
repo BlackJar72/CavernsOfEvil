@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static DLD.Symmetry;
+using static CevarnsOfEvil.Symmetry;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class PillarAdder : FeatureAdder

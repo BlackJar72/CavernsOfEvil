@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD {
+namespace CevarnsOfEvil {
 
     public abstract class Entity : MonoBehaviour
     {

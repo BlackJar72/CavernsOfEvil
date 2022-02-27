@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class GoblinArcher : EntityGoblinWarrior01, IArcher
@@ -30,17 +30,17 @@ namespace DLD
         }
 
 
-        public override void Update()
+        /*public override void Update()
         {
             base.Update();
-            anim.SetFloat("SpeedFactor", (routingAgent.velocity.magnitude / baseMoveSpeed));
-        }
+            
+        }*/
 
 
-        public override void SetFactorSpeed(float speedFactor)
+        /*public override void SetFactorSpeed(float speedFactor)
         {
-            routingAgent.speed = baseMoveSpeed * speedFactor;
-        }
+            
+        }*/
 
 
         public override void GetAimParams(out AimParams aim)

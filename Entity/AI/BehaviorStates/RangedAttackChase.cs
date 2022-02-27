@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     [CreateAssetMenu(menuName = "DLD/AI/Ranged Chase", fileName = "RangedChase", order = 2)]
     public class RangedAttackChase : BehaviorObject
@@ -18,7 +16,6 @@ namespace DLD
                 owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, 
                     Quaternion.LookRotation(owner.targetObject.transform.position - owner.transform.position, 
                         owner.transform.up), Time.deltaTime);
-                ownerIn.SetDestinationAndUpdate(ownerIn.targetObject.gameObject.transform.position);
                 if (owner.CanSeeTarget() && (owner.NextAttack < Time.time))
                 {
                     owner.CurrentBehavior = attackState;
@@ -47,8 +44,6 @@ namespace DLD
         {
             EntityRangedMob owner = (ownerIn as EntityRangedMob);
             ownerIn.Anim.SetInteger("AnimID", AnimID);
-            ownerIn.SetFactorSpeed(AnimMoveSpeed);
-            ownerIn.RoutingAgent.isStopped = false;
         }
     }
 

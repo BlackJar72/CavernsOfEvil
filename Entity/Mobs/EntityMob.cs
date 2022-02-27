@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     public abstract partial class EntityMob : Entity
     {
@@ -51,13 +50,12 @@ namespace DLD
         protected GameObject player;
 
         // Delegate definitions
-        private delegate void SetAnimSpeed();
+        protected delegate void SetAnimSpeed();
 
         // Delegates
-        private SetAnimSpeed setAnimByNavmesh;
-        private SetAnimSpeed setAnimByVelocity;
-        private SetAnimSpeed setAnimToZero;
-        private SetAnimSpeed setAnimSpeed;
+        protected SetAnimSpeed setAnimByVelocity;
+        protected SetAnimSpeed setAnimToZero;
+        protected SetAnimSpeed setAnimSpeed;
 
 
         /************************************************************************************/
@@ -72,16 +70,10 @@ namespace DLD
                 Destroy(gameObject);
             }*/
             anim = GetComponent<Animator>();
-            routingAgent = GetComponent<NavMeshAgent>();
-            routingAgent.stoppingDistance = meleeStopDistance
-                = Mathf.Clamp(meleeRange - 1, meleeRange / 2, 3) 
-                    + GetCollider().bounds.extents.z;
             aggroRangeSq = aggroRange * aggroRange;
             CurrentBehavior = EmptyState.Instance.NextState(this);
             player = GameObject.Find("FemalePlayer");
-            navmeshTimer = Time.time;
             enviroCooldown = nextIdleTalk = stasisAI = nextAttack = Time.time;
-            setAnimByNavmesh = new SetAnimSpeed(SetAnimSpeedNavMesh);
             setAnimByVelocity = new SetAnimSpeed(SetAnimSpeedVelocity);
             setAnimToZero = new SetAnimSpeed(SetAnimSpeedZero);
             setAnimSpeed = setAnimToZero;
@@ -119,21 +111,14 @@ namespace DLD
         }
 
 
-        private void SetAnimSpeedNavMesh()
-        {
-            float tFactor = Time.deltaTime * 10;
-            animSpeed = (routingAgent.desiredVelocity.magnitude * tFactor) + (animSpeed * (1 - tFactor));
-        }
-
-
-        private void SetAnimSpeedVelocity()
+        protected void SetAnimSpeedVelocity()
         {
             float tFactor = Time.deltaTime * 10;
             animSpeed = (AIVelocity.magnitude * tFactor) + (animSpeed * (1 - tFactor));
         }
 
 
-        private void SetAnimSpeedZero()
+        protected void SetAnimSpeedZero()
         {
             animSpeed = 0;
         }
@@ -148,18 +133,10 @@ namespace DLD
         }
 
 
-        public virtual void SetFactorSpeed(float speedFactor)
-        {
-            anim.SetFloat("SpeedFactor", speedFactor);
-            routingAgent.speed = baseMoveSpeed * speedFactor;
-        }
-
-
         public override void Die(Damages damages)
         {
             anim.SetTrigger("Die");
             anim.SetBool("Dead", true);
-            routingAgent.enabled = false;
             base.Die(damages);
         }
 
@@ -219,13 +196,6 @@ namespace DLD
         {
             return (targetObject.GetComponent<Collider>().bounds.center - eyes.position).sqrMagnitude 
                 < (meleeRange * meleeRange);
-        }
-
-
-        public bool InStopingRange()
-        {
-            return (destination - transform.position).sqrMagnitude
-                < (routingAgent.stoppingDistance * routingAgent.stoppingDistance);
         }
 
 

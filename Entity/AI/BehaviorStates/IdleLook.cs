@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD {
+namespace CevarnsOfEvil {
 
     [CreateAssetMenu(menuName ="DLD/AI/Idle Look", fileName = "IdleLook", order = 0)]
     public class IdleLook : BehaviorObject
@@ -34,14 +32,7 @@ namespace DLD {
 
         public override void StateEnter(EntityMob ownerIn)
         {
-            ownerIn.SetFactorSpeed(AnimMoveSpeed);
-            ownerIn.ClearNavmeshDestination();
-            if ((ownerIn.RoutingAgent != null)
-                && ownerIn.RoutingAgent.isActiveAndEnabled
-                && ownerIn.RoutingAgent.isOnNavMesh)
-            {
-                ownerIn.RoutingAgent.isStopped = true;
-            }
+        
         }
 
 

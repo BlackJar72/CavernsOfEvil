@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
 
     public class Level : MonoBehaviour
@@ -41,7 +41,7 @@ namespace DLD
         public GameManager Manager { get { return manager; } }
 
         // Start is called before the first frame update
-        void Start()
+        protected virtual void Start()
         {
             manager = GetComponent<GameManager>();
             PlanLevel();
@@ -94,7 +94,7 @@ namespace DLD
         {
             BuildLevel();
             PlacePlayer();
-            PlaceMobs();
+            //PlaceMobs();
             PlacePickups();
 
             BuildTests();
@@ -252,7 +252,7 @@ namespace DLD
         }
 
 
-        private void BuildLevel()
+        protected void BuildLevel()
         {
             //Cave.InitForLevel();
             for(int i = 1; i < rooms.TotalCount; i++)
@@ -297,7 +297,7 @@ namespace DLD
         }
 
 
-        private void PlacePlayer()
+        protected virtual void PlacePlayer()
         {
             Room startRoom = nodes[0].theRoom;
             Instantiate(startPad, new Vector3(startRoom.realX,

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace DLD
+namespace CevarnsOfEvil
 {
     [CreateAssetMenu(menuName = "DLD/AI/Charge Player", fileName = "ChargePlayer", order = 3)]
     public class ChargePlayer : BehaviorObject
@@ -12,19 +12,18 @@ namespace DLD
 
         public override void StateEnter(EntityMob ownerIn)
         {
-            ownerIn.DisableNavmesh();
-            ownerIn.SetFactorSpeed(AnimMoveSpeed);
+
         }
 
 
         public override bool StateUpdate(EntityMob ownerIn)
         {
             bool output = IsValidState(ownerIn);
-            if(output && !(ownerIn.InMeleeRange() || ownerIn.InStopingRange()) 
+            if(output && !(ownerIn.InMeleeRange()) 
                 && (ownerIn.NextAttack < Time.time))
             {
-                ownerIn.SetDestination(ownerIn.targetObject.transform.position);
-                ownerIn.StartTurnToDestination();
+                ownerIn.Destination = ownerIn.targetObject.transform.position;
+                ownerIn.TurnToDestination();
                 ownerIn.SetMovement();
                 ownerIn.FaceHeading();
             }
@@ -38,8 +37,7 @@ namespace DLD
 
         public override bool IsValidState(EntityMob ownerIn)
         {
-            return ((ownerIn != null) && ownerIn.CanSeeTarget() 
-                && ownerIn.LineToTargetClear());
+            return ((ownerIn != null) && ownerIn.CanSeeTarget());
         }
 
 
