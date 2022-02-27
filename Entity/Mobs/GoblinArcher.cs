@@ -30,17 +30,17 @@ namespace CevarnsOfEvil
         }
 
 
-        /*public override void Update()
+        public override void Update()
         {
             base.Update();
-            
-        }*/
+            anim.SetFloat("SpeedFactor", (navMeshAgent.velocity.magnitude / baseMoveSpeed));
+        }
 
 
-        /*public override void SetFactorSpeed(float speedFactor)
+        public override void SetFactorSpeed(float speedFactor)
         {
-            
-        }*/
+            navMeshAgent.speed = baseMoveSpeed * speedFactor;
+        }
 
 
         public override void GetAimParams(out AimParams aim)
@@ -68,7 +68,7 @@ namespace CevarnsOfEvil
         public void ShootReleaseString()
         {
             grabStringScript.enabled = false;
-            if(!isDead) SpawnArrow();
+            if (!isDead) SpawnArrow();
         }
 
 
@@ -76,7 +76,7 @@ namespace CevarnsOfEvil
         {
             GetAimParams(out aim);
             GameObject proj = Instantiate(arrow, arrowSpawn.position, arrowSpawn.rotation);
-            proj.GetComponent<Arrow>().LaunchSimple(new 
+            proj.GetComponent<Arrow>().LaunchSimple(new
                 Vector3(transform.forward.x, aim.toward.y, transform.forward.z), this);
             entitySounds.PlaySound(voice, ESoundType.ATTACK);
         }
@@ -84,7 +84,7 @@ namespace CevarnsOfEvil
 
         public void ReadyAttackAngles()
         {
-            if(targetAngle != null)
+            if (targetAngle != null)
             {
                 Vector3 toTarget = targetObject.transform.position - arrowPivot.position;
                 targetAngle = Mathf.Tan(toTarget.y / Mathf.Sqrt((toTarget.x * toTarget.x) + (toTarget.z * toTarget.z)));
@@ -113,7 +113,7 @@ namespace CevarnsOfEvil
 
         public void ArrowAttack()
         {
-            RangedAttack();            
+            RangedAttack();
         }
 
 
@@ -128,7 +128,7 @@ namespace CevarnsOfEvil
             bow.GetComponent<EntityDeath>().enabled = true;
             Rigidbody bowrb = bow.GetComponent<Rigidbody>();
             bowrb.isKinematic = false;
-            bowrb.velocity = Vector3.down * 9.8f;
+            bowrb.velocity = (Vector3.down * 9.8f) + new Vector3(Random.value, Random.value, Random.value);
             base.Die(damages);
         }
     }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -32,7 +30,7 @@ namespace CevarnsOfEvil {
         {
             EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
             // TODO: Go to maneuver when close to and can see target!
-            ownerIn.SetDestination(ownerIn.targetObject.transform.position);
+            ownerIn.SetDestinationAndUpdate(ownerIn.targetObject.transform.position);
             IArcher archer = ownerIn as IArcher;
             if (ownerIn.CanSeeTarget())
             {
