@@ -25,7 +25,6 @@ namespace CevarnsOfEvil {
             base.Update();
             StepDataAI stepAhead = gameManager.GetAIDataForGround(transform.position, 
                 transform.position + (navMeshAgent.velocity.normalized * 0.5f), this);
-            onGround = IsOnGround();
         }
 
 

@@ -386,9 +386,7 @@ namespace CevarnsOfEvil
         {
             foreach(EntityMob mob in mobs) 
             {
-                mob.GetComponent<Animator>().enabled = false;
-                mob.GetComponent<NavMeshAgent>().enabled = false;
-                mob.enabled = false;
+                mob.Deactivate();
             }
         }
 

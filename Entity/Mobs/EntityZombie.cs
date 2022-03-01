@@ -6,9 +6,17 @@ using UnityEngine;
 namespace CevarnsOfEvil
 {
 
-    public class EntityZombie : EntityMob
+    public class EntityZombie : EntityKinematicMob
     {
         protected float prefferedSpeed;
+        protected float wanderUpdateTime;
+        protected bool shouldTurn = false;
+
+        // Accessors
+        public float PrefferedSpeed { get => prefferedSpeed; set { prefferedSpeed = value; } }
+        public float WanderUpdateTime { get => wanderUpdateTime; set { wanderUpdateTime = value; } }
+        public bool ShouldTurn { get { return shouldTurn; } set { shouldTurn = value; } }
+
 
         // Delegates
 
@@ -16,11 +24,16 @@ namespace CevarnsOfEvil
         // Start is called before the first frame update
         public override void Start()
         {
-            base.Start();
-            prefferedSpeed = ((Random.value * 2f) / 3f) + (1f / 3f);
-            animSpeed = prefferedSpeed;
-            setAnimSpeed = new SetAnimSpeed(SetAnimSpeedZombie);
+            animSpeed = 0;
+            prefferedSpeed = ((Random.value * 3f) / 4f) + 0.25f;
+            anim = GetComponent<Animator>();
+            aggroRangeSq = aggroRange * aggroRange;
+            player = GameObject.Find("FemalePlayer");
+            enviroCooldown = nextIdleTalk = stasisAI = nextAttack = Time.time;
             anim.SetFloat("Walk", (Random.value * 2f) - 1f);
+            anim.SetFloat("SpeedFactor", 0);
+            IsOnGround = IsOnDungeonGround;
+            CurrentBehavior = EmptyState.Instance.NextState(this);
         }
 
 
@@ -38,7 +51,6 @@ namespace CevarnsOfEvil
             stepData = dungeon.map.GetStepData(transform.position, dungeon,
                 health, ref enviroCooldown);
 #endif
-            setAnimSpeed();
             Move();
         }
 
@@ -60,46 +72,42 @@ namespace CevarnsOfEvil
         }
 
 
-        protected void SetAnimSpeedZombie()
+        public void SetAnimSpeedZombie()
         {
             anim.SetFloat("SpeedFactor", animSpeed);
         }
 
 
-        public override void Move()
+        public override void OnCollisionEnter(Collision collision)
         {
-            if (stepData.floorEffect == FloorEffect.ice)
-            {
-                float slipFactor = Time.deltaTime * 1.5f;
-                movement = (AIVelocity * slipFactor) + (movement * (1 - slipFactor));
-            }
-            else movement = AIVelocity;
+            ShouldTurn = true;
+        }
 
-            shouldJump = onGround = IsOnGround();
 
-            if (onGround)
+        public override void TriggerHit(Collider other)
+        {
+            if (!isDead && (nextAttack < Time.time) && (other.gameObject == targetObject))
             {
-                if (shouldJump)
+                nextAttack = Time.time + attackTime;
+                anim.SetInteger("Variant", Random.Range(0, 3));
+                anim.SetTrigger("Attack");
+                anim.SetFloat("SpeedFactor", animSpeed = 0);
+                //entitySounds.PlayAttack(voice, 0);
+                EntityHealth victim = other.gameObject.GetComponent<EntityHealth>();
+                if (victim != null)
                 {
-                    vSpeed = 5;
-                    anim.SetTrigger("Jump");
-                }
-                else
-                {
-                    vSpeed = Mathf.Max(vSpeed, 0);
+                    victim.BeHitByAttack(meleeDamage, this);
                 }
             }
-            else
-            {
-                vSpeed -= 15 * Time.deltaTime;
-            }
+        }
 
-            velocity = movement + physicalVelocity;
-            velocity.y += vSpeed;
-            GetComponent<CharacterController>().Move(velocity * Time.deltaTime);
-            shouldJump = false;
-            physicalVelocity *= (1 - Time.deltaTime);
-            AIVelocity = Vector3.zero;
+
+        public override void TriggerLeft(Collider other)
+        {
+            if (!isDead && (other.gameObject == targetObject))
+            {
+                anim.SetFloat("SpeedFactor", animSpeed = prefferedSpeed);
+            }
         }
 
 

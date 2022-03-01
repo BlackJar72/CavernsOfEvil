@@ -17,7 +17,6 @@ namespace CevarnsOfEvil
         {
             this.destination = destination;
             useNavmesh = true;
-            setAnimSpeed = SetAnimSpeedNavMesh;
         }
 
         public void SetDestination(Vector3 destination)
@@ -33,7 +32,6 @@ namespace CevarnsOfEvil
                 navMeshAgent.ResetPath();
             }
             useNavmesh = false;
-            setAnimSpeed = SetAnimSpeedVelocity;
         }
 
 
@@ -50,7 +48,6 @@ namespace CevarnsOfEvil
         {
             useNavmesh = true;
             navmeshTimer = Time.time + Random.value;
-            setAnimSpeed = SetAnimSpeedNavMesh;
         }
 
 
@@ -59,7 +56,6 @@ namespace CevarnsOfEvil
             useNavmesh = false;
             navMeshAgent.isStopped = true;
             navMeshAgent.ResetPath();
-            setAnimSpeed = SetAnimSpeedVelocity;
         }
 
 

@@ -17,6 +17,7 @@ namespace CevarnsOfEvil
 
         protected bool onGround;
         protected bool shouldJump;
+        protected bool jumping;
 
         protected StepDataAI aiStep;
         protected Collider[] footContats;
@@ -42,6 +43,17 @@ namespace CevarnsOfEvil
         }
         public IBehaviorState PreviousBehavior { get { return previousBehavior; } }
         public Vector3 Destination { get { return destination; } set { destination = value; } }
+        public Vector3 Direction { get { return direction; } set { direction = value; } }
+        public Vector3 DesiredDirection { get { return desiredDirection; } 
+            set { desiredDirection = value; desiredDirection.Normalize();  } }
+        public Vector3 Velocity { get { return velocity; } set { velocity = value; } }
+        public Vector3 Movement { get { return movement; } set { movement = value; } }
+        public Vector3 PhysicalVelocity { get { return physicalVelocity; } set { physicalVelocity = value; } }
+        public float VSpeed { get { return vSpeed; } set { vSpeed = value; } }
+        public bool OnGround { get => onGround; }
+        public bool ShouldJump { get => shouldJump; set { shouldJump = value; } }
+        public float AnimSpeed { get => animSpeed; set { animSpeed = value; } }
+
 
         // Delegates
         public delegate bool IsOnGroundDelegate();
@@ -64,136 +76,7 @@ namespace CevarnsOfEvil
 
 
 
-        #region Movement
 
-
-        // Non-Navmesh Movement
-        protected StepDataAI GetNextStepAI()
-        {
-            return aiStep = dungeon.Manager.GetAIDataForGround(transform.position,
-                (transform.position + direction * 0.5f), this);
-        }
-
-
-        protected StepDataAI GetNextMoveFlying()
-        {
-            return aiStep = dungeon.Manager.GetAIDataForFlying(transform.position,
-                (transform.position + direction * 0.5f), this);
-        }
-
-
-        protected virtual bool IsDirectionGood()
-        {
-            return GetNextStepAI().Desireable;
-        }
-
-
-        protected virtual bool IsDirectionBlocked()
-        {
-            return !GetNextStepAI().Valid;
-        }
-
-
-        protected virtual bool IsFlyingBlocked()
-        {
-            return !GetNextMoveFlying().Valid;
-        }
-
-
-        public virtual void SetDirection(Vector3 dir)
-        {
-            desiredDirection = dir;
-        }
-
-
-        public virtual void TurnToDestination()
-        {
-            desiredDirection = destination - transform.position;
-            desiredDirection.y = 0;
-            if(desiredDirection != Vector3.zero) desiredDirection.Normalize();
-        }
-
-
-        public virtual void FaceHeading()
-        {
-            transform.LookAt(transform.position + direction);
-        }
-
-
-        public virtual void SetDirectionZero()
-        {
-            AIVelocity = direction = desiredDirection = Vector3.zero;
-            setAnimSpeed = setAnimToZero;
-            animSpeed = 0;
-        }
-
-
-        public virtual void SetMovement()
-        {
-            float turnFactor = Time.deltaTime * turnSpeed;
-            direction = (desiredDirection * turnFactor) + (direction * (1 - turnFactor));
-            if (direction != Vector3.zero) direction.Normalize();
-            AIVelocity = direction * baseMoveSpeed;
-        }
-
-
-        public virtual void Move()
-        {
-            SetMovement();
-
-            if (stepData.floorEffect == FloorEffect.ice)
-            {
-                float slipFactor = Time.deltaTime * 1.5f;
-                movement = (AIVelocity * slipFactor) + (movement * (1 - slipFactor));
-            }
-            else movement = AIVelocity;
-
-            shouldJump = onGround = IsOnGround();
-            
-            if (onGround)
-            {
-                if (shouldJump)
-                {
-                    vSpeed = 5;
-                    anim.SetTrigger("Jump");
-                }
-                else
-                {
-                    vSpeed = Mathf.Max(vSpeed, 0);
-                }
-            }
-            else
-            {
-                vSpeed -= 15 * Time.deltaTime;
-            }
-
-            velocity = movement + physicalVelocity;
-            velocity.y += vSpeed;
-            GetComponent<CharacterController>().Move(velocity * Time.deltaTime);
-            shouldJump = false;
-            physicalVelocity *= (1 - Time.deltaTime);
-            AIVelocity = Vector3.zero;
-        }
-
-
-        public virtual bool IsOnDungeonGround()
-        {
-            if(feet != null) {
-                float offFloor = dungeon.map.GetFloorY((int)feet.position.x, (int)feet.position.z) - feet.position.y;
-                return (offFloor * offFloor) < 0.01f;
-            }
-            return true;
-        }
-
-
-        public virtual bool IsOnPhyscialGround()
-        {
-            return (Physics.OverlapSphereNonAlloc(feet.position,
-                0.1f, footContats, GameConstants.LevelMask) > 0);
-        }
-
-
-        #endregion
 
 
         #region Senses

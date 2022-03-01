@@ -44,6 +44,8 @@ namespace CevarnsOfEvil
         public float MeleeStopDistance { get { return meleeStopDistance; } }
         public float BaseMoveSpeed { get { return baseMoveSpeed; } }
         public Transform Eyes => eyes;
+        public Level Dungeon { get => dungeon; }
+        public GameManager Manager { get => dungeon.Manager; }
 
 
         // Special Internals -- may be replaced by other system
@@ -51,11 +53,6 @@ namespace CevarnsOfEvil
 
         // Delegate definitions
         protected delegate void SetAnimSpeed();
-
-        // Delegates
-        protected SetAnimSpeed setAnimByVelocity;
-        protected SetAnimSpeed setAnimToZero;
-        protected SetAnimSpeed setAnimSpeed;
 
 
         /************************************************************************************/
@@ -71,13 +68,9 @@ namespace CevarnsOfEvil
             }*/
             anim = GetComponent<Animator>();
             aggroRangeSq = aggroRange * aggroRange;
-            CurrentBehavior = EmptyState.Instance.NextState(this);
             player = GameObject.Find("FemalePlayer");
             enviroCooldown = nextIdleTalk = stasisAI = nextAttack = Time.time;
-            setAnimByVelocity = new SetAnimSpeed(SetAnimSpeedVelocity);
-            setAnimToZero = new SetAnimSpeed(SetAnimSpeedZero);
-            setAnimSpeed = setAnimToZero;
-            IsOnGround = IsOnPhyscialGround;
+            CurrentBehavior = EmptyState.Instance.NextState(this);
         }
 
 
@@ -106,8 +99,6 @@ namespace CevarnsOfEvil
             stepData = dungeon.map.GetStepData(transform.position, dungeon,
                 health, ref enviroCooldown);
 #endif
-            setAnimSpeed();
-            Move();
         }
 
 
@@ -160,6 +151,12 @@ namespace CevarnsOfEvil
         public float DistanceSqrToPlayer()
         {
             return (transform.position - player.transform.position).sqrMagnitude;
+        }
+
+
+        public float DistanceSqrToTarget()
+        {
+            return (transform.position - targetObject.transform.position).sqrMagnitude;
         }
 
 
@@ -245,6 +242,13 @@ namespace CevarnsOfEvil
                     (health.Owner as EntityMob).HearAllies(voice.transform.position);
                 }
             }
+        }
+
+
+        public virtual void Deactivate()
+        {
+            anim.enabled = false;
+            enabled = false;
         }
 
     }
