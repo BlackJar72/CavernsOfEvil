@@ -77,6 +77,7 @@ namespace CevarnsOfEvil
             setAnimByVelocity = new SetAnimSpeed(SetAnimSpeedVelocity);
             setAnimToZero = new SetAnimSpeed(SetAnimSpeedZero);
             setAnimSpeed = setAnimToZero;
+            IsOnGround = IsOnPhyscialGround;
         }
 
 
@@ -105,7 +106,6 @@ namespace CevarnsOfEvil
             stepData = dungeon.map.GetStepData(transform.position, dungeon,
                 health, ref enviroCooldown);
 #endif
-            float tFactor = Time.deltaTime * 10;
             setAnimSpeed();
             Move();
         }
@@ -115,12 +115,14 @@ namespace CevarnsOfEvil
         {
             float tFactor = Time.deltaTime * 10;
             animSpeed = (AIVelocity.magnitude * tFactor) + (animSpeed * (1 - tFactor));
+            anim.SetFloat("SpeedFactor", animSpeed);
         }
 
 
         protected void SetAnimSpeedZero()
         {
             animSpeed = 0;
+            anim.SetFloat("SpeedFactor", animSpeed);
         }
 
 

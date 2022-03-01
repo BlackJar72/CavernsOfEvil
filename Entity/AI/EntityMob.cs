@@ -43,6 +43,10 @@ namespace CevarnsOfEvil
         public IBehaviorState PreviousBehavior { get { return previousBehavior; } }
         public Vector3 Destination { get { return destination; } set { destination = value; } }
 
+        // Delegates
+        public delegate bool IsOnGroundDelegate();
+        public IsOnGroundDelegate IsOnGround;
+
 
         #region Behavior States
         /// <summary>
@@ -135,6 +139,8 @@ namespace CevarnsOfEvil
 
         public virtual void Move()
         {
+            SetMovement();
+
             if (stepData.floorEffect == FloorEffect.ice)
             {
                 float slipFactor = Time.deltaTime * 1.5f;
@@ -143,14 +149,13 @@ namespace CevarnsOfEvil
             else movement = AIVelocity;
 
             shouldJump = onGround = IsOnGround();
-
+            
             if (onGround)
             {
                 if (shouldJump)
                 {
                     vSpeed = 5;
-                    // TODO: Jump in animation controller
-                    //animator.SetTrigger("Jump");
+                    anim.SetTrigger("Jump");
                 }
                 else
                 {
@@ -171,13 +176,20 @@ namespace CevarnsOfEvil
         }
 
 
-        public virtual bool IsOnGround()
+        public virtual bool IsOnDungeonGround()
         {
-            if(feet != null) { 
-                return (Physics.OverlapSphereNonAlloc(feet.position,
-                    0.1f, footContats, GameConstants.LevelMask) > 0);
+            if(feet != null) {
+                float offFloor = dungeon.map.GetFloorY((int)feet.position.x, (int)feet.position.z) - feet.position.y;
+                return (offFloor * offFloor) < 0.01f;
             }
             return true;
+        }
+
+
+        public virtual bool IsOnPhyscialGround()
+        {
+            return (Physics.OverlapSphereNonAlloc(feet.position,
+                0.1f, footContats, GameConstants.LevelMask) > 0);
         }
 
 

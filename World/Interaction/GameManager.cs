@@ -29,6 +29,13 @@ namespace CevarnsOfEvil
         }
 
 
+        public void SetLevel(Level level)
+        {
+            this.level = level;
+            map = level.map;
+        }
+
+
         public StepData GetStepData(Vector3 location)
         {
             StepData data = new StepData();
@@ -131,17 +138,20 @@ namespace CevarnsOfEvil
                 output.reachable = true;
                 output.reversable = true;
                 output.safe = LocationSafe(start, endTile);
+                output.height = map.GetFloorY(endTile.x, endTile.y);
+                output.deltay = 0;
             }
             else
             {
                 Vector2Int startTile = new Vector2Int((int)start.x, (int)start.z);
                 end.y = map.GetFloorY(endTile.x, endTile.y);
-                float heightDiff = end.y - map.GetFloorY(startTile.x, startTile.y);
+                output.height = map.GetFloorY(endTile.x, endTile.y);
+                output.deltay = output.height - map.GetFloorY(startTile.x, startTile.y);
                 float verticleSpace = map.GetCeilY(endTile.x, endTile.y) - end.y;
                 output.passable = map.GetPassable(endTile.x, endTile.y) 
                                   && (verticleSpace > mob.GetCollider().bounds.size.y);
-                output.reachable = heightDiff <= 1.25f;
-                output.reversable = heightDiff > -1f;
+                output.reachable = output.deltay <= 1.25f;
+                output.reversable = output.deltay > -1f;
                 output.safe = LocationSafe(end, endTile);
             }
             return output;

@@ -12,6 +12,8 @@ namespace CevarnsOfEvil
         public bool reachable;
         public bool reversable;
         public bool safe;
+        public float height;
+        public float deltay;
         public bool Desireable => passable && reachable && reversable && safe;
         public bool Valid => passable && reachable;
     }
