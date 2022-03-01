@@ -34,6 +34,7 @@ namespace CevarnsOfEvil
             anim.SetFloat("SpeedFactor", 0);
             IsOnGround = IsOnDungeonGround;
             CurrentBehavior = EmptyState.Instance.NextState(this);
+            collider = characterController = GetComponent<CharacterController>();
         }
 
 

@@ -27,6 +27,7 @@ namespace CevarnsOfEvil
         protected StepData stepData;
         protected float enviroCooldown;
         protected float animSpeed;
+        protected Collider collider;
 
         // Keeping track of the current enemy
         [HideInInspector] public GameObject targetObject;
@@ -71,6 +72,13 @@ namespace CevarnsOfEvil
             player = GameObject.Find("FemalePlayer");
             enviroCooldown = nextIdleTalk = stasisAI = nextAttack = Time.time;
             CurrentBehavior = EmptyState.Instance.NextState(this);
+            collider = GetComponent<Collider>();
+        }
+
+
+        public override Collider GetCollider()
+        {
+            return collider;
         }
 
 

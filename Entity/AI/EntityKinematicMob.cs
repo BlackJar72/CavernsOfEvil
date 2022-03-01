@@ -7,19 +7,16 @@ namespace CevarnsOfEvil
     {
         protected CharacterController characterController;
 
-        public virtual void Start()
+
+        public override void Start()
         {
-            /*if(!dungeon.map.IsValidLocation(transform.position, GetCollider().bounds.extents.y * 2))
-            {
-                Destroy(gameObject);
-            }*/
             anim = GetComponent<Animator>();
             aggroRangeSq = aggroRange * aggroRange;
             player = GameObject.Find("FemalePlayer");
             enviroCooldown = nextIdleTalk = stasisAI = nextAttack = Time.time;
             IsOnGround = IsOnPhyscialGround;
             CurrentBehavior = EmptyState.Instance.NextState(this);
-            characterController = GetComponent<CharacterController>();
+            collider = characterController = GetComponent<CharacterController>();
         }
 
 

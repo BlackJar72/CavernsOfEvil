@@ -154,6 +154,12 @@ namespace CevarnsOfEvil
                 end.y = map.GetFloorY(endTile.x, endTile.y);
                 output.height = map.GetFloorY(endTile.x, endTile.y);
                 output.deltay = output.height - map.GetFloorY(startTile.x, startTile.y);
+                Debug.Log(map);
+                Debug.Log(mob);
+                Debug.Log(mob.GetCollider());
+                Debug.Log(mob.GetCollider().bounds);
+                Debug.Log(mob.GetCollider().bounds.size);
+                Debug.Log(mob.GetCollider().bounds.size.y);
                 float verticleSpace = map.GetCeilY(endTile.x, endTile.y) - end.y;
                 output.passable = map.GetPassable(endTile.x, endTile.y) 
                                   && (verticleSpace > mob.GetCollider().bounds.size.y);
