@@ -7,12 +7,12 @@ namespace CevarnsOfEvil
 
     public class EntityDeath : MonoBehaviour
     {
-        [SerializeField] Collider[] colliders;
+        [SerializeField] protected Collider[] colliders;
 
-        void Update()
+        protected virtual void Update()
         {
             Rigidbody rb = GetComponent<Rigidbody>();
-            if ((rb.velocity.magnitude < 0.01) && (rb.angularVelocity.magnitude < 0.01f))
+            if ((rb != null) && (rb.velocity.magnitude < 0.01) && (rb.angularVelocity.magnitude < 0.01f))
             {
                 rb.isKinematic = true;
                 rb.Sleep();
@@ -24,7 +24,7 @@ namespace CevarnsOfEvil
         }
 
 
-        public void Reset()
+        public virtual void Reset()
         {
             foreach (Collider collider in colliders) { collider.enabled = true; }
             Rigidbody rb = GetComponent<Rigidbody>();

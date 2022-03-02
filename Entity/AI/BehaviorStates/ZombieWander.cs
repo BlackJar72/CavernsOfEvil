@@ -29,7 +29,7 @@ namespace CevarnsOfEvil
             if(zombie.ShouldTurn || !nextStep.Desireable || (zombie.WanderUpdateTime < Time.time))
             {
                 zombie.WanderUpdateTime = Time.time + 2f + (Random.value * 2f);
-                zombie.DesiredDirection = FindTurnDirection() * zombie.DesiredDirection;
+                zombie.DesiredDirection = AIHelper.FindTurnDirection() * zombie.DesiredDirection;
                 zombie.ShouldTurn = false;
             }
             zombie.FaceHeading();
@@ -52,23 +52,6 @@ namespace CevarnsOfEvil
 
         //public override void StateFixedUpdate(EntityMob ownerIn) { }
         // public override void StateLateUpdate(EntityMob ownerIn) { }
-
-
-        private Quaternion FindTurnDirection()
-        {
-            switch(Random.Range(0, 3))
-            {
-                case 0:
-                    return Quaternion.identity;
-                case 1:
-                    return Quaternion.Euler(0, -30, 0);
-                case 2:
-                    return Quaternion.Euler(0,  30, 0);
-                case 3:
-                default:
-                    return Quaternion.Euler(0, Random.Range(-45f, 45f), 0);
-            }
-        }
 
     }
 

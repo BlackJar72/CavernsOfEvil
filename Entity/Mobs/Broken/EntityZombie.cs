@@ -6,11 +6,13 @@ using UnityEngine;
 namespace CevarnsOfEvil
 {
 
-    public class EntityZombie : EntityKinematicMob
+    public class EntityZombie : EntityDynamicRBMob
     {
         protected float prefferedSpeed;
         protected float wanderUpdateTime;
         protected bool shouldTurn = false;
+
+        protected Rigidbody rb;
 
         // Accessors
         public float PrefferedSpeed { get => prefferedSpeed; set { prefferedSpeed = value; } }
@@ -34,12 +36,13 @@ namespace CevarnsOfEvil
             anim.SetFloat("SpeedFactor", 0);
             IsOnGround = IsOnDungeonGround;
             CurrentBehavior = EmptyState.Instance.NextState(this);
-            collider = characterController = GetComponent<CharacterController>();
+            collider = GetComponent<Collider>();
+            rb = GetComponent<Rigidbody>();
         }
 
 
         // Update is called once per frame
-        public override void Update()
+        /*public override void Update()
         {
             if (!currentBehavior.StateUpdate(this)) FindNewBehavior();
 #if UNITY_EDITOR
@@ -53,7 +56,7 @@ namespace CevarnsOfEvil
                 health, ref enviroCooldown);
 #endif
             Move();
-        }
+        }*/
 
 
         public override void GetAimParams(out AimParams aim)
@@ -109,6 +112,13 @@ namespace CevarnsOfEvil
             {
                 anim.SetFloat("SpeedFactor", animSpeed = prefferedSpeed);
             }
+        }
+
+
+        public override void Die(Damages damages)
+        {
+            //characterController.enabled = false;
+            base.Die(damages);
         }
 
 

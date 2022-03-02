@@ -33,7 +33,7 @@ namespace CevarnsOfEvil {
             ownerIn.SetDestinationAndUpdate(ownerIn.targetObject.transform.position);
             Vector3 toTarget = ownerIn.targetObject.transform.position - ownerIn.transform.position;
             IArcher archer = ownerIn as IArcher;
-            if (ownerIn.CanSeeTarget())
+            if (AIHelper.CanShootTarget(ownerIn))
             {
                 if (archer.ReadyToShoot && (ownerIn.NextAttack < Time.time))
                 {

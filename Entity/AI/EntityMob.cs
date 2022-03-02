@@ -26,7 +26,7 @@ namespace CevarnsOfEvil
         protected IBehaviorState currentBehavior = EmptyState.Instance;
         protected IBehaviorState previousBehavior = EmptyState.Instance;
         protected float stasisAI; // To force some AI state to linger
-
+        
 
         //Properties
         public BehaviorObject[] Behaviors { get { return behaviorStates; } }

@@ -11,6 +11,12 @@ namespace CevarnsOfEvil
         [SerializeField] Collider[] colliders;
 
 
+        public override void Start()
+        {
+            base.Start();
+            prefferedSpeed = (Random.value * 0.5f) + 0.5f;
+        }
+
         public override bool TakeDamage(ref Damages damage)
         {
             damage.wound = 0;
@@ -48,7 +54,11 @@ namespace CevarnsOfEvil
             health.Shock = health.Health * 5;
             anim.SetBool("Dead", false);
             anim.SetTrigger("Revive");
-            GetComponent<Rigidbody>().WakeUp(); 
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null) { 
+                rb.isKinematic = false;
+                rb.WakeUp(); 
+            }
             isDead = false;
             GetComponent<EntityDeath>().enabled = false;
             health.enabled = true;
