@@ -19,7 +19,6 @@ namespace CevarnsOfEvil
         public GameObject pillars;
         public GameObject ceiling;
         public GameObject liquids;
-        public GameObject submerged;
 
 
         public void BuildRoom(RoomComponents parts)
@@ -57,13 +56,6 @@ namespace CevarnsOfEvil
                 liquids.layer = 9;
             }
 
-            submerged = meshables[5];
-            submerged.transform.SetParent(geometry.transform);
-            submerged.GetComponent<Mesher>().Substance = theme.floorSubstance;
-            if (theme.liquidSubstance.Damage > 0)
-            {
-                submerged.layer = 13;
-            }
 
             map.MeshRoom(this);
             floor.isStatic = true;
@@ -71,7 +63,6 @@ namespace CevarnsOfEvil
             pillars.isStatic = true;
             ceiling.isStatic = true;
             liquids.isStatic = true;
-            submerged.isStatic = true;
         }
 
     }

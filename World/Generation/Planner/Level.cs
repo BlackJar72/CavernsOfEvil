@@ -36,7 +36,7 @@ namespace CevarnsOfEvil
         public HubRoom[] nodes;
         public List<EntityMob> mobs;
 
-        protected GameManager manager;
+        private GameManager manager;
 
         public GameManager Manager { get { return manager; } }
 
@@ -268,13 +268,7 @@ namespace CevarnsOfEvil
 
         private void PlaceMobs()
         {
-            List<NavMeshSurface> surfaces = new List<NavMeshSurface>();
-            GetComponents<NavMeshSurface>(surfaces);
-            Debug.Log(surfaces.Count);
-            foreach (NavMeshSurface surface in surfaces)
-            {
-                if(surface) surface.BuildNavMesh();
-            }
+            GetComponent<NavMeshSurface>().BuildNavMesh();
             for (int i = 2; i < rooms.TotalCount; i++)
             {
                 MobPlacer.Process(rooms[i], this);
@@ -386,7 +380,9 @@ namespace CevarnsOfEvil
         {
             foreach(EntityMob mob in mobs) 
             {
-                mob.Deactivate();
+                mob.GetComponent<Animator>().enabled = false;
+                mob.GetComponent<NavMeshAgent>().enabled = false;
+                mob.enabled = false;
             }
         }
 

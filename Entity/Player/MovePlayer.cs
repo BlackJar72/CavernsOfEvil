@@ -310,6 +310,11 @@ namespace CevarnsOfEvil
 
         public bool IsOnGround()
         {
+            // For now, assume if not rising or falling that 
+            // we are on the ground and jumping is OK.  This 
+            // may be combined with map data and a gradient 
+            // for handling ramps and stairs later.
+            //return (rigid.velocity.y * rigid.velocity.y < 0.001f);
             return (Physics.OverlapSphereNonAlloc(gameObject.transform.position, 
                 0.1f, footContats, GameConstants.LevelMask) > 0);
         }

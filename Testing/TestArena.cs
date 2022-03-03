@@ -19,7 +19,6 @@ namespace CevarnsOfEvil
 
         protected override void Start()
         {
-            manager = GetComponent<GameManager>();
             GameData.Init(seed.ToString(), DifficultySettings.norm);
             Setup();
             Plan();
@@ -43,7 +42,6 @@ namespace CevarnsOfEvil
             map = new MapMatrix(size);
             rooms = new RoomList();
             roomCount = 0;
-            manager.SetLevel(this);
         }
 
 
@@ -57,7 +55,7 @@ namespace CevarnsOfEvil
         }
 
 
-        protected override void PlacePlayer()
+        protected virtual void PlacePlayer()
         {
             Room startRoom = nodes[0].theRoom;
             Instantiate(startPad, new Vector3(startRoom.realX,

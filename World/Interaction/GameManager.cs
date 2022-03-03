@@ -29,13 +29,6 @@ namespace CevarnsOfEvil
         }
 
 
-        public void SetLevel(Level level)
-        {
-            this.level = level;
-            map = level.map;
-        }
-
-
         public StepData GetStepData(Vector3 location)
         {
             StepData data = new StepData();
@@ -106,15 +99,8 @@ namespace CevarnsOfEvil
 
         public bool LocationSafe(Vector3 location, Vector2Int tile)
         {
-            return !((map.GetPool(tile.x, tile.y) > 0) && (location.y < (map.GetFloorY(tile.x, tile.y)
-                    + map.GetPool(tile.x, tile.y)))
-                    && (level.rooms[map.GetRoom(tile.x, tile.y)].theme.liquidSubstance.Damage <= 0));
-        }
-
-
-        public bool LocationSafeGround(Vector3 location, Vector2Int tile)
-        {
-            return !((map.GetPool(tile.x, tile.y) > 0) 
+            return !((location.y < (map.GetFloorY(tile.x, tile.y)
+                    + map.GetPool(tile.x, tile.y) + 0.01f))
                     && (level.rooms[map.GetRoom(tile.x, tile.y)].theme.liquidSubstance.Damage <= 0));
         }
 
@@ -139,27 +125,24 @@ namespace CevarnsOfEvil
         {
             StepDataAI output = new StepDataAI();
             Vector2Int endTile = new Vector2Int((int)end.x, (int)end.z);
-            Vector2Int startTile = new Vector2Int((int)start.x, (int)start.z);
             if (SameVoxel(start, end))
             {
                 output.passable = true;
                 output.reachable = true;
                 output.reversable = true;
                 output.safe = LocationSafe(start, endTile);
-                output.height = map.GetFloorY(endTile.x, endTile.y);
-                output.deltay = 0;
             }
             else
             {
+                Vector2Int startTile = new Vector2Int((int)start.x, (int)start.z);
                 end.y = map.GetFloorY(endTile.x, endTile.y);
-                output.height = map.GetFloorY(endTile.x, endTile.y);
-                output.deltay = output.height - map.GetFloorY(startTile.x, startTile.y);
+                float heightDiff = end.y - map.GetFloorY(startTile.x, startTile.y);
                 float verticleSpace = map.GetCeilY(endTile.x, endTile.y) - end.y;
                 output.passable = map.GetPassable(endTile.x, endTile.y) 
                                   && (verticleSpace > mob.GetCollider().bounds.size.y);
-                output.reachable = output.deltay < 0.25f;//output.deltay <= 1.25f;
-                output.reversable = output.deltay > -0.25f;//output.deltay > -1f;
-                output.safe = !(map.GetPool(endTile.x, endTile.y) > 0) || (map.GetPool(startTile.x, startTile.y) > 0);
+                output.reachable = heightDiff <= 1.25f;
+                output.reversable = heightDiff > -1f;
+                output.safe = LocationSafe(end, endTile);
             }
             return output;
         }

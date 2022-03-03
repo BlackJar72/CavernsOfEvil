@@ -27,7 +27,6 @@ namespace CevarnsOfEvil
         protected StepData stepData;
         protected float enviroCooldown;
         protected float animSpeed;
-        protected Collider collider;
 
         // Keeping track of the current enemy
         [HideInInspector] public GameObject targetObject;
@@ -37,7 +36,6 @@ namespace CevarnsOfEvil
         // Accessor Properties
         public Animator Anim { get { return anim; } }
         public float AttackTime { get { return attackTime; } }
-        public float AggroRangeSq { get { return aggroRangeSq; } }
         public float NextAttack { get { return nextAttack; } set { nextAttack = value; } }
         public EntitySounds Sounds { get { return entitySounds; } }
         public AudioSource Voice { get { return voice; } }
@@ -46,8 +44,6 @@ namespace CevarnsOfEvil
         public float MeleeStopDistance { get { return meleeStopDistance; } }
         public float BaseMoveSpeed { get { return baseMoveSpeed; } }
         public Transform Eyes => eyes;
-        public Level Dungeon { get => dungeon; }
-        public GameManager Manager { get => dungeon.Manager; }
 
 
         // Special Internals -- may be replaced by other system
@@ -55,6 +51,11 @@ namespace CevarnsOfEvil
 
         // Delegate definitions
         protected delegate void SetAnimSpeed();
+
+        // Delegates
+        protected SetAnimSpeed setAnimByVelocity;
+        protected SetAnimSpeed setAnimToZero;
+        protected SetAnimSpeed setAnimSpeed;
 
 
         /************************************************************************************/
@@ -70,16 +71,12 @@ namespace CevarnsOfEvil
             }*/
             anim = GetComponent<Animator>();
             aggroRangeSq = aggroRange * aggroRange;
+            CurrentBehavior = EmptyState.Instance.NextState(this);
             player = GameObject.Find("FemalePlayer");
             enviroCooldown = nextIdleTalk = stasisAI = nextAttack = Time.time;
-            CurrentBehavior = EmptyState.Instance.NextState(this);
-            collider = GetComponent<Collider>();
-        }
-
-
-        public override Collider GetCollider()
-        {
-            return collider;
+            setAnimByVelocity = new SetAnimSpeed(SetAnimSpeedVelocity);
+            setAnimToZero = new SetAnimSpeed(SetAnimSpeedZero);
+            setAnimSpeed = setAnimToZero;
         }
 
 
@@ -108,6 +105,9 @@ namespace CevarnsOfEvil
             stepData = dungeon.map.GetStepData(transform.position, dungeon,
                 health, ref enviroCooldown);
 #endif
+            float tFactor = Time.deltaTime * 10;
+            setAnimSpeed();
+            Move();
         }
 
 
@@ -115,14 +115,12 @@ namespace CevarnsOfEvil
         {
             float tFactor = Time.deltaTime * 10;
             animSpeed = (AIVelocity.magnitude * tFactor) + (animSpeed * (1 - tFactor));
-            anim.SetFloat("SpeedFactor", animSpeed);
         }
 
 
         protected void SetAnimSpeedZero()
         {
             animSpeed = 0;
-            anim.SetFloat("SpeedFactor", animSpeed);
         }
 
 
@@ -160,12 +158,6 @@ namespace CevarnsOfEvil
         public float DistanceSqrToPlayer()
         {
             return (transform.position - player.transform.position).sqrMagnitude;
-        }
-
-
-        public float DistanceSqrToTarget()
-        {
-            return (transform.position - targetObject.transform.position).sqrMagnitude;
         }
 
 
@@ -251,13 +243,6 @@ namespace CevarnsOfEvil
                     (health.Owner as EntityMob).HearAllies(voice.transform.position);
                 }
             }
-        }
-
-
-        public virtual void Deactivate()
-        {
-            anim.enabled = false;
-            enabled = false;
         }
 
     }

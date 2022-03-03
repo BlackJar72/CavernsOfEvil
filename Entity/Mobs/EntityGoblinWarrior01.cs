@@ -11,20 +11,9 @@ namespace CevarnsOfEvil {
         [SerializeField] Collider hitbox;
         [SerializeField] float prefferedSpeedFactor = 2.0f / 3.0f;
 
-        private Rigidbody rigid;
-
         public override void Start() 
         { 
             base.Start();
-            rigid = GetComponent<Rigidbody>(); 
-        }
-
-
-        public override void Update()
-        {
-            base.Update();
-            StepDataAI stepAhead = gameManager.GetAIDataForGround(transform.position, 
-                transform.position + (navMeshAgent.velocity.normalized * 0.5f), this);
         }
 
 

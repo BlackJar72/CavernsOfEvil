@@ -39,18 +39,17 @@ namespace CevarnsOfEvil
 
         public void MeshRoom(Room room)
         {
-            if(false/*room is Cave*/)
+            if(room is Cave)
             {
                 MeshCave(ref room);
             }
             else
             {
                 List<Quad> floorQuads = new List<Quad>();
-                List<Quad> subQuads = new List<Quad>();
                 List<Quad> ceilingQuads = new List<Quad>();
                 MeshWalls(ref room, ref floorQuads, ref ceilingQuads);
-                MeshFlatsGreedily(ref room, Vector3.up, ref floorQuads, ref subQuads);
-                MeshFlatsGreedily(ref room, Vector3.down, ref ceilingQuads, ref ceilingQuads);
+                MeshFlatsGreedily(ref room, Vector3.up, ref floorQuads);
+                MeshFlatsGreedily(ref room, Vector3.down, ref ceilingQuads);
                 MeshLiquidsGreedily(ref room);
             }
         }
@@ -75,10 +74,9 @@ namespace CevarnsOfEvil
 
         #region Mesh Floor
 
-        private void MeshFlatsGreedily(ref Room room, Vector3 normal, ref List<Quad> quads, ref List<Quad> subs)
+        private void MeshFlatsGreedily(ref Room room, Vector3 normal, ref List<Quad> quads)
         {
             int count = 0;
-            bool submerged = false;
             ResetUsed(room);
             int x = 0, z = 0, index, height = 0;
             bool more, available;
@@ -110,7 +108,6 @@ namespace CevarnsOfEvil
                             coords.z = z = j;
                             more = used[index] = true;
                             height = flats[index];
-                            submerged = pools[index] > 0;
                             break;
                         }
                         if (more) break;
@@ -145,18 +142,11 @@ namespace CevarnsOfEvil
                 ul = new Vector3Int(coords.x, height, z);
                 ur = new Vector3Int(x, height, z);
                 lr = new Vector3Int(x, height, coords.z);
-                if(submerged) subs.Add(new Quad(ll, ul, lr, ur));
-                else quads.Add(new Quad(ll, ul, lr, ur));
+                quads.Add(new Quad(ll, ul, lr, ur));
                 count++;
             } while (more);
-            Quad[] qArray1 = quads.ToArray();
-            mesher.BuildFlatsMesh(ref qArray1, normal);
-            if (subs != quads)
-            {
-                mesher = room.submerged.GetComponent<Mesher>();
-                Quad[] qArray2 = subs.ToArray();
-                mesher.BuildFlatsMesh(ref qArray2, normal);
-            }
+            Quad[] qArray = quads.ToArray();
+            mesher.BuildFlatsMesh(ref qArray, normal);
         }
 
 

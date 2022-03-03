@@ -13,9 +13,6 @@ namespace CevarnsOfEvil
             : base(beginX, endX, beginZ, endZ, floorY, ceilY, dungeon, parent, previous, isBigRoom)
         {}
 
-        GameObject mobObject;
-        EntityMob mob;
-
 
         public TestRoom MakeStartRoom(TestArena dungeon)
         {
@@ -64,14 +61,8 @@ namespace CevarnsOfEvil
 
         public void PoulateMobRoom(TestArena dungeon)
         {
-            mobObject = GameObject.Instantiate(dungeon.mobPrefab,
+            GameObject.Instantiate(dungeon.mobPrefab,
                 new Vector3((midX + endX) / 2, floorY, realZ), Quaternion.Euler(0, 270, 0));
-            mob = mobObject.GetComponent<EntityMob>();
-            if (mob != null)
-            {
-                mob.SetGameManager(dungeon.Manager);
-                mob.SetGameLevel(dungeon);
-            }
 
         }
 

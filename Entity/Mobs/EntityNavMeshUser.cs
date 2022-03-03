@@ -11,6 +11,9 @@ namespace CevarnsOfEvil
         //Accessors
         public NavMeshAgent RoutingAgent { get { return navMeshAgent; } }
 
+        // Delegates
+        private SetAnimSpeed setAnimByNavmesh;
+
 
         public override void Start()
         {
@@ -23,10 +26,14 @@ namespace CevarnsOfEvil
             CurrentBehavior = EmptyState.Instance.NextState(this);
             player = GameObject.Find("FemalePlayer");
             navmeshTimer = enviroCooldown = nextIdleTalk = stasisAI = nextAttack = Time.time;
+            setAnimByNavmesh = new SetAnimSpeed(SetAnimSpeedNavMesh);
+            setAnimByVelocity = new SetAnimSpeed(SetAnimSpeedVelocity);
+            setAnimToZero = new SetAnimSpeed(SetAnimSpeedZero);
+            setAnimSpeed = setAnimByNavmesh;
         }
 
 
-        public override void Update()
+        public virtual void Update()
         {
             if (!currentBehavior.StateUpdate(this)) FindNewBehavior();
 #if UNITY_EDITOR
@@ -40,7 +47,7 @@ namespace CevarnsOfEvil
                 health, ref enviroCooldown);
 #endif
             float tFactor = Time.deltaTime * 10;
-            SetAnimSpeedNavMesh();
+            setAnimSpeed();
         }
 
 
@@ -69,15 +76,6 @@ namespace CevarnsOfEvil
         {
             return (destination - transform.position).sqrMagnitude
                 < (navMeshAgent.stoppingDistance * navMeshAgent.stoppingDistance);
-        }
-
-
-        public override void Deactivate()
-        {
-            anim.enabled = false;
-            navMeshAgent.isStopped = true;
-            navMeshAgent.enabled = false;
-            enabled = false;
         }
 
 
