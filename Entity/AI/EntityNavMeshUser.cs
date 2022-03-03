@@ -10,6 +10,8 @@ namespace CevarnsOfEvil
         protected float navmeshTimer;
         protected bool useNavmesh;
 
+        public float NavmeshTimer { get { return navmeshTimer; } set { navmeshTimer = value; } }
+
 
         #region NavMesh Integration
         // NavMesh integration
