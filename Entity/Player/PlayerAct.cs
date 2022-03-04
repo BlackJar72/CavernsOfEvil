@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using RootMotion.FinalIK;
+using System.IO;
 using TMPro;
-
+using System.Collections;
 
 namespace CevarnsOfEvil
 {
@@ -18,6 +19,8 @@ namespace CevarnsOfEvil
     
     public class PlayerAct : MonoBehaviour, IHaveInventory
     {
+        public static string SCREENSHOT_PATH;
+
         private static bool newGame = true;
 
         [SerializeField] GameObject playerBody;
@@ -69,10 +72,12 @@ namespace CevarnsOfEvil
         private InputAction item7Action;
         private InputAction item8Action;
         private InputAction item9Action;
+        private InputAction screenshot;
 
 
         private void Awake()
         {
+            SCREENSHOT_PATH = Application.persistentDataPath + "/Screeshots/";
             InitInput();
         }
 
@@ -274,6 +279,7 @@ namespace CevarnsOfEvil
             item7Action = input.actions["Item 7"];
             item8Action = input.actions["Item 8"];
             item9Action = input.actions["Item 9"];
+            screenshot = input.actions["Screenshot"];
 
             useItemAction.started += UseItem;
             useItemAction.canceled += EndUseItem;
@@ -289,6 +295,7 @@ namespace CevarnsOfEvil
             item7Action.started += SetSlotTo7;
             item8Action.started += SetSlotTo8;
             item9Action.started += SetSlotTo9;
+            screenshot.started += TakeScreenShot;
         }
 
 
@@ -567,7 +574,31 @@ namespace CevarnsOfEvil
         #endregion
 
 
+        private void TakeScreenShot(InputAction.CallbackContext context)
+        {
+            StartCoroutine(CreateScreenshot());
+        }
 
+
+        private IEnumerator CreateScreenshot()
+        {
+            yield return new WaitForEndOfFrame();
+            Texture2D screen = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+            screen.ReadPixels(new Rect(0 , 0, Screen.width, Screen.height), 0, 0);
+            screen.Apply();
+            byte[] buffer = screen.EncodeToPNG();
+            if(!Directory.Exists(SCREENSHOT_PATH))
+            {
+                Directory.CreateDirectory(SCREENSHOT_PATH);
+            }
+            string filename = "CoEScreen-" 
+                + System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".png";
+            string filepath = SCREENSHOT_PATH + filename;
+            File.WriteAllBytes(filepath, buffer);
+            toastController.Toast("Saved screenshot " + filename);
+            //Debug.Log("Saved screenshot at " + filepath);
+            Destroy(screen);
+        }
     }
 
 }

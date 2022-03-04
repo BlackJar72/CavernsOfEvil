@@ -287,7 +287,7 @@ namespace CevarnsOfEvil
             // Now we know the number of mobs, lets guestimate the amount of ammo needed
             float diffFactor = GameData.LevelDifficulty.levelDifficulty;
             int guessHits = Mathf.CeilToInt(damageToKillAll /
-                (10 + (10 * diffFactor)));
+                (10 + (5 * diffFactor)));
             guessHits = Mathf.CeilToInt(guessHits * (1 + (GameData.LevelDifficulty.areaPerEncounter / 1000f)));
             // Now, from the amount of time taken to kill each mob and an estimate of average damage lets guess the
             // number of health potions needed.
