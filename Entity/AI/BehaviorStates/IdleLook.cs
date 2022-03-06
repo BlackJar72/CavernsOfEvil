@@ -10,6 +10,7 @@ namespace CevarnsOfEvil
     public class IdleLook : BehaviorObject
     {
         [SerializeField] BehaviorObject onSeePlayer;
+        [SerializeField] float vocalRate = 1.0f;
 
         public override bool StateUpdate(EntityMob entityMob)
         {
@@ -18,10 +19,10 @@ namespace CevarnsOfEvil
             {
                 ownerIn.CurrentBehavior = onSeePlayer;
             } 
-            else if((ownerIn.NextIdleTalk < Time.time) && (Random.value < 0.01))
+            else if((ownerIn.NextIdleTalk < Time.time) && (Random.value < (Time.deltaTime * vocalRate)))
             {
                 ownerIn.Sounds.PlayIdle(ownerIn.Voice);
-                ownerIn.NextIdleTalk += 2 + (Random.value * 3);
+                ownerIn.NextIdleTalk += (2 / vocalRate) + (Random.value * 3);
             }
             return true;
         }

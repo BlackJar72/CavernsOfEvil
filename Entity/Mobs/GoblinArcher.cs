@@ -42,10 +42,11 @@ namespace CevarnsOfEvil
             }
             else
             {
+                float speed = navMeshAgent.velocity.magnitude;
                 anim.SetFloat("XSpeed", Vector3.Dot(navMeshAgent.velocity, transform.right)
-                    / baseMoveSpeed);
+                    / speed);
                 anim.SetFloat("ZSpeed", Vector3.Dot(navMeshAgent.velocity, transform.forward)
-                    / BaseMoveSpeed);
+                    / speed);
             }
         }
 

@@ -34,6 +34,7 @@ namespace CevarnsOfEvil
             get { return currentBehavior; }
             set
             {
+                DespawnWallMob();
                 currentBehavior.StateExit(this);
                 previousBehavior = currentBehavior;
                 currentBehavior = value;
@@ -57,7 +58,6 @@ namespace CevarnsOfEvil
 
 
         #endregion
-
 
 
         #region Movement
