@@ -12,8 +12,7 @@ namespace CevarnsOfEvil
 
         protected Vector3 destination;
         protected Vector3 direction, desiredDirection;
-        protected Vector3 velocity, movement, AIVelocity, physicalVelocity;
-        protected float vSpeed;
+        protected Vector3 velocity, movement, AIVelocity;
 
         protected bool onGround;
         protected bool shouldJump;
@@ -43,6 +42,7 @@ namespace CevarnsOfEvil
         }
         public IBehaviorState PreviousBehavior { get { return previousBehavior; } }
         public Vector3 Destination { get { return destination; } set { destination = value; } }
+        public Vector3 DesiredDirection { get { return desiredDirection; } set { desiredDirection = value; } }
 
 
         #region Behavior States
@@ -133,8 +133,10 @@ namespace CevarnsOfEvil
         }
 
 
-        public virtual void Move()
+        public virtual void Move2D()
         {
+            SetMovement();
+
             if (stepData.floorEffect == FloorEffect.ice)
             {
                 float slipFactor = Time.deltaTime * 1.5f;
@@ -148,32 +150,30 @@ namespace CevarnsOfEvil
             {
                 if (shouldJump)
                 {
-                    vSpeed = 5;
-                    // TODO: Jump in animation controller
-                    //animator.SetTrigger("Jump");
+                    rigid.AddForce(new Vector3(0, 5 * rigid.mass, 0), ForceMode.Impulse);
+                    anim.SetTrigger("Jump");
                 }
-                else
-                {
-                    vSpeed = Mathf.Max(vSpeed, 0);
-                }
-            }
-            else
-            {
-                vSpeed -= 15 * Time.deltaTime;
             }
 
-            velocity = movement + physicalVelocity;
-            velocity.y += vSpeed;
-            GetComponent<CharacterController>().Move(velocity * Time.deltaTime);
-            shouldJump = false;
-            physicalVelocity *= (1 - Time.deltaTime);
+            movement.y = rigid.velocity.y;
+            rigid.velocity = movement;
             AIVelocity = Vector3.zero;
+            shouldJump = false;
+        }
+
+
+        public virtual void Move3D()
+        {
+            rigid.velocity = AIVelocity;
+            AIVelocity = Vector3.zero;
+            shouldJump = false;
         }
 
 
         public virtual bool IsOnGround()
         {
-            if(feet != null) { 
+            if (feet != null)
+            {
                 return (Physics.OverlapSphereNonAlloc(feet.position,
                     0.1f, footContats, GameConstants.LevelMask) > 0);
             }

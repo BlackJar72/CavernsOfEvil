@@ -19,10 +19,12 @@ namespace CevarnsOfEvil
 
         protected override void Start()
         {
+            manager = GetComponent<GameManager>();
             GameData.Init(seed.ToString(), DifficultySettings.norm);
             Setup();
             Plan();
-            BuildLevel(); 
+            BuildLevel();
+            manager.Map = map;
             GetComponent<NavMeshSurface>().BuildNavMesh();
             PlacePlayer();
             spawnRoom.PopulateSpawnRoom(this);
@@ -55,7 +57,7 @@ namespace CevarnsOfEvil
         }
 
 
-        protected virtual void PlacePlayer()
+        protected override void PlacePlayer()
         {
             Room startRoom = nodes[0].theRoom;
             Instantiate(startPad, new Vector3(startRoom.realX,
