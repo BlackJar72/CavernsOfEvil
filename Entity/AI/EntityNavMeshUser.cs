@@ -96,32 +96,6 @@ namespace CevarnsOfEvil
             NavMeshHit hit;
             return !navMeshAgent.Raycast(targetObject.transform.position, out hit);
         }
-
-
-        public virtual void MoveNM()
-        {
-            if (stepData.floorEffect == FloorEffect.ice)
-            {
-                float slipFactor = Time.deltaTime * 1.5f;
-                movement = (AIVelocity * slipFactor) + (movement * (1 - slipFactor));
-            }
-            else movement = AIVelocity;
-
-            shouldJump = onGround = IsOnGround();
-
-            if (onGround)
-            {
-                if (shouldJump)
-                {
-                    rigid.AddForce(new Vector3(0, 5 * rigid.mass, 0), ForceMode.Impulse);
-                    anim.SetTrigger("Jump");
-                }
-            }
-
-            navMeshAgent.Move(movement * Time.deltaTime);
-            AIVelocity = Vector3.zero;
-            shouldJump = false;
-        }
         #endregion
 
 

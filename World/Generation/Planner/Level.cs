@@ -36,7 +36,7 @@ namespace CevarnsOfEvil
         public HubRoom[] nodes;
         public List<EntityMob> mobs;
 
-        protected GameManager manager;
+        private GameManager manager;
 
         public GameManager Manager { get { return manager; } }
 
@@ -48,7 +48,6 @@ namespace CevarnsOfEvil
             AStarLevel tester = new AStarLevel(this, nodes[0].theRoom, nodes[1].theRoom);
             if(!tester.Seek())
                 SceneManager.LoadScene("DungeonScene");
-            manager.Map = map;
             CreateLevel();
             ScoreData.NewLevel(mobs.Count);  
         }

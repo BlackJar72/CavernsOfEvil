@@ -27,7 +27,6 @@ namespace CevarnsOfEvil
         protected StepData stepData;
         protected float enviroCooldown;
         protected float animSpeed;
-        protected Rigidbody rigid;
 
         // Keeping track of the current enemy
         [HideInInspector] public GameObject targetObject;
@@ -36,7 +35,6 @@ namespace CevarnsOfEvil
 
         // Accessor Properties
         public Animator Anim { get { return anim; } }
-        public Rigidbody Rigid { get { return rigid; } }
         public float AttackTime { get { return attackTime; } }
         public float AggroRangeSq { get { return aggroRangeSq; } }
         public float NextAttack { get { return nextAttack; } set { nextAttack = value; } }
@@ -46,8 +44,6 @@ namespace CevarnsOfEvil
         public float NextIdleTalk { get { return nextIdleTalk; } set { nextIdleTalk = value; } }
         public float MeleeStopDistance { get { return meleeStopDistance; } }
         public float BaseMoveSpeed { get { return baseMoveSpeed; } }
-        public float AnimSpeed { get { return animSpeed; } set { animSpeed = value; } }
-        public GameManager Manager { get { return gameManager; } }
         public Transform Eyes => eyes;
 
 
@@ -70,8 +66,11 @@ namespace CevarnsOfEvil
 
         public virtual void Start()
         {
+            /*if(!dungeon.map.IsValidLocation(transform.position, GetCollider().bounds.extents.y * 2))
+            {
+                Destroy(gameObject);
+            }*/
             anim = GetComponent<Animator>();
-            rigid = GetComponent<Rigidbody>();
             aggroRangeSq = aggroRange * aggroRange;
             CurrentBehavior = EmptyState.Instance.NextState(this);
             player = GameObject.Find("FemalePlayer");
@@ -109,6 +108,7 @@ namespace CevarnsOfEvil
 #endif
             float tFactor = Time.deltaTime * 10;
             setAnimSpeed();
+            Move();
         }
 
 
@@ -244,12 +244,6 @@ namespace CevarnsOfEvil
                     (health.Owner as EntityMob).HearAllies(voice.transform.position);
                 }
             }
-        }
-
-
-        public float DistanceSqrToTarget()
-        {
-            return (transform.position - targetObject.transform.position).sqrMagnitude;
         }
 
 

@@ -21,12 +21,11 @@ namespace CevarnsOfEvil
         // groups that update AI together
         private List<EntityMob>[] aiBatches = new List<EntityMob>[10];
 
-        public MapMatrix Map { get { return map; } set { map = value; } }
-
 
         public void Start()
         {
             level = GetComponent<Level>();
+            map = level.map;
         }
 
 
@@ -94,21 +93,14 @@ namespace CevarnsOfEvil
             Vector2Int tile = new Vector2Int((int)location.x, (int)location.z);
             return !((location.y < (map.GetFloorY(tile.x, tile.y)
                     + map.GetPool(tile.x, tile.y) + 0.01f))
-                    && (level.rooms[map.GetRoom(tile.x, tile.y)].theme.liquidSubstance.Damage <= 0));
+                    && (level.rooms[map.GetRoom(tile.x, tile.y)].theme.liquidSubstance.Damage <=0));
         }
 
 
         public bool LocationSafe(Vector3 location, Vector2Int tile)
         {
-            return !((map.GetPool(tile.x, tile.y) > 0) && (location.y < (map.GetFloorY(tile.x, tile.y)
-                    + map.GetPool(tile.x, tile.y)))
-                    && (level.rooms[map.GetRoom(tile.x, tile.y)].theme.liquidSubstance.Damage <= 0));
-        }
-
-
-        public bool LocationSafeGround(Vector3 location, Vector2Int tile)
-        {
-            return !((map.GetPool(tile.x, tile.y) > 0)
+            return !((location.y < (map.GetFloorY(tile.x, tile.y)
+                    + map.GetPool(tile.x, tile.y) + 0.01f))
                     && (level.rooms[map.GetRoom(tile.x, tile.y)].theme.liquidSubstance.Damage <= 0));
         }
 
@@ -133,33 +125,24 @@ namespace CevarnsOfEvil
         {
             StepDataAI output = new StepDataAI();
             Vector2Int endTile = new Vector2Int((int)end.x, (int)end.z);
-            Vector2Int startTile = new Vector2Int((int)start.x, (int)start.z);
             if (SameVoxel(start, end))
             {
                 output.passable = true;
                 output.reachable = true;
                 output.reversable = true;
                 output.safe = LocationSafe(start, endTile);
-                output.height = map.GetFloorY(endTile.x, endTile.y);
-                output.deltay = 0;
             }
             else
             {
+                Vector2Int startTile = new Vector2Int((int)start.x, (int)start.z);
                 end.y = map.GetFloorY(endTile.x, endTile.y);
-                output.height = map.GetFloorY(endTile.x, endTile.y);
-                output.deltay = output.height - map.GetFloorY(startTile.x, startTile.y);
-                Debug.Log(map);
-                Debug.Log(mob);
-                Debug.Log(mob.GetCollider());
-                Debug.Log(mob.GetCollider().bounds);
-                Debug.Log(mob.GetCollider().bounds.size);
-                Debug.Log(mob.GetCollider().bounds.size.y);
+                float heightDiff = end.y - map.GetFloorY(startTile.x, startTile.y);
                 float verticleSpace = map.GetCeilY(endTile.x, endTile.y) - end.y;
-                output.passable = map.GetPassable(endTile.x, endTile.y)
+                output.passable = map.GetPassable(endTile.x, endTile.y) 
                                   && (verticleSpace > mob.GetCollider().bounds.size.y);
-                output.reachable = output.deltay < 0.25f;//output.deltay <= 1.25f;
-                output.reversable = output.deltay > -0.25f;//output.deltay > -1f;
-                output.safe = !(map.GetPool(endTile.x, endTile.y) > 0) || (map.GetPool(startTile.x, startTile.y) > 0);
+                output.reachable = heightDiff <= 1.25f;
+                output.reversable = heightDiff > -1f;
+                output.safe = LocationSafe(end, endTile);
             }
             return output;
         }
@@ -188,7 +171,6 @@ namespace CevarnsOfEvil
             }
             return output;
         }
-
 
 
         public bool InSameRoom(Vector3 a, Vector3 b)
