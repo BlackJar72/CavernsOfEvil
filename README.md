@@ -20,7 +20,8 @@ some inflexible code at its core.  After stripping down plans for further develo
 minor tweaks to mob and ammo placement, and some aesthetic and qaulity of life addition (intro, help, and perhaps 
 options screens), it fell to what seems to be an actual engine or editor/compilation bug the broke animations (apparently 
 removing the animator on death, which is not in the code).  This bug is not resolved by reverting project changes to 
-a previous working state, and so this has been abandoned and the project itself deleted.
+a previous working state, and has re-appeared randomly several times, and so this has been abandoned and the project 
+itself deleted.
 
 These scripts make specific referenc to code not include here, including Fast Priority Queue by BlueRaja, and the 
 the paid code assets Procedural Lightening and Final IK, all of which are separate from this project.
