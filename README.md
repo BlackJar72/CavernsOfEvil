@@ -39,6 +39,10 @@ an overly complex system of cachy into static variable from which the real data 
 accross several classes, including all items due to the hard-coded connection to the player model.  In short, the player 
 model is probably not a good thing to immitate.
 
+These scripts contain referrence to third party code, most notably FastPriorityQueue by BlueRaja, but also the paid 
+assets Procedutal Lightening and FinalIK.  These entirely separate from this project and not include, but are required 
+to use this code as-is.
+
 ## License
 
 These scripts are the creation and copyright (C) of Jared Blackburn, 2021-2022.  These scripts, and only these scripts, 
