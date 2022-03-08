@@ -17,7 +17,7 @@ point I did begin to have fantasies of making it my first commercial game, perha
 
 Unfortunately it fell victim to some bad early planning and ignorance of how Unity is designed to be used, leading to 
 some inflexible code at its core.  After stripping down plans for further development to adding more monsters, a few 
-minore tweaks to mob and ammo placement, and some aesthetic and qaulity of life addition (intro, help, and perhaps 
+minor tweaks to mob and ammo placement, and some aesthetic and qaulity of life addition (intro, help, and perhaps 
 options screens), it fell to what seems to be an actual engine or editor/compilation bug the broke animations (apparently 
 removing the animator on death, which is not in the code).  This bug is not resolved by reverting project changes to 
 a previous working state, and so this has been abandoned and the project itself deleted.
@@ -35,9 +35,9 @@ This is over half the code base.
 The coding for mobs is so-so.  The player model is terrible, suffering a lot from not understanding how Unity worked 
 early in the project, and connect the player, items, and UI through hard-coding in a way that is extremely inflexible 
 prone to breaking.  Further, because of some scene settings, player data is made persistent between levels through 
-an overly complex system of cachy into static variable from which the real data is restored -- a system the spreads 
-accross several classes, including all items due to the hard-coded connection to the player model.  In short, the player 
-model is probably not a good thing to immitate.
+an overly complex system of caching into static variable from which the real data is restored at the start of the 
+new level -- a system the spreads accross several classes, including all items due to the hard-coded connection to 
+the player model.  In short, the player model is probably not a good thing to immitate.
 
 These scripts contain referrence to third party code, most notably FastPriorityQueue by BlueRaja, but also the paid 
 assets Procedutal Lightening and FinalIK.  These entirely separate from this project and not include, but are required 
