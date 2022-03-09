@@ -23,9 +23,6 @@ removing the animator on death, which is not in the code).  This bug is not reso
 a previous working state, and has re-appeared randomly several times, and so this has been abandoned and the project 
 itself deleted.
 
-These scripts make specific referenc to code not include here, including Fast Priority Queue by BlueRaja, and the 
-the paid code assets Procedural Lightening and Final IK, all of which are separate from this project.
-
 ## About the Code
 
 The code is of varying quality.  I'm generally proud of the level generation, both that ported from Doomlike Dungeons 
