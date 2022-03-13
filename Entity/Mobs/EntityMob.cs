@@ -125,15 +125,6 @@ namespace CevarnsOfEvil
         }
 
 
-        public virtual void OnCollisionEnter(Collision collision)
-        {
-            if(collision.collider.CompareTag("Player"))
-            {
-                alerted = true;
-            }
-        }
-
-
         public override void Die(Damages damages)
         {
             anim.SetTrigger("Die");
@@ -244,6 +235,16 @@ namespace CevarnsOfEvil
                     (health.Owner as EntityMob).HearAllies(voice.transform.position);
                 }
             }
+        }
+
+
+        protected void DespawnWallMob()
+        {
+#if UNITY_EDITOR
+            if((dungeon != null) && dungeon.map.GetWall((int)transform.position.x, (int)transform.position.z)) Destroy(gameObject);
+#else
+            if (dungeon.map.GetWall((int)transform.position.x, (int)transform.position.z)) Destroy(gameObject);
+#endif
         }
 
     }

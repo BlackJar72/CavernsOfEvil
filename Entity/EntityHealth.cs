@@ -25,7 +25,7 @@ namespace CevarnsOfEvil {
         {
             get
             {
-                return (int)(Health / (1.0f - Mathf.Min(Armor / 40f, 0.5f)));
+                return (int)(Health / (1.0f - Mathf.Min(Armor / 25f, 0.75f)));
             }
         }
 

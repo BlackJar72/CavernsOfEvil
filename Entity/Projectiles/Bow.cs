@@ -17,9 +17,15 @@ namespace CevarnsOfEvil
         }
 
 
-        public void shoot()
+        public void Shoot()
         {
-            if (anim != null) anim.SetTrigger("Shoot");
+            anim.SetTrigger("Shoot");
+        }
+
+
+        public void Release()
+        {
+            anim.SetBool("Release", true);
         }
     }
 

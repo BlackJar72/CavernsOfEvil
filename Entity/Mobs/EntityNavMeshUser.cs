@@ -33,7 +33,7 @@ namespace CevarnsOfEvil
         }
 
 
-        public virtual void Update()
+        public override void Update()
         {
             if (!currentBehavior.StateUpdate(this)) FindNewBehavior();
 #if UNITY_EDITOR
@@ -55,12 +55,12 @@ namespace CevarnsOfEvil
         {
             float tFactor = Time.deltaTime * 10;
             animSpeed = (navMeshAgent.desiredVelocity.magnitude * tFactor) + (animSpeed * (1 - tFactor));
+            anim.SetFloat("SpeedFactor", animSpeed);
         }
 
 
         public virtual void SetFactorSpeed(float speedFactor)
         {
-            anim.SetFloat("SpeedFactor", speedFactor);
             navMeshAgent.speed = baseMoveSpeed * speedFactor;
         }
 

@@ -34,9 +34,19 @@ namespace CevarnsOfEvil
         public override void Update()
         {
             base.Update();
-            relVelocity = transform.InverseTransformVector(navMeshAgent.velocity).normalized;
-            anim.SetFloat("ZSpeed", (relVelocity.z * animSpeed));
-            anim.SetFloat("XSpeed", (relVelocity.x * animSpeed));
+            Vector3 nmmove = navMeshAgent.velocity;
+            if (nmmove == Vector3.zero)
+            {
+                anim.SetFloat("ZSpeed", 0);
+                anim.SetFloat("XSpeed", 0);
+            }
+            else
+            {
+                anim.SetFloat("XSpeed", Vector3.Dot(navMeshAgent.velocity, transform.right)
+                    / baseMoveSpeed);
+                anim.SetFloat("ZSpeed", Vector3.Dot(navMeshAgent.velocity, transform.forward)
+                    / baseMoveSpeed);
+            }
         }
 
 
