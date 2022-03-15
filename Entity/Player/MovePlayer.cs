@@ -144,12 +144,12 @@ namespace CevarnsOfEvil
             lookIn[0] = lookIn[1]; lookIn[1] = lookIn[2];
 // This is OS dependent since I've learned the input is different between Windows and Linux
 #if UNITY_STANDALONE_WIN
-            lookIn[2] = lookAction.ReadValue<Vector2>() / 2;
+            lookIn[2] = lookAction.ReadValue<Vector2>() * 0.5f;
 #elif UNITY_STANDALONE_LINUX
-            lookIn[2] = lookAction.ReadValue<Vector2>();
+            lookIn[2] = lookAction.ReadValue<Vector2>() * 0.75f;
 #else
 // Fallback, assuming !Windows == Linux, since I can't test for Mac
-            lookIn[2] = lookAction.ReadValue<Vector2>();
+            lookIn[2] = lookAction.ReadValue<Vector2>() * 0.75f;
 #endif
             lookIn[3] = ((lookIn[0] + lookIn[1] + lookIn[2]) / 3f);
         }
