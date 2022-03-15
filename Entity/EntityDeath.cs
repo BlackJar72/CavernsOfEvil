@@ -24,6 +24,19 @@ namespace CevarnsOfEvil
         }
 
 
+
+        public void ForceImmediate() 
+        {
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.isKinematic = true;
+            rb.Sleep();
+            foreach (Collider collider in colliders) { collider.enabled = false; }
+            NavMeshAgent nma = GetComponent<NavMeshAgent>();
+            if(nma != null) nma.enabled = false;
+            enabled = false;
+        }
+
+
         public void Reset()
         {
             foreach (Collider collider in colliders) { collider.enabled = true; }

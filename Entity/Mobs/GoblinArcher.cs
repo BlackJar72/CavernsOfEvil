@@ -131,8 +131,8 @@ namespace CevarnsOfEvil
 
 
         public override void Die(Damages damages)
-        {
-            //GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        {            
+            EntityDeath death = GetComponent<EntityDeath>();
             targetAngle = null;
             readyToShoot = false;
             grabStringScript.enabled = false;
@@ -145,6 +145,7 @@ namespace CevarnsOfEvil
                 + new Vector3(Random.value - 0.5f, Random.value - 0.5f, Random.value - 0.5f); ;
             bowrb.angularVelocity = new Vector3(Random.value - 0.5f, Random.value - 0.5f, Random.value - 0.5f);
             base.Die(damages);
+            death.ForceImmediate();
         }
     }
 
