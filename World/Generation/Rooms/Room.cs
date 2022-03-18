@@ -144,6 +144,21 @@ namespace CevarnsOfEvil
 		}
 
 
+		public Vector3? GetRandomDestination()
+        {
+			for (int tries = 0; tries < 10; tries++)
+			{
+				int x = Random.Range(beginX + 1, endX);
+				int z = Random.Range(beginZ + 1, endZ);
+				if(dungeon.map.GetGoodMobSpawn(x, z))
+                {
+					return new Vector3(x + 0.5f, dungeon.map.GetFloorY(x, z), z + 0.5f);
+                }
+			}
+			return null;
+		}
+
+
 
 		/**
 		 * Fills a room with a "liquid" and then adds a walkway through it; 

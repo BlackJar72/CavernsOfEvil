@@ -15,8 +15,15 @@ namespace CevarnsOfEvil
         protected Vector3 velocity, movement, AIVelocity, physicalVelocity;
         protected float vSpeed;
 
+        // Keeping track of the current enemy
+        [HideInInspector] public GameObject targetObject;
+        [HideInInspector] public Entity targetEntity;
+        [HideInInspector] public bool alerted;
+
         protected bool onGround;
         protected bool shouldJump;
+        protected bool wandering;
+        protected bool fleeing;
 
         protected StepDataAI aiStep;
         protected Collider[] footContats;
@@ -34,15 +41,20 @@ namespace CevarnsOfEvil
             get { return currentBehavior; }
             set
             {
-                //DespawnWallMob();
-                currentBehavior.StateExit(this);
-                previousBehavior = currentBehavior;
-                currentBehavior = value;
-                currentBehavior.StateEnter(this);
+                if (currentBehavior != value)
+                {
+                    currentBehavior.StateExit(this);
+                    previousBehavior = currentBehavior;
+                    currentBehavior = value;
+                    currentBehavior.StateEnter(this);
+                }
             }
         }
         public IBehaviorState PreviousBehavior { get { return previousBehavior; } }
         public Vector3 Destination { get { return destination; } set { destination = value; } }
+        public virtual bool CanReachDestination { get { return true; } }
+        public bool IsFleeing { get { return fleeing; } set { fleeing = value;  } }
+        public bool IsWandering { get { return wandering; } set { wandering = value; } }
 
 
         #region Behavior States

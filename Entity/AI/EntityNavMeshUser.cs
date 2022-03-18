@@ -12,9 +12,21 @@ namespace CevarnsOfEvil
 
         public float NavmeshTimer { get { return navmeshTimer; } set { navmeshTimer = value; } }
 
+        // Accessor properties
+        public override bool CanReachDestination { get 
+            { return (RoutingAgent.hasPath // Don't fail just because the path has not yet been determined!
+                    && RoutingAgent.pathStatus.Equals(NavMeshPathStatus.PathComplete)); } }
+
 
         #region NavMesh Integration
         // NavMesh integration
+        public bool CanReachLocation()
+        {
+            StepDataAI stepdata = dungeon.Manager.GetAIDataForGround(transform.position, RoutingAgent.destination, this);
+            return (stepdata.Desireable ||
+                    (RoutingAgent.hasPath // Don't fail just because the path has not yet been determined!
+                    && RoutingAgent.pathStatus.Equals(NavMeshPathStatus.PathComplete)));
+        }
         public void SetNavmeshDestination(Vector3 destination)
         {
             this.destination = destination;
@@ -26,6 +38,54 @@ namespace CevarnsOfEvil
         {
             this.destination = destination;
         }
+
+        #region Randomizers
+        public void SetRandomDestination(int range)
+        {
+            if (useNavmesh && navMeshAgent.isOnNavMesh
+                && ((Time.time > navmeshTimer)
+                    || (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)))
+            {
+                destination = transform.position;
+                destination.x += Random.Range(-range, range + 1);
+                destination.z += Random.Range(-range, range + 1);
+                navMeshAgent.SetDestination(destination);
+                navmeshTimer = Time.time + 1.0f;
+            }
+
+        }
+
+
+        public void SetRandomDestinationCurrent(int range)
+        {
+            if (useNavmesh && navMeshAgent.isOnNavMesh
+                && ((Time.time > navmeshTimer)
+                    || (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)))
+            {
+                destination.x += Random.Range(-range, range + 1);
+                destination.z += Random.Range(-range, range + 1);
+                navMeshAgent.SetDestination(destination);
+                navmeshTimer = Time.time + 1.0f;
+            }
+
+        }
+
+
+        public void SetRandomDestinationTarget(int range)
+        {
+            if (useNavmesh && navMeshAgent.isOnNavMesh
+                && ((Time.time > navmeshTimer)
+                    || (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)))
+            {
+                destination = targetObject.transform.position;
+                destination.x += Random.Range(-range, range + 1);
+                destination.z += Random.Range(-range, range + 1);
+                navMeshAgent.SetDestination(destination);
+                navmeshTimer = Time.time + 1.0f;
+            }
+
+        }
+        #endregion
 
 
         public void ClearNavmeshDestination()

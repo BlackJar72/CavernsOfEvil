@@ -28,11 +28,6 @@ namespace CevarnsOfEvil
         protected float enviroCooldown;
         protected float animSpeed;
 
-        // Keeping track of the current enemy
-        [HideInInspector] public GameObject targetObject;
-        [HideInInspector] public Entity targetEntity;
-        [HideInInspector] public bool alerted;
-
         // Accessor Properties
         public Animator Anim { get { return anim; } }
         public float AttackTime { get { return attackTime; } }
@@ -40,11 +35,12 @@ namespace CevarnsOfEvil
         public float NextAttack { get { return nextAttack; } set { nextAttack = value; } }
         public EntitySounds Sounds { get { return entitySounds; } }
         public AudioSource Voice { get { return voice; } }
-        public float StasisAI { get { return stasisAI; } }
+        public float StasisAI { get { return stasisAI; } set { stasisAI = value; } }
         public float NextIdleTalk { get { return nextIdleTalk; } set { nextIdleTalk = value; } }
         public float MeleeStopDistance { get { return meleeStopDistance; } }
         public float BaseMoveSpeed { get { return baseMoveSpeed; } }
         public Transform Eyes => eyes;
+        public Level Dungeon { get { return dungeon; } }
 
 
         // Special Internals -- may be replaced by other system

@@ -32,7 +32,15 @@ namespace CevarnsOfEvil {
         public override bool TakeDamage(ref Damages damage)
         {
             entitySounds.PlayHurt(voice, 0);
-            return base.TakeDamage(ref damage);
+            bool output = base.TakeDamage(ref damage);
+            if ((targetEntity != null)
+                && ((targetEntity == damage.attacker) 
+                && (wandering || !CanReachDestination)
+                && (Random.Range(0, health.Shock) < (damage.shock + damage.wound))))
+            {
+                fleeing = true;
+            }
+            return output;
         }
 
 

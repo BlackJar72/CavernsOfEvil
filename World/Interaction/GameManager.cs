@@ -100,8 +100,7 @@ namespace CevarnsOfEvil
         public bool LocationSafe(Vector3 location, Vector2Int tile)
         {
             return !((location.y < (map.GetFloorY(tile.x, tile.y)
-                    + map.GetPool(tile.x, tile.y) + 0.01f))
-                    && (level.rooms[map.GetRoom(tile.x, tile.y)].theme.liquidSubstance.Damage <= 0));
+                    + map.GetPool(tile.x, tile.y)) && (map.GetPool(tile.x, tile.y) > 0)));
         }
 
 

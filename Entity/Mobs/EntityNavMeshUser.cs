@@ -30,6 +30,7 @@ namespace CevarnsOfEvil
             setAnimByVelocity = new SetAnimSpeed(SetAnimSpeedVelocity);
             setAnimToZero = new SetAnimSpeed(SetAnimSpeedZero);
             setAnimSpeed = setAnimByNavmesh;
+            wandering = fleeing = false;
         }
 
 

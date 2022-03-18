@@ -1,13 +1,13 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 
 namespace CevarnsOfEvil
 {
 
-    [CreateAssetMenu(menuName = "DLD/AI/Melee Chase", fileName = "MeleeChase", order = 1)]
-    public class MeleeChase : BehaviorObject
+    [CreateAssetMenu(menuName = "DLD/AI/Melee Wander", fileName = "MeleeWander", order = 5)]
+    public class MeleeWander : BehaviorObject
     {
-        [SerializeField] BehaviorObject wanderState;
         [SerializeField] BehaviorObject fleeState;
 
         public override bool StateUpdate(EntityMob entityMob)
@@ -15,14 +15,24 @@ namespace CevarnsOfEvil
             EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
             if (IsValidState(ownerIn))
             {
-                ownerIn.SetDestinationAndUpdate(ownerIn.targetObject.gameObject.transform.position);
-                if(ownerIn.IsFleeing)
+                if (ownerIn.IsFleeing)
                 {
                     ownerIn.CurrentBehavior = fleeState;
+                    return true;
                 }
-                else if(!ownerIn.CanReachLocation())
+                if (ownerIn.StasisAI > Time.time)
                 {
-                    ownerIn.CurrentBehavior = wanderState;
+                    ownerIn.StasisAI = Time.time;
+                    ownerIn.CurrentBehavior = ownerIn.PreviousBehavior;
+                    return true;
+                }
+                if(Random.value > 0.5f)
+                {
+                    ownerIn.SetRandomDestination(5);
+                }
+                else
+                {
+                    ownerIn.SetRandomDestinationTarget(5);
                 }
                 return true;
             }
@@ -36,7 +46,7 @@ namespace CevarnsOfEvil
         {
             return (ownerIn.targetEntity != null)
                 && ownerIn.targetEntity.enabled
-                && (ownerIn.targetObject != null) 
+                && (ownerIn.targetObject != null)
                 && ownerIn.targetObject.activeInHierarchy;
         }
 
@@ -47,8 +57,15 @@ namespace CevarnsOfEvil
             ownerIn.SetFactorSpeed(AnimMoveSpeed);
             ownerIn.RoutingAgent.isStopped = false;
             ownerIn.EnableNavmesh();
+            ownerIn.StasisAI = Mathf.Max(ownerIn.StasisAI, 1f + Random.value);
+            ownerIn.IsWandering = true;
+        }
+
+
+        public override void StateExit(EntityMob ownerIn)
+        {
+            ownerIn.IsWandering = false;
         }
     }
-
 
 }
