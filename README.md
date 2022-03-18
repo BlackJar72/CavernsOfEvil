@@ -8,21 +8,6 @@ design.  This is a simple game, designed for some good old-fashioned violent fun
 
 https://jaredbgreat.itch.io/caverns-of-evil
 
-## Fate of the Project
-
-This game was only originally intended as a short-term learning project with the side goal of creating a fun action 
-game that I could play somewhat casually in short burst when I don't really to be sucked into a big game.  At one 
-point I did begin to have fantasies of making it my first commercial game, perhaps piggy-backing on Doomlike Dungeons 
-(with it millions of downloads) for publicity.
-
-Unfortunately it fell victim to some bad early planning and ignorance of how Unity is designed to be used, leading to 
-some inflexible code at its core.  After stripping down plans for further development to adding more monsters, a few 
-minor tweaks to mob and ammo placement, and some aesthetic and qaulity of life addition (intro, help, and perhaps 
-options screens), it fell to what seems to be an actual engine or editor/compilation bug the broke animations (apparently 
-removing the animator on death, which is not in the code).  This bug is not resolved by reverting project changes to 
-a previous working state, and has re-appeared randomly several times, and so this has been abandoned and the project 
-itself deleted.
-
 ## About the Code
 
 The code is of varying quality.  I'm generally proud of the level generation, both that ported from Doomlike Dungeons 
