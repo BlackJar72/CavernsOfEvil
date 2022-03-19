@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee9c094e1ad18a41bd13026bcbf4b50, type: 3}
   m_Name: GoblinMeleeWander
   m_EditorClassIdentifier: 
-  AnimMoveSpeed: 0.33333334
+  AnimMoveSpeed: 0.6666667
   AnimID: 0
   fleeState: {fileID: 11400000, guid: ef5750f51fc2c05499cd0ff3c13f9a19, type: 2}
   chaseState: {fileID: 11400000, guid: a74f836fc11396a4c908432a11d41c92, type: 2}

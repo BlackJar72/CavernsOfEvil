@@ -134,13 +134,12 @@ namespace CevarnsOfEvil
             else
             {
                 Vector2Int startTile = new Vector2Int((int)start.x, (int)start.z);
+                float heightDiff = Mathf.Abs(end.y - start.y);
                 end.y = map.GetFloorY(endTile.x, endTile.y);
-                float heightDiff = end.y - start.y;
                 float verticleSpace = map.GetCeilY(endTile.x, endTile.y) - end.y;
                 output.passable = map.GetPassable(endTile.x, endTile.y) 
                                   && (verticleSpace > mob.GetCollider().bounds.size.y);
-                output.reachable = heightDiff < 1.25f;
-                output.reversable = heightDiff > -1f;
+                output.reachable = output.reversable = (heightDiff < 0.5f);
                 output.safe = LocationSafe(end, endTile);
             }
             return output;

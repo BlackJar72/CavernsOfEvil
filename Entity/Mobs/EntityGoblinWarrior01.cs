@@ -36,7 +36,7 @@ namespace CevarnsOfEvil {
             if (!fleeing && (targetEntity != null)
                 && ((targetEntity == damage.attacker) 
                 && (wandering || !CanReachDestination)
-                && (Random.Range(0, health.Shock) < (damage.shock + damage.wound))))
+                && (Random.Range(0, health.Shock) < ((damage.shock + damage.wound) * 2))))
             {
                 fleeing = true;
             }
