@@ -38,7 +38,6 @@ namespace CevarnsOfEvil {
                 && (wandering || !CanReachDestination)
                 && (Random.Range(0, health.Shock) < (damage.shock + damage.wound))))
             {
-                Debug.Log("Should flee... ");
                 fleeing = true;
             }
             return output;

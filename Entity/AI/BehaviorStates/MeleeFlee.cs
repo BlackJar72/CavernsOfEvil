@@ -43,7 +43,6 @@ namespace CevarnsOfEvil
 
         public override void StateEnter(EntityMob entityMob)
         {
-            Debug.Log("Fleeing!");
             EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
             ownerIn.SetFactorSpeed(AnimMoveSpeed);
             ownerIn.RoutingAgent.isStopped = false;
@@ -56,7 +55,6 @@ namespace CevarnsOfEvil
 
         public override void StateExit(EntityMob ownerIn)
         {
-            Debug.Log("Stopped fleeding.");
             ownerIn.IsFleeing = false;
             if(Random.value < 0.5f)
             {
