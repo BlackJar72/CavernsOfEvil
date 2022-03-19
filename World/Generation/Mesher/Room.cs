@@ -52,10 +52,10 @@ namespace CevarnsOfEvil
                 liquids.GetComponent<Collider>().enabled = false;
             }
             else 
-            { 
-                liquids.layer = 9;
+            {
+                if (theme.liquidSubstance.Damage > 0) liquids.layer = 13;
+                else liquids.layer = 9;
             }
-
 
             map.MeshRoom(this);
             floor.isStatic = true;
