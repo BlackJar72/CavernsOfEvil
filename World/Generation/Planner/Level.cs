@@ -269,10 +269,11 @@ namespace CevarnsOfEvil
         private void PlaceMobs()
         {
             GetComponent<NavMeshSurface>().BuildNavMesh();
-            for (int i = 2; i < rooms.TotalCount; i++)
+            /*for (int i = 2; i < rooms.TotalCount; i++)
             {
                 MobPlacer.Process(rooms[i], this);
-            }
+            }*/
+            MobPlacer.ProcessConsistent(rooms, this);
         }
 
 

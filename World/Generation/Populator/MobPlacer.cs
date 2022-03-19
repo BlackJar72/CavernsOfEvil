@@ -18,6 +18,42 @@ namespace CevarnsOfEvil
         }
 
 
+        public static void ProcessConsistent(RoomList rooms, Level level)
+        {
+            for(int i = 2; i <= level.nodes.Length; i++)
+            {
+                if(rooms[i] != null)
+                {
+                    if (level.random.NextBool())
+                        PlaceMobs(rooms[i], level);
+                    else
+                        PlaceMultiMobs(rooms[i], level);
+                }
+            }
+            List<Room> normal = new List<Room>();
+            for(int i = level.nodes.Length + 1; i < rooms.Count; i++)
+            {
+                normal.Add(rooms[i]);
+            }
+            normal.Shuffle(level.random);
+            int withMobs;
+            int withMobs1 = GameData.LevelDifficulty.NumRoomsWithMobs(normal.Count);
+            int withMobs2 = GameData.LevelDifficulty.NumRoomsWithMobs(rooms.Count);
+            if((withMobs2 - withMobs1) > 1) withMobs = withMobs1 + level.random.NextInt(withMobs1 - withMobs2);
+            else withMobs = withMobs1;
+            for(int i = 0; (i < withMobs) && (i < normal.Count); i++)
+            {
+                if (normal[i] != null)
+                {
+                    if (level.random.NextBool())
+                        PlaceMobs(normal[i], level);
+                    else
+                        PlaceMultiMobs(normal[i], level);
+                }
+            }
+        }
+
+
         public static bool PlaceMobs(Room room, Level dungeon)
         {
             int maxMobs = room.GeometricArea / 5;

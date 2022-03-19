@@ -103,6 +103,12 @@ namespace CevarnsOfEvil
 
 		}
 
+		public int NumRoomsWithMobs(int numrooms)
+		{
+			return (numrooms * mobChance) / 10;
+
+		}
+
 		public readonly int   mobChance;
 		public readonly float numFactor;
 		public readonly float mobLevel;

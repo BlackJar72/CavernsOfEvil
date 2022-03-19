@@ -234,6 +234,7 @@ namespace CevarnsOfEvil
         }
 
 
+        // This does not work for some reason; it seems to glitch and randomly despawn mobs it shouldn't, often in combat.
         protected void DespawnWallMob()
         {
 #if UNITY_EDITOR

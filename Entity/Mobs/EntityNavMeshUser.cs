@@ -18,13 +18,15 @@ namespace CevarnsOfEvil
         public override void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
+            if(!navMeshAgent.isOnNavMesh) Destroy(gameObject);
             navMeshAgent.stoppingDistance = meleeStopDistance
                 = Mathf.Clamp(meleeRange - 1, meleeRange / 2, 3)
                     + GetCollider().bounds.extents.z;
             anim = GetComponent<Animator>();
             aggroRangeSq = aggroRange * aggroRange;
             CurrentBehavior = EmptyState.Instance.NextState(this);
-            player = GameObject.Find("FemalePlayer");
+            player = GameObject.Find("FemalePlayer"); 
+            if(CanSeeCollider(player)) Destroy(gameObject); // Should not start ready to aggro!
             navmeshTimer = enviroCooldown = nextIdleTalk = stasisAI = nextAttack = Time.time;
             setAnimByNavmesh = new SetAnimSpeed(SetAnimSpeedNavMesh);
             setAnimByVelocity = new SetAnimSpeed(SetAnimSpeedVelocity);
