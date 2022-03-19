@@ -14,19 +14,24 @@ namespace CevarnsOfEvil
 
         // Accessor properties
         public override bool CanReachDestination { get 
-            { return (RoutingAgent.hasPath // Don't fail just because the path has not yet been determined!
-                    && RoutingAgent.pathStatus.Equals(NavMeshPathStatus.PathComplete)); } }
+            { 
+            StepDataAI stepdata = dungeon.Manager.GetAIDataForGround(transform.position, RoutingAgent.destination, this);
+            return (stepdata.Desireable ||
+                    (RoutingAgent.hasPath // Don't fail just because the path has not yet been determined!
+                    && RoutingAgent.pathStatus.Equals(NavMeshPathStatus.PathComplete)));} }
 
 
         #region NavMesh Integration
         // NavMesh integration
-        public bool CanReachLocation()
+        public bool CanReachDestinationBetter()
         {
             StepDataAI stepdata = dungeon.Manager.GetAIDataForGround(transform.position, RoutingAgent.destination, this);
             return (stepdata.Desireable ||
                     (RoutingAgent.hasPath // Don't fail just because the path has not yet been determined!
                     && RoutingAgent.pathStatus.Equals(NavMeshPathStatus.PathComplete)));
         }
+
+
         public void SetNavmeshDestination(Vector3 destination)
         {
             this.destination = destination;

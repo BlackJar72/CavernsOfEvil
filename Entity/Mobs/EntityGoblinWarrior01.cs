@@ -33,11 +33,12 @@ namespace CevarnsOfEvil {
         {
             entitySounds.PlayHurt(voice, 0);
             bool output = base.TakeDamage(ref damage);
-            if ((targetEntity != null)
+            if (!fleeing && (targetEntity != null)
                 && ((targetEntity == damage.attacker) 
                 && (wandering || !CanReachDestination)
                 && (Random.Range(0, health.Shock) < (damage.shock + damage.wound))))
             {
+                Debug.Log("Should flee... ");
                 fleeing = true;
             }
             return output;

@@ -41,13 +41,10 @@ namespace CevarnsOfEvil
             get { return currentBehavior; }
             set
             {
-                if (currentBehavior != value)
-                {
-                    currentBehavior.StateExit(this);
-                    previousBehavior = currentBehavior;
-                    currentBehavior = value;
-                    currentBehavior.StateEnter(this);
-                }
+                currentBehavior.StateExit(this);
+                previousBehavior = currentBehavior;
+                currentBehavior = value;
+                currentBehavior.StateEnter(this);
             }
         }
         public IBehaviorState PreviousBehavior { get { return previousBehavior; } }
@@ -80,6 +77,18 @@ namespace CevarnsOfEvil
         {
             return aiStep = dungeon.Manager.GetAIDataForGround(transform.position,
                 (transform.position + direction * 0.5f), this);
+        }
+
+
+        public float DistanceToDestination()
+        {
+            return (transform.position - destination).magnitude;
+        }
+
+
+        public float DistanceToTarget()
+        {
+            return (transform.position - targetObject.transform.position).magnitude;
         }
 
 

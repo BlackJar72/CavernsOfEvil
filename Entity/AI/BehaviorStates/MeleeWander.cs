@@ -9,6 +9,7 @@ namespace CevarnsOfEvil
     public class MeleeWander : BehaviorObject
     {
         [SerializeField] BehaviorObject fleeState;
+        [SerializeField] BehaviorObject chaseState;
 
         public override bool StateUpdate(EntityMob entityMob)
         {
@@ -20,10 +21,9 @@ namespace CevarnsOfEvil
                     ownerIn.CurrentBehavior = fleeState;
                     return true;
                 }
-                if (ownerIn.StasisAI > Time.time)
+                if (ownerIn.NavmeshTimer < Time.time)
                 {
-                    ownerIn.StasisAI = Time.time;
-                    ownerIn.CurrentBehavior = ownerIn.PreviousBehavior;
+                    ownerIn.CurrentBehavior = chaseState;
                     return true;
                 }
                 if(Random.value > 0.5f)
@@ -57,7 +57,7 @@ namespace CevarnsOfEvil
             ownerIn.SetFactorSpeed(AnimMoveSpeed);
             ownerIn.RoutingAgent.isStopped = false;
             ownerIn.EnableNavmesh();
-            ownerIn.StasisAI = Mathf.Max(ownerIn.StasisAI, 1f + Random.value);
+            ownerIn.StasisAI = Mathf.Max(ownerIn.StasisAI, Time.time + 1f + Random.value);
             ownerIn.IsWandering = true;
         }
 
@@ -65,6 +65,7 @@ namespace CevarnsOfEvil
         public override void StateExit(EntityMob ownerIn)
         {
             ownerIn.IsWandering = false;
+            (ownerIn as EntityNavMeshUser).NavmeshTimer = Time.time;
         }
     }
 

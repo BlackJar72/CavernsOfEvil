@@ -20,7 +20,8 @@ namespace CevarnsOfEvil
                 {
                     ownerIn.CurrentBehavior = fleeState;
                 }
-                else if(!ownerIn.CanReachLocation())
+                else if(!ownerIn.CanReachDestinationBetter() 
+                    && (ownerIn.CanSeeTarget() || ownerIn.DistanceToTarget() < 5))
                 {
                     ownerIn.CurrentBehavior = wanderState;
                 }

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimMoveSpeed: 1
   AnimID: 0
-  wanderState: {fileID: 11400000, guid: 6dec0610dd69f8a429f35cd9460f42be, type: 2}
+  wanderState: {fileID: 11400000, guid: 1f1f2cad1ed9d7a4da34a25183858025, type: 2}
   fleeState: {fileID: 11400000, guid: ef5750f51fc2c05499cd0ff3c13f9a19, type: 2}
