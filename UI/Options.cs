@@ -116,7 +116,7 @@ namespace CevarnsOfEvil
         public void SetAudioVolume(float loudness)
         {
             audioVolume = Mathf.Log(loudness, 2) * 10;
-            audioMixer.SetFloat("Volumne", audioVolume);
+            audioMixer.SetFloat("Volume", audioVolume);
         }
 
 

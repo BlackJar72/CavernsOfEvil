@@ -11,6 +11,10 @@ namespace CevarnsOfEvil
         [SerializeField] MovePlayer playerMove;
         [SerializeField] PlayerAct playerAct;
 
+        [SerializeField] GameObject startScreen;
+        [SerializeField] GameObject optionsScreen;
+
+
         public void Return()
         {
             gameObject.SetActive(false);
@@ -19,8 +23,16 @@ namespace CevarnsOfEvil
                 playerAct.enabled = true;
                 playerMove.enabled = true;
             }
+            GameManager.instance.SetupAudio();
             Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1;
+        }
+
+
+        public void GoToOptions()
+        {
+            optionsScreen.SetActive(true);
+            startScreen.SetActive(false);
         }
 
     }

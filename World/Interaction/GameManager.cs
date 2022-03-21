@@ -9,6 +9,7 @@ namespace CevarnsOfEvil
 
     public class GameManager : MonoBehaviour
     {
+        public static GameManager instance;
         Level level;
 
         [SerializeField] AudioMixer audioMixer;
@@ -28,13 +29,14 @@ namespace CevarnsOfEvil
 
         public void Start()
         {
+            instance = this;
             SetupAudio();
             level = GetComponent<Level>();
             map = level.map;
         }
 
 
-        private void SetupAudio()
+        public void SetupAudio()
         {
             audioMixer.SetFloat("Volume", Options.audioVolume);
             audioMixer.SetFloat("Game", Options.gameVolume);
