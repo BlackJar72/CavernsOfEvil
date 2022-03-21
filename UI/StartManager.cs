@@ -16,6 +16,9 @@ namespace CevarnsOfEvil
         [SerializeField] TMP_Dropdown difficultyMenu;
         [SerializeField] TMP_InputField seedField;
 
+        [SerializeField] GameObject startScreen;
+        [SerializeField] GameObject optionsScreen;
+
         void Start()
         {
             Time.timeScale = 1;
@@ -58,6 +61,13 @@ namespace CevarnsOfEvil
         public void RestoreGame()
         {
             //SaveGame.LoadGame(SaveGame.STAND_IN);
+        }
+
+
+        public void GoToOptions()
+        {
+            optionsScreen.SetActive(true);
+            startScreen.SetActive(false);
         }
     }
 

@@ -52,8 +52,8 @@ namespace CevarnsOfEvil
                     || (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)))
             {
                 destination = transform.position;
-                destination.x += Random.Range(-range, range + 1);
-                destination.z += Random.Range(-range, range + 1);
+                destination.x += Mathf.Clamp(Random.Range(-range, range + 1), 0, dungeon.size.width - 1);
+                destination.z += Mathf.Clamp(Random.Range(-range, range + 1), 0, dungeon.size.width - 1);
                 navMeshAgent.SetDestination(destination);
                 navmeshTimer = Time.time + 1.0f;
             }

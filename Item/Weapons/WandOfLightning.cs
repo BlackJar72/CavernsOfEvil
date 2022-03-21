@@ -80,7 +80,7 @@ namespace CevarnsOfEvil
                         }
                         else if (victim != null)
                         {                            
-                            victim.BeHitByRaycastAttack(target, UnityEngine.Random.Range(100, 141), 
+                            victim.BeHitByRaycastAttack(target, Random.Range(120, 180), 
                                 DamageType.electric, attacker);
                         }
                         last = target.point;

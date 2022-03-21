@@ -143,18 +143,7 @@ namespace CevarnsOfEvil
         private void GetLookInput()
         {
             lookIn[0] = lookIn[1]; lookIn[1] = lookIn[2];
-// This is was a bad idea; native Windows and Linux are not as 
-// different as I'd at first thought; Linux doesn't need to be
-// handled differently, and doing so makes the controls feel
-// too fast and imprecise.
-//#if UNITY_STANDALONE_WIN
-            lookIn[2] = lookAction.ReadValue<Vector2>() * 0.5f;
-/*#elif UNITY_STANDALONE_LINUX
-            lookIn[2] = lookAction.ReadValue<Vector2>() * 0.75f;
-#else
-// Fallback, assuming !Windows == Linux, since I can't test for Mac
-            lookIn[2] = lookAction.ReadValue<Vector2>() * 0.75f;
-#endif*/
+            lookIn[2] = lookAction.ReadValue<Vector2>() * Options.lookSensitivity;
             lookIn[3] = ((lookIn[0] + lookIn[1] + lookIn[2]) / 3f);
         }
 
@@ -162,7 +151,7 @@ namespace CevarnsOfEvil
         private void GetMoveInput()
         {
             moveIn[0] = moveIn[1]; moveIn[1] = moveIn[2];
-            moveIn[2] = moveAction.ReadValue<Vector2>();
+            moveIn[2] = moveAction.ReadValue<Vector2>() * Options.moveSensitivity;
             moveIn[3] = ((moveIn[0] + moveIn[1] + moveIn[2]) / 3f);
         }
 

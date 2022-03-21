@@ -35,7 +35,7 @@ namespace CevarnsOfEvil {
             bool output = base.TakeDamage(ref damage);
             if (!fleeing && (targetEntity != null)
                 && ((targetEntity == damage.attacker) 
-                && (wandering || !CanReachDestination)
+                && wandering
                 && (Random.Range(0, health.Shock) < ((damage.shock + damage.wound) * 2))))
             {
                 fleeing = true;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 
 namespace CevarnsOfEvil
@@ -9,6 +10,8 @@ namespace CevarnsOfEvil
     public class GameManager : MonoBehaviour
     {
         Level level;
+
+        [SerializeField] AudioMixer audioMixer;
 
         private MapMatrix map;
 
@@ -22,10 +25,20 @@ namespace CevarnsOfEvil
         private List<EntityMob>[] aiBatches = new List<EntityMob>[10];
 
 
+
         public void Start()
         {
+            SetupAudio();
             level = GetComponent<Level>();
             map = level.map;
+        }
+
+
+        private void SetupAudio()
+        {
+            audioMixer.SetFloat("Volume", Options.audioVolume);
+            audioMixer.SetFloat("Game", Options.gameVolume);
+            audioMixer.SetFloat("Music", Options.musicVolume);
         }
 
 
@@ -135,10 +148,7 @@ namespace CevarnsOfEvil
             {
                 Vector2Int startTile = new Vector2Int((int)start.x, (int)start.z);
                 float heightDiff = Mathf.Abs(end.y - start.y);
-                end.y = map.GetFloorY(endTile.x, endTile.y);
-                float verticleSpace = map.GetCeilY(endTile.x, endTile.y) - end.y;
-                output.passable = map.GetPassable(endTile.x, endTile.y) 
-                                  && (verticleSpace > mob.GetCollider().bounds.size.y);
+                output.passable = map.GetPassable(endTile.x, endTile.y);
                 output.reachable = output.reversable = (heightDiff < 0.5f);
                 output.safe = LocationSafe(end, endTile);
             }
