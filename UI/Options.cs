@@ -72,7 +72,7 @@ namespace CevarnsOfEvil
             // Sound Variables
             audioVolume = PlayerPrefs.GetFloat("MasterVolume", 0);
             gameVolume = PlayerPrefs.GetFloat("GameVolume", 0);
-            musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0);
+            musicVolume = PlayerPrefs.GetFloat("MusicVolume", -20);
             volumeSlider.value = Mathf.Pow(2, audioVolume / 10);
             SFXSlider.value = Mathf.Pow(2, gameVolume / 10);
             musicSlider.value = Mathf.Pow(2, musicVolume / 10);

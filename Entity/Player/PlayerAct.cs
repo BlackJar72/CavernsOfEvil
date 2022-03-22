@@ -280,7 +280,11 @@ namespace CevarnsOfEvil
             item8Action = input.actions["Item 8"];
             item9Action = input.actions["Item 9"];
             screenshot = input.actions["Screenshot"];
+        }
 
+
+        private void OnEnable()
+        {
             useItemAction.started += UseItem;
             useItemAction.canceled += EndUseItem;
             useObjectAction.started += UseObject;
@@ -296,6 +300,26 @@ namespace CevarnsOfEvil
             item8Action.started += SetSlotTo8;
             item9Action.started += SetSlotTo9;
             screenshot.started += TakeScreenShot;
+        }
+
+
+        private void OnDisable()
+        {
+            useItemAction.started -= UseItem;
+            useItemAction.canceled -= EndUseItem;
+            useObjectAction.started -= UseObject;
+            nextItemAction.started -= IncrementActiveSlot;
+            backItemAction.started -= DecrementActiveSlot;
+            item1Action.started -= SetSlotTo1;
+            item2Action.started -= SetSlotTo2;
+            item3Action.started -= SetSlotTo3;
+            item4Action.started -= SetSlotTo4;
+            item5Action.started -= SetSlotTo5;
+            item6Action.started -= SetSlotTo6;
+            item7Action.started -= SetSlotTo7;
+            item8Action.started -= SetSlotTo8;
+            item9Action.started -= SetSlotTo9;
+            screenshot.started -= TakeScreenShot;
         }
 
 

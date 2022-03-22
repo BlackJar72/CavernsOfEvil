@@ -45,6 +45,7 @@ namespace CevarnsOfEvil
         public override void StateEnter(EntityMob entityMob)
         {
             EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
+            if(!ownerIn.RoutingAgent.isOnNavMesh) Destroy(ownerIn.gameObject);
             ownerIn.SetFactorSpeed(AnimMoveSpeed);
             ownerIn.RoutingAgent.isStopped = false;
             ownerIn.EnableNavmesh();
