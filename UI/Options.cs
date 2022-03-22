@@ -27,7 +27,7 @@ namespace CevarnsOfEvil
         public static float moveSensitivity = 1.0f;
         public static float audioVolume = 0;
         public static float gameVolume = 0;
-        public static float musicVolume = 0;
+        public static float musicVolume = -20;
         public static bool isFullscreen;
         public static int graphicsQuality;
 
@@ -55,7 +55,14 @@ namespace CevarnsOfEvil
             // ...TODO
         }
 
+
         private void Start()
+        {
+            Init();
+        }
+
+
+        public void Init()
         {
             // Input Variables
             lookSensitivity = PlayerPrefs.GetFloat("LookSensitivity", 0.5f);

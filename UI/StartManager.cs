@@ -24,6 +24,7 @@ namespace CevarnsOfEvil
             Time.timeScale = 1;
             QualitySettings.vSyncCount = 1;
             Cursor.lockState = CursorLockMode.None;
+            optionsScreen.GetComponent<Options>().Init();
         }
 
         // Update is called once per frame
