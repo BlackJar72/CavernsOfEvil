@@ -65,6 +65,7 @@ namespace CevarnsOfEvil
             // TODO: Set this with episode data
             levelSize = Size.tiny;
             sizeData = SizeTable.GetData(levelSize);
+            MusicManager.Init();
             PickupPlacer.Init();
             Sword.SwordInit();
             WandOfFire.WandInit();

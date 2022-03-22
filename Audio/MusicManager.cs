@@ -8,38 +8,61 @@ namespace CevarnsOfEvil
 {
     public class MusicManager : MonoBehaviour
     {
-        [SerializeField] AudioClip[] allTracks;
+        [SerializeField] AudioClip levelOneMusic;
+        [SerializeField] List<AudioClip> allTracks;
         private AudioSource music;
-        private static int lastPlayed;
-        private List<AudioClip> shuffler;
+
+        private static int index;
+        private static List<AudioClip> usedTracks;
+
+
+        private void Awake()
+        {
+            if (usedTracks == null)
+            {
+                usedTracks = new List<AudioClip>();
+                foreach (AudioClip track in allTracks)
+                {
+                    usedTracks.Add(track);
+                }
+                Init();
+            }
+        }
 
 
         // Start is called before the first frame update
         void Start()
         {
             music = GetComponent<AudioSource>();
-            shuffler = new List<AudioClip>();
             if (GameData.Level == 1)
             {
-                lastPlayed = 0;
-                shuffler.Add(allTracks[0]);
+                usedTracks.Shuffle();
+                music.clip = levelOneMusic;
+                music.Play();
             }
             else
             {
-                for(int i = 0; i < allTracks.Length; i++)
+                PlayTrack(index % usedTracks.Count);
+                index++;
+                if(index >= usedTracks.Count)
                 {
-                    if(i != lastPlayed) shuffler.Add(allTracks[i]);
+                    index = 0;
+                    usedTracks.Shuffle();
                 }
-                lastPlayed = Random.Range(0, shuffler.Count);
             }
-            PlayTrack(lastPlayed);
         }
 
 
         private void PlayTrack(int track)
         {
-            music.clip = shuffler[track];
+            music.clip = usedTracks[track];
             music.Play();
+        }
+
+
+        public static void Init()
+        {
+            index = 0;
         }
     }
 
