@@ -131,6 +131,14 @@ namespace CevarnsOfEvil
         }
 
 
+        public virtual void TurnToDestinationFlying()
+        {
+            desiredDirection = destination - transform.position;
+            desiredDirection.y *= 2 + 1;
+            if (desiredDirection != Vector3.zero) desiredDirection.Normalize();
+        }
+
+
         public virtual void FaceHeading()
         {
             transform.LookAt(transform.position + direction);

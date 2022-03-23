@@ -14,7 +14,7 @@ namespace CevarnsOfEvil
 
         public override bool StateUpdate(EntityMob entityMob)
         {
-            EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
+            EntityMob ownerIn = entityMob;
             if (ownerIn.LookForPlayer() || (ownerIn.targetEntity != null))
             {
                 ownerIn.CurrentBehavior = onSeePlayer;
@@ -37,13 +37,16 @@ namespace CevarnsOfEvil
         public override void StateEnter(EntityMob entityMob)
         {
             EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
-            ownerIn.SetFactorSpeed(AnimMoveSpeed);
-            ownerIn.ClearNavmeshDestination();
-            if ((ownerIn.RoutingAgent != null)
-                && ownerIn.RoutingAgent.isActiveAndEnabled
-                && ownerIn.RoutingAgent.isOnNavMesh)
+            if (ownerIn)
             {
-                ownerIn.RoutingAgent.isStopped = true;
+                ownerIn.SetFactorSpeed(AnimMoveSpeed);
+                ownerIn.ClearNavmeshDestination();
+                if ((ownerIn.RoutingAgent != null)
+                    && ownerIn.RoutingAgent.isActiveAndEnabled
+                    && ownerIn.RoutingAgent.isOnNavMesh)
+                {
+                    ownerIn.RoutingAgent.isStopped = true;
+                }
             }
         }
 

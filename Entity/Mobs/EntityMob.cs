@@ -30,6 +30,7 @@ namespace CevarnsOfEvil
 
         // Accessor Properties
         public Animator Anim { get { return anim; } }
+
         public float AttackTime { get { return attackTime; } }
         public float AggroRangeSq { get { return aggroRangeSq; } }
         public float NextAttack { get { return nextAttack; } set { nextAttack = value; } }
@@ -146,6 +147,11 @@ namespace CevarnsOfEvil
         public float DistanceSqrToPlayer()
         {
             return (transform.position - player.transform.position).sqrMagnitude;
+        }
+
+        internal float DistanceSqrToTarget()
+        {
+            return (targetObject.transform.position - transform.position).sqrMagnitude;
         }
 
 

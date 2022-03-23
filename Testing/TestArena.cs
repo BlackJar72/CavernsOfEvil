@@ -20,6 +20,7 @@ namespace CevarnsOfEvil
         protected override void Start()
         {
             GameData.Init(seed.ToString(), DifficultySettings.norm);
+            manager = GetComponent<GameManager>();
             Setup();
             Plan();
             BuildLevel(); 
@@ -27,6 +28,7 @@ namespace CevarnsOfEvil
             PlacePlayer();
             spawnRoom.PopulateSpawnRoom(this);
             mobRoom.PoulateMobRoom(this);
+            manager.Start();
         }
 
 

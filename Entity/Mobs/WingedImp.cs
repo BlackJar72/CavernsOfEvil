@@ -11,10 +11,23 @@ namespace CevarnsOfEvil
         [SerializeField] protected Collider hitbox;
 
 
-        /*public override void Start()
+        protected float prefferedSpeed;
+        protected float wanderUpdateTime;
+        protected bool shouldTurn = false;
+
+        protected Rigidbody rigid;
+
+        public Vector3 DesiredDirection { get { return desiredDirection; } set { desiredDirection = value; } }
+        public float PrefferedSpeed { get => prefferedSpeed; set { prefferedSpeed = value; } }
+        public float WanderUpdateTime { get => wanderUpdateTime; set { wanderUpdateTime = value; } }
+        public bool ShouldTurn { get { return shouldTurn; } set { shouldTurn = value; } }
+
+
+        public override void Start()
         {
-            base.Start();            
-        }*/
+            rigid = GetComponent<Rigidbody>();
+            base.Start();
+        }
 
 
         public override Collider GetCollider()
@@ -95,6 +108,30 @@ namespace CevarnsOfEvil
             }
             anim.SetInteger("AnimID", 1);
             entitySounds.PlayAttack(voice, 0);
+        }
+
+
+        public override void Move()
+        {
+            SetMovement();
+            AIVelocity.y = (destination.y - transform.position.y);
+            rigid.velocity = AIVelocity;
+            AIVelocity = Vector3.zero;
+        }
+
+
+        public override void FaceHeading()
+        {
+            // If target is in view, keep facing target to avoid target going out of sight...
+            if(CanSeeTarget()) transform.LookAt(targetEntity.transform.position, Vector3.up);
+            // ...otherwise face the direction of movement.
+            else transform.LookAt(transform.position + direction);
+        }
+
+
+        public void OnCollisionEnter(Collision collision)
+        {
+            if(collision.gameObject != targetObject) shouldTurn = true;
         }
 
 

@@ -6,7 +6,7 @@ namespace CevarnsOfEvil
         public const string GameName = "Caverns of Evil";
 
         // Layer Masks
-        public const int MobMask = 0x1 << 11;
+        public const int MobMask = (0x1 << 11) | (0x1 << 17);
         public const int DamageMask = (0x1 << 6) | MobMask;
         public const int LevelMask = 0x1 << 9;
         public const int StaticMask = LevelMask | 1;

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimMoveSpeed: 0
   AnimID: 1
-  parentState: {fileID: 11400000, guid: 136e503cf58dea14cb14823896171a95, type: 2}
+  parentState: {fileID: 11400000, guid: da549af5ae1c5344299de62d3dc09378, type: 2}

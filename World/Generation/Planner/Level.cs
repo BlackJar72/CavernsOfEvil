@@ -36,7 +36,7 @@ namespace CevarnsOfEvil
         public HubRoom[] nodes;
         public List<EntityMob> mobs;
 
-        private GameManager manager;
+        protected GameManager manager;
 
         public GameManager Manager { get { return manager; } }
 

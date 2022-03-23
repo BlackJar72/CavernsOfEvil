@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38944959d593eff44bcac02a22ee5d56, type: 3}
-  m_Name: WingedImpLook
+  m_Script: {fileID: 11500000, guid: 549a20f50637e6f4486dbb7e828cab79, type: 3}
+  m_Name: ImpCombat
   m_EditorClassIdentifier: 
-  AnimMoveSpeed: 0
-  AnimID: 0
-  onSeePlayer: {fileID: 11400000, guid: da549af5ae1c5344299de62d3dc09378, type: 2}
-  vocalRate: 1
+  AnimMoveSpeed: 1
+  AnimID: 1
+  attackState: {fileID: 11400000, guid: b7fde1f7af2328e4595b6f0c90491ed4, type: 2}
+  wanderState: {fileID: 11400000, guid: 9d064676a8f91fb4ca5a0ffb8fae028b, type: 2}

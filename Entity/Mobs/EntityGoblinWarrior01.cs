@@ -60,7 +60,10 @@ namespace CevarnsOfEvil {
                 anim.SetTrigger("Attack");
                 SetFactorSpeed(0);
                 entitySounds.PlayAttack(voice, 0);
-                navMeshAgent.isStopped = true;
+                if (navMeshAgent.isActiveAndEnabled && navMeshAgent.isOnNavMesh)
+                {
+                    navMeshAgent.isStopped = true;
+                }
                 useNavmesh = false;
 
                 EntityHealth victim = other.gameObject.GetComponent<EntityHealth>();

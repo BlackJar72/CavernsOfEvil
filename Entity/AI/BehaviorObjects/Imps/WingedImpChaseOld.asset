@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38944959d593eff44bcac02a22ee5d56, type: 3}
-  m_Name: WingedImpLook
+  m_Script: {fileID: 11500000, guid: da445761ad5004a4097a3e6904fb2518, type: 3}
+  m_Name: WingedImpChaseOld
   m_EditorClassIdentifier: 
-  AnimMoveSpeed: 0
+  AnimMoveSpeed: 1
   AnimID: 0
-  onSeePlayer: {fileID: 11400000, guid: da549af5ae1c5344299de62d3dc09378, type: 2}
-  vocalRate: 1
+  attackState: {fileID: 11400000, guid: a696c70548438bf4db0c8f0fe6319f66, type: 2}

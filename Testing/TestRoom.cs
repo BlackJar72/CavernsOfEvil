@@ -61,8 +61,10 @@ namespace CevarnsOfEvil
 
         public void PoulateMobRoom(TestArena dungeon)
         {
-            GameObject.Instantiate(dungeon.mobPrefab,
+            GameObject monster = GameObject.Instantiate(dungeon.mobPrefab,
                 new Vector3((midX + endX) / 2, floorY, realZ), Quaternion.Euler(0, 270, 0));
+            EntityMob mob = monster.GetComponent<EntityMob>();
+            if (mob != null) mob.SetGameLevel(dungeon);
 
         }
 
