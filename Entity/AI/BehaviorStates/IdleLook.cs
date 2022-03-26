@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CevarnsOfEvil
 {
 
-    [CreateAssetMenu(menuName ="DLD/AI/Idle Look", fileName = "IdleLook", order = 0)]
+    [CreateAssetMenu(menuName = "DLD/AI/Idle Look", fileName = "IdleLook", order = 0)]
     public class IdleLook : BehaviorObject
     {
         [SerializeField] BehaviorObject onSeePlayer;
@@ -18,8 +18,8 @@ namespace CevarnsOfEvil
             if (ownerIn.LookForPlayer() || (ownerIn.targetEntity != null))
             {
                 ownerIn.CurrentBehavior = onSeePlayer;
-            } 
-            else if((ownerIn.NextIdleTalk < Time.time) && (Random.value < (Time.deltaTime * vocalRate)))
+            }
+            else if ((ownerIn.NextIdleTalk < Time.time) && (Random.value < (Time.deltaTime * vocalRate)))
             {
                 ownerIn.Sounds.PlayIdle(ownerIn.Voice);
                 ownerIn.NextIdleTalk += (2 / vocalRate) + (Random.value * 3);

@@ -7,8 +7,8 @@ namespace CevarnsOfEvil {
 
     public abstract class EntityHealth : MonoBehaviour
     {
-        [SerializeField] Entity owner;
-        [SerializeField] GameObject bloodParticles;
+        [SerializeField] protected Entity owner;
+        [SerializeField] protected GameObject bloodParticles;
 
         public Entity Owner { get { return owner; } }
 
@@ -46,13 +46,20 @@ namespace CevarnsOfEvil {
 
         #region Hits and Damages
 
-        public void BeHitByBullet(RaycastHit hit, Entity attacker)
+
+        public virtual bool ShouldDie()
+        {
+            return (Shock < 1) || (Health < 1);
+        }
+
+
+        public virtual void BeHitByBullet(RaycastHit hit, Entity attacker)
         {
             BeHitByRaycastAttack(hit, 20, attacker);
         }
 
 
-        public void BeHitByRaycastAttack(RaycastHit hit, int damageBase, Entity attacker)
+        public virtual void BeHitByRaycastAttack(RaycastHit hit, int damageBase, Entity attacker)
         {
             Damages damage;
             if (Armor < 1)
@@ -77,12 +84,11 @@ namespace CevarnsOfEvil {
                         Quaternion.FromToRotation(Vector3.forward, hit.normal));
                     blood.transform.parent = hit.collider.transform;
                 }
-                owner.ShowDamage();
             }
         }
 
 
-        public void BeHitByRaycastAttack(RaycastHit hit, int damageBase, DamageType type, Entity attacker)
+        public virtual void BeHitByRaycastAttack(RaycastHit hit, int damageBase, DamageType type, Entity attacker)
         {
             Damages damage;
             if (Armor < 1)
@@ -107,12 +113,11 @@ namespace CevarnsOfEvil {
                         Quaternion.FromToRotation(Vector3.forward, hit.normal));
                     blood.transform.parent = hit.collider.transform;
                 }
-                owner.ShowDamage();
             }
         }
 
 
-        public void BeHitByAttack(int damageBase, DamageType type, Entity attacker)
+        public virtual void BeHitByAttack(int damageBase, DamageType type, Entity attacker)
         {
             Damages damage;
             if (Armor < 1)
@@ -131,12 +136,11 @@ namespace CevarnsOfEvil {
                 {
                     owner.Die(damage);
                 }
-                owner.ShowDamage();
             }
         }
 
 
-        public void BeHitByAttack(int damageBase, Entity attacker)
+        public virtual void BeHitByAttack(int damageBase, Entity attacker)
         {
             Damages damage;
             if (Armor < 1)
@@ -155,12 +159,11 @@ namespace CevarnsOfEvil {
                 {
                     owner.Die(damage);
                 }
-                owner.ShowDamage();
             }
         }
 
 
-        public void TakePoisonDamage(int amount)
+        public virtual void TakePoisonDamage(int amount)
         {
             Shock--;
             if (Shock < 1)

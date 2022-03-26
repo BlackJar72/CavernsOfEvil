@@ -14,6 +14,8 @@ namespace CevarnsOfEvil
         MovePlayer mover;
         ToastController toastController;
 
+        Damages? killer;
+
         [SerializeField] HealthBar healthBar;
 
         [SerializeField] AudioSource voice;
@@ -27,6 +29,7 @@ namespace CevarnsOfEvil
 
         public PlayerAct Actor { get { return actor; } }
         public MovePlayer Mover { get { return mover; } }
+        public Damages? Killer { get { return killer;  }  set { killer = value; } }
 
 
         // Start is called before the first frame update
@@ -41,6 +44,7 @@ namespace CevarnsOfEvil
                 Init();
             }
 #endif
+            Killer = null;
         }
 
 
@@ -64,6 +68,13 @@ namespace CevarnsOfEvil
         {
             if(health.PlayerRegen()) healthBar.UpdateHealth(health);
             healthBar.UpdateStamina(actor);
+        }
+
+
+        private void LateUpdate()
+        {
+            if (health.ShouldDie()) Die((Damages)killer);
+            else killer = null;
         }
 
 
