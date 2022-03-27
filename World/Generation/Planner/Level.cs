@@ -350,6 +350,13 @@ namespace CevarnsOfEvil
         }
 
 
+        public void RemoveMob(EntityMob mob)
+        {
+            mobs.Remove(mob);
+            Destroy(mob.gameObject);
+        }
+
+
         private bool InStartArea(EntityMob mob)
         {
             return ((map.GetRoom((int)mob.transform.position.x, (int)mob.transform.position.z) < 2) 

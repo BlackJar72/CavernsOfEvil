@@ -63,10 +63,6 @@ namespace CevarnsOfEvil
 
         public virtual void Start()
         {
-            /*if(!dungeon.map.IsValidLocation(transform.position, GetCollider().bounds.extents.y * 2))
-            {
-                Destroy(gameObject);
-            }*/
             anim = GetComponent<Animator>();
             aggroRangeSq = aggroRange * aggroRange;
             CurrentBehavior = EmptyState.Instance.NextState(this);
@@ -240,15 +236,22 @@ namespace CevarnsOfEvil
         }
 
 
-        // This does not work for some reason; it seems to glitch and randomly despawn mobs it shouldn't, often in combat.
-        protected void DespawnWallMob()
+        #region Wall Mob Fix Haxk
+        // For safety, only check once, so that it will not fire after the mobs is activated.
+        protected bool notCheckedForWall = true;
+        public void DespawnWallMob()
         {
 #if UNITY_EDITOR
-            if((dungeon != null) && dungeon.map.GetWall((int)transform.position.x, (int)transform.position.z)) Destroy(gameObject);
+            if(notCheckedForWall && (dungeon != null) 
+                && !dungeon.map.GetPassable((int)transform.position.x, (int)transform.position.z)) dungeon.RemoveMob(this);
+            else notCheckedForWall = false;
 #else
-            if (dungeon.map.GetWall((int)transform.position.x, (int)transform.position.z)) Destroy(gameObject);
+            if (notCheckedForWall 
+                && !dungeon.map.GetPassable((int)transform.position.x, (int)transform.position.z)) dungeon.RemoveMob(this);
+            else notCheckedForWall = false;
 #endif
         }
+        #endregion
 
     }
 
