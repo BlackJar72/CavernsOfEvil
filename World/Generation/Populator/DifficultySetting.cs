@@ -65,7 +65,8 @@ namespace CevarnsOfEvil
 		public int GetMonsterLevel(Xorshift random)
         {
 			int output = Mathf.RoundToInt(Mathf.Clamp(mobLevel
-				+ (random.NextGaussian() * mobLevel), 1, maxLevel));
+				+ (random.NextGaussian() * mobLevel), 0, maxLevel));
+			if(output == 0) output = random.NextInt(Mathf.CeilToInt(mobLevel)) + 1;
 			if((output == 1) && (random.NextFloat() > upgradeL1chance)) output = 1;
 			return output;
 		}
@@ -84,7 +85,8 @@ namespace CevarnsOfEvil
 			float zscore = (bossMax - bossLevel) / 3;
 			int output = Mathf.Max(Mathf.RoundToInt(Mathf.Clamp(mean + (random.NextGaussian() * zscore),
 				bossLevel, bossMax)), 2);
-			if ((output < 2) && (random.NextFloat() > upgradeL1chance)) output = 3;
+			if ((output < (mean - (zscore * 2)) && (random.NextFloat() > upgradeL1chance))) 
+				output = Mathf.CeilToInt(mean);
 			return output;
 		}
 
