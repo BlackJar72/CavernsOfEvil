@@ -15,17 +15,21 @@ namespace CevarnsOfEvil
         protected float wanderUpdateTime;
         protected bool shouldTurn = false;
 
+        protected float nextChangeIdle;
+
         protected Rigidbody rigid;
 
         public Vector3 DesiredDirection { get { return desiredDirection; } set { desiredDirection = value; } }
         public float PrefferedSpeed { get => prefferedSpeed; set { prefferedSpeed = value; } }
         public float WanderUpdateTime { get => wanderUpdateTime; set { wanderUpdateTime = value; } }
         public bool ShouldTurn { get { return shouldTurn; } set { shouldTurn = value; } }
+        public float NextChangeIdle { get { return nextChangeIdle; } set { nextChangeIdle = value; } }
 
 
         public override void Start()
         {
             rigid = GetComponent<Rigidbody>();
+            nextChangeIdle = Time.time;
             base.Start();
         }
 
@@ -33,6 +37,13 @@ namespace CevarnsOfEvil
         public override Collider GetCollider()
         {
             return hitbox;
+        }
+
+
+        public void RefreshIdle()
+        {
+            anim.SetFloat("LooState", Random.Range(0.0f, 2.0f));
+            nextChangeIdle = Time.time + Random.Range(0.5f, 4.0f);
         }
 
 
@@ -91,7 +102,7 @@ namespace CevarnsOfEvil
         public override void MeleeAttack()
         {
             base.MeleeAttack();
-            anim.SetInteger("AnimID", 2);
+            anim.SetInteger("AnimID", 1);
             entitySounds.PlayAttack(voice, 1);
             nextFireTime = Mathf.Max(nextFireTime, nextAttack);
         }
@@ -107,7 +118,7 @@ namespace CevarnsOfEvil
                 GameObject proj = Instantiate(projectile, aim.from, ProjSpawn.rotation);
                 proj.GetComponent<SimpleProjectile>().LaunchSimple(aim.toward, this);
             }
-            anim.SetInteger("AnimID", 1);
+            anim.SetInteger("AnimID", 2);
             entitySounds.PlayAttack(voice, 0);
         }
 

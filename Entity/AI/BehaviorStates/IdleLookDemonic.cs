@@ -3,9 +3,8 @@ using UnityEngine;
 
 namespace CevarnsOfEvil
 {
-
-    [CreateAssetMenu(menuName = "DLD/AI/Idle Look", fileName = "IdleLook", order = 0)]
-    public class IdleLook : BehaviorObject
+    [CreateAssetMenu(menuName = "DLD/AI/Idle Look (Demons)", fileName = "IdleLook", order = 7)]
+    public class IdleLookDemonic : BehaviorObject
     {
         [SerializeField] BehaviorObject onSeePlayer;
         [SerializeField] float vocalRate = 1.0f;
@@ -17,10 +16,19 @@ namespace CevarnsOfEvil
             {
                 ownerIn.CurrentBehavior = onSeePlayer;
             }
-            else if ((ownerIn.NextIdleTalk < Time.time) && (Random.value < (Time.deltaTime * vocalRate)))
+            else 
             {
-                ownerIn.Sounds.PlayIdle(ownerIn.Voice);
-                ownerIn.NextIdleTalk += (2 / vocalRate) + (Random.value * 3);
+                float time = Time.time;
+                if ((ownerIn.NextIdleTalk < time) && (Random.value < (Time.deltaTime * vocalRate)))
+                {
+                    ownerIn.Sounds.PlayIdle(ownerIn.Voice);
+                    ownerIn.NextIdleTalk += (2 / vocalRate) + (Random.value * 3);
+                }
+                WingedImp demon = (ownerIn as WingedImp);
+                if (demon.NextChangeIdle < time)
+                {
+                    demon.RefreshIdle();
+                }
             }
             return true;
         }
@@ -54,5 +62,4 @@ namespace CevarnsOfEvil
             ownerIn.Sounds.PlayAggro(ownerIn.Voice, 0);
         }
     }
-
 }

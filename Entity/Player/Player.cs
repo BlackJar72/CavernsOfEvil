@@ -14,7 +14,7 @@ namespace CevarnsOfEvil
         MovePlayer mover;
         ToastController toastController;
 
-        Damages? killer;
+        Damages? killer = null;
 
         [SerializeField] HealthBar healthBar;
 
@@ -73,7 +73,7 @@ namespace CevarnsOfEvil
 
         private void LateUpdate()
         {
-            if (health.ShouldDie()) Die((Damages)killer);
+            if (health.ShouldDie() && (killer != null)) Die((Damages)killer);
             else killer = null;
         }
 
