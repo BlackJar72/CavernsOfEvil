@@ -67,13 +67,14 @@ namespace CevarnsOfEvil
         void Update()
         {
             if(health.PlayerRegen()) healthBar.UpdateHealth(health);
-            healthBar.UpdateStamina(actor);
+            if(isDead) HandleDeath((Damages)killer);  // This should never be called, but just in case...
+            else healthBar.UpdateStamina(actor);
         }
 
 
         private void LateUpdate()
         {
-            if (health.ShouldDie() && (killer != null)) Die((Damages)killer);
+            if (health.ShouldDie()) Die((Damages)killer);
             else killer = null;
         }
 
@@ -126,6 +127,14 @@ namespace CevarnsOfEvil
         {
             if (!isDead)
             {
+                HandleDeath(damages);
+                isDead = true;
+            }
+        }
+
+
+        private void HandleDeath(Damages damages) 
+        {                
                 if (mover.dungeon != null)
                 {
                     mover.dungeon.DeactivateMobs();
@@ -138,13 +147,16 @@ namespace CevarnsOfEvil
                 mover.enabled = false;
                 //SaveGame.DeleteGame(GameData.SaveName);
                 StartCoroutine(DeathPause());
-                if(damages.attacker != null)
+                if(damages.attacker == this)
+                {
+                    killedMessage.text = "Commited Suicide!";
+                }
+                else if(damages.attacker != null)
                 {
                     killedMessage.text = "Killed by " + damages.attacker.EntityName;
                 }
                 base.Die(damages);
             }
-        }
 
 
         private IEnumerator DeathPause()

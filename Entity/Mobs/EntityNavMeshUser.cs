@@ -82,6 +82,13 @@ namespace CevarnsOfEvil
         }
 
 
+        public override void ForgetPlayer() 
+        {
+            base.ForgetPlayer();
+            ClearNavmeshDestination();
+        }
+
+
 
     }
 

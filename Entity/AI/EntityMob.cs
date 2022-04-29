@@ -263,7 +263,8 @@ namespace CevarnsOfEvil
         public bool LookForPlayer()
         {
             bool output = (((player != null) && CanSeeCollider(player))
-                || alerted) && !player.GetComponent<MovePlayer>().flying;
+                || alerted) 
+                && !(player.GetComponent<MovePlayer>().flying || player.GetComponent<Entity>().IsDead);
             if (output)
             {
                 SetTarget(player);

@@ -207,6 +207,15 @@ namespace CevarnsOfEvil
         }
 
 
+        public virtual void ForgetPlayer() 
+        {
+            if(targetEntity == player) 
+            {
+                targetEntity = null;
+            }
+        }
+
+
         public override bool TakeDamage(ref Damages damage)
         {
             bool output = base.TakeDamage(ref damage);
