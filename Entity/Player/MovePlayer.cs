@@ -142,9 +142,10 @@ namespace CevarnsOfEvil
 
         private void GetLookInput()
         {
-            lookIn[0] = lookIn[1]; lookIn[1] = lookIn[2];
-            lookIn[2] = lookAction.ReadValue<Vector2>() * Options.lookSensitivity;
-            lookIn[3] = ((lookIn[0] + lookIn[1] + lookIn[2]) / 3f);
+            //lookIn[0] = lookIn[1]; lookIn[1] = lookIn[2];
+            //lookIn[2] = lookAction.ReadValue<Vector2>() * Options.lookSensitivity;
+            //lookIn[3] = ((lookIn[0] + lookIn[1] + lookIn[2]) / 3f);
+            lookIn[3] = lookAction.ReadValue<Vector2>() * Options.lookSensitivity;
         }
 
 
