@@ -390,7 +390,8 @@ namespace CevarnsOfEvil
             {
                 mob.ForgetPlayer();
                 mob.GetComponent<Animator>().enabled = false;
-                mob.GetComponent<NavMeshAgent>().enabled = false;
+                NavMeshAgent agent = mob.GetComponent<NavMeshAgent>();
+                if(agent != null) agent.enabled = false;
                 mob.enabled = false;
             }
         }

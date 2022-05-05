@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3fedfde209bcb948b6c5b7b83d2bc6e, type: 3}
-  m_Name: SkeletonChase
+  m_Script: {fileID: 11500000, guid: 38944959d593eff44bcac02a22ee5d56, type: 3}
+  m_Name: ChaoticImpIdel
   m_EditorClassIdentifier: 
-  AnimMoveSpeed: 0.6666667
+  AnimMoveSpeed: 0
   AnimID: 0
-  maneuverState: {fileID: 0}
-  attackState: {fileID: 11400000, guid: 75378ced58d1490469ad7d6aeef662fd, type: 2}
+  onSeePlayer: {fileID: 11400000, guid: 9507378b5eb234e1e8d855f2b3e4d2d6, type: 2}
+  vocalRate: 1

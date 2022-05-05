@@ -7,10 +7,29 @@ namespace CevarnsOfEvil
 {
 
     public class BlinkImp : EntityRangedNavMeshUser
-    {
+    {        
         [SerializeField] protected Collider hitbox;
         [SerializeField] protected GameObject telepuff;
         [SerializeField] protected GameObject deathExplosion;
+
+        private bool shouldTeleport;
+
+
+        public bool ShouldTeleport { get { return shouldTeleport; } set { shouldTeleport = value; }  }
+
+
+        public override void Start()
+        {
+            shouldTeleport = false;
+            base.Start();
+        }
+        
+
+        public override void Update()
+        {
+            if(shouldTeleport) Teleport();
+            base.Update();
+        }
 
 
         public override Collider GetCollider()
@@ -21,6 +40,7 @@ namespace CevarnsOfEvil
 
         public void Teleport()
         {
+            shouldTeleport = false;
             for (int tries = 0; tries < 10; tries++)
             {
                 Vector3 destination;
@@ -75,6 +95,7 @@ namespace CevarnsOfEvil
 
         public override void Die(Damages damages)
         {
+            shouldTeleport = false;
             Instantiate(deathExplosion, transform.position, transform.rotation);
             Destroy(gameObject);
         }
@@ -82,7 +103,6 @@ namespace CevarnsOfEvil
 
         public override bool TakeDamage(ref Damages damage)
         {
-            Teleport();
             if (damage.type == DamageType.fire) return false;
             else if (Random.value < 0.2)
             {
@@ -90,6 +110,7 @@ namespace CevarnsOfEvil
                 anim.SetTrigger("Pain");
                 nextAttack += 0.625f;
             }
+            Teleport();
             return base.TakeDamage(ref damage);
         }
 
@@ -106,32 +127,17 @@ namespace CevarnsOfEvil
 
         public override void TriggerHit(Collider other)
         {
-            if (!isDead && (nextAttack < Time.time) && (other.gameObject == targetObject))
-            {
-                nextAttack = Time.time + attackTime;
-                entitySounds.PlayAttack(voice, 0);
-
-                MeleeAttack();
-            }
-        }
-
-
-        public override void TriggerLeft(Collider other)
-        {
             if (!isDead && (other.gameObject == targetObject))
             {
-
+                shouldTeleport = true;
             }
         }
 
 
-        public override void MeleeAttack()
-        {
-            base.MeleeAttack();
-            anim.SetInteger("AnimID", 2);
-            entitySounds.PlayAttack(voice, 1);
-            nextFireTime = Mathf.Max(nextFireTime, nextAttack);
-        }
+        public override void TriggerLeft(Collider other) {/*Not Applicable*/}
+
+
+        public override void MeleeAttack() {/*Not Applicable*/}
 
 
         public override void RangedAttack()

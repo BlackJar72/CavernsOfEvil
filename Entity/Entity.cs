@@ -17,6 +17,8 @@ namespace CevarnsOfEvil {
         public EntityHealth Health { get { return health; } }
         public string EntityName { get { return entityName; } }
 
+        public GameManager Manager {get {return gameManager;} }
+
 
         public virtual bool TakeDamage(ref Damages damage)
         {

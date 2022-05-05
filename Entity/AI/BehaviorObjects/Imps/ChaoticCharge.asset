@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38944959d593eff44bcac02a22ee5d56, type: 3}
-  m_Name: SkeletonIdel
+  m_Script: {fileID: 11500000, guid: 76d8ef070b8e0b0649e1e72b9c0406a0, type: 3}
+  m_Name: ChaoticCharge
   m_EditorClassIdentifier: 
-  AnimMoveSpeed: 0
+  AnimMoveSpeed: 1
   AnimID: 0
-  onSeePlayer: {fileID: 11400000, guid: 170c12fbbbf9aa946aa9f98602028de8, type: 2}
-  vocalRate: 0.25
+  attackState: {fileID: 11400000, guid: da745fd6ef7ef37149b846901b506df3, type: 2}

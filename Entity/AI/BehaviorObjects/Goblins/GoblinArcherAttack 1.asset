@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 609957b90ba58b34581bfd91597502d7, type: 3}
-  m_Name: SkeletonAttack
+  m_Name: GoblinArcherAttack 1
   m_EditorClassIdentifier: 
   AnimMoveSpeed: 0
   AnimID: 1

@@ -26,6 +26,9 @@ namespace CevarnsOfEvil
         private List<EntityMob>[] aiBatches = new List<EntityMob>[10];
 
 
+        public Level Dungeon { get {return level; } }
+
+
 
         public void Start()
         {
