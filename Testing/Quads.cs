@@ -25,6 +25,16 @@ namespace CevarnsOfEvil
     public struct Quad
     {
         public Vector3 ul, ur, ll, lr;
+        public int y;
+
+        public Quad(Vector3 ul, Vector3 ur, Vector3 ll, Vector3 lr, int y)
+        {
+            this.ul = ul;
+            this.ur = ur;
+            this.ll = ll;
+            this.lr = lr;
+            this.y = y;
+        }
 
         public Quad(Vector3 ul, Vector3 ur, Vector3 ll, Vector3 lr)
         {
@@ -32,6 +42,7 @@ namespace CevarnsOfEvil
             this.ur = ur;
             this.ll = ll;
             this.lr = lr;
+            y = 0;
         }
     }
 

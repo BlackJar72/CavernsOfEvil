@@ -26,9 +26,10 @@ namespace CevarnsOfEvil
                 {
                     hit = target.collider.gameObject;
                     EntityHealth victim = hit.GetComponent<EntityHealth>();
-                    if (hit.CompareTag("Floor") || hit.CompareTag("Wall"))
+                    if (hit.layer == GameConstants.levelLayer)
                     {
                         GameObject hitParticles = hit.GetComponent<Mesher>().Substance.HitParticles;
+                        if(hitParticles)
                         Instantiate(hitParticles, target.point,
                             Quaternion.FromToRotation(Vector3.forward, target.normal));
                     }

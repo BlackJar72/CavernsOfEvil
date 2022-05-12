@@ -9,7 +9,6 @@ namespace CevarnsOfEvil
 
     public partial class Room
     {
-        Room room;
         MapMatrix map;
         Level dungeon;
 

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CevarnsOfEvil
 {
 
-    public abstract class ChaoticRanged: ChaoticFlyer
+    public abstract class ChaoticRanged : ChaoticFlyer
     {
         [SerializeField] protected GameObject projectile;
         [SerializeField] protected Transform projectileSpawn;

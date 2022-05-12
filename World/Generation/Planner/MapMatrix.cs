@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace CevarnsOfEvil
@@ -52,7 +52,9 @@ namespace CevarnsOfEvil
         public int GetRoom(int x, int z) => room[(z * size.width) + x];
         public int GetType(int x, int z) => type[(z * size.width) + x];
         public int GetFloorY(int x, int z) => floorY[(z * size.width) + x];
+        public int GetFloorY(int i) => floorY[i];
         public int GetCeilY(int x, int z) => ceilY[(z * size.width) + x];
+        public int GetCeilY(int i) => ceilY[i];
         public int GetNFloorY(int x, int z) => nFloorY[(z * size.width) + x];
         public int GetNCeilY(int x, int z) => nCeilY[(z * size.width) + x];
         public int GetDoorway(int x, int z) => doors[(z * size.width) + x];
@@ -69,7 +71,10 @@ namespace CevarnsOfEvil
                     && (pools[(z * size.width) + x] < 1);
         public bool GetGoodMobSpawn(int x, int z) => !isWall[(z * size.width) + x]
                     && !isPillar[(z * size.width) + x] && (pools[(z * size.width) + x] < 1)
-                    && (rooms[(z * size.width) + x] > 0) && !astared[(z * size.width) + x];
+	    && (rooms[(z * size.width) + x] > 0) && !astared[(z * size.width) + x];
+	    public int GetWallBottom(int x, int z) => floorY[(z * size.width) + x] + doors[(z * size.width) + x];
+        public int GetWallBottom(int i) => floorY[i] + doors[i];
+        public int GetSurfaceHeight(int x, int z) => floorY[(z * size.width) + x] + pools[(z * size.width) + x];
 
 
         // Setters

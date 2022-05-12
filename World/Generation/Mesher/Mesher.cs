@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -6,6 +7,8 @@ namespace CevarnsOfEvil {
     public class Mesher : MonoBehaviour
     {
         public Substance substance;
+
+        private GameObject[] parts;
 
 
         public Substance Substance
@@ -224,6 +227,96 @@ namespace CevarnsOfEvil {
             MeshCollider collider = GetComponent<MeshCollider>();
             collider.sharedMesh = mesh;
         }
+        #endregion
+
+
+        #region New Walls (boxy)
+
+
+        public void BuildWallBoxes(ref BoxBounds[] boxes, ref Room room)
+        {
+            parts = new GameObject[boxes.Length];
+            for (int i = 0; i < boxes.Length; i++) 
+            {
+                parts[i] = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                parts[i].transform.position = new Vector3((boxes[i].minx + boxes[i].maxx) / 2.0f,
+                                                            (boxes[i].miny + boxes[i].maxy) / 2.0f,
+                                                            (boxes[i].minz + boxes[i].maxz) / 2.0f);
+                parts[i].transform.localScale = new Vector3(boxes[i].maxx - boxes[i].minx,
+                                                                boxes[i].maxy - boxes[i].miny,
+                                                                boxes[i].maxz - boxes[i].minz);
+                parts[i].transform.parent = this.transform;
+                parts[i].GetComponent<MeshRenderer>().sharedMaterial = substance.Material;
+                parts[i].AddComponent<Mesher>();
+                parts[i].GetComponent<Mesher>().substance = substance;
+                parts[i].layer = GameConstants.levelLayer;
+                parts[i].tag = "Wall";
+            }
+        }
+
+
+        public void BuildFloorBoxes(ref Quad[] quads, ref Room room)
+        {
+            int index;
+            parts = new GameObject[quads.Length * 2];
+            for (int i = 0; i < quads.Length; i++)
+            {
+                index = i * 2;
+                parts[index] = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                parts[index].transform.position = new Vector3((quads[i].ul.x + quads[i].lr.x) / 2.0f,
+                                                          (quads[i].y  - ((8 + quads[i].y) / 2.0f) - 0.125f),
+                                                          (quads[i].ul.z + quads[i].lr.z) / 2.0f);
+                parts[index].transform.localScale = new Vector3(quads[i].ul.x - quads[i].lr.x,
+                                                            8 + quads[i].y - 0.25f,
+                                                            quads[i].ul.z - quads[i].lr.z);
+                parts[index].transform.parent = this.transform;
+                parts[index].GetComponent<MeshRenderer>().sharedMaterial = room.walls.GetComponent<Mesher>().substance.Material;
+                parts[index].AddComponent<Mesher>();
+                parts[index].GetComponent<Mesher>().substance = room.walls.GetComponent<Mesher>().substance;
+                parts[index].layer = GameConstants.levelLayer;
+                parts[index].tag = "Wall";
+                index++;
+                parts[index] = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                parts[index].transform.position = new Vector3((quads[i].ul.x + quads[i].lr.x) / 2.0f,
+                                                          quads[i].y - 0.125f,
+                                                          (quads[i].ul.z + quads[i].lr.z) / 2.0f);
+                parts[index].transform.localScale = new Vector3(quads[i].ul.x - quads[i].lr.x,
+                                                            0.25f,
+                                                            quads[i].ul.z - quads[i].lr.z);
+                parts[index].transform.parent = this.transform;
+                parts[index].GetComponent<MeshRenderer>().sharedMaterial = substance.Material;
+                parts[index].AddComponent<Mesher>();
+                parts[index].GetComponent<Mesher>().substance = substance;
+                parts[index].layer = GameConstants.levelLayer;
+                parts[index].tag = "Floor";
+            }
+        }
+
+
+        public void BuildCeilingBoxes(ref Quad[] quads, ref Room room)
+        {
+            parts = new GameObject[quads.Length];
+            for (int i = 0; i < quads.Length; i++)
+            {
+                parts[i] = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                parts[i].transform.position = new Vector3((quads[i].ul.x + quads[i].lr.x) / 2.0f,
+                                                          quads[i].y + ((32 - quads[i].y) / 2.0f),
+                                                          (quads[i].ul.z + quads[i].lr.z) / 2.0f);
+                parts[i].transform.localScale = new Vector3(quads[i].ul.x - quads[i].lr.x,
+                                                            32 - quads[i].y,
+                                                            quads[i].ul.z - quads[i].lr.z);
+                parts[i].transform.parent = this.transform;
+                parts[i].GetComponent<MeshRenderer>().sharedMaterial = substance.Material;
+                parts[i].AddComponent<Mesher>();
+                parts[i].GetComponent<Mesher>().substance = substance;
+                parts[i].layer = GameConstants.levelLayer;
+                parts[i].tag = "Ceiling";
+            }
+        }
+
+
+
+
         #endregion
 
 

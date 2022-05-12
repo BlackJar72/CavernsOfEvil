@@ -80,6 +80,15 @@ namespace CevarnsOfEvil
         }
 
 
+        public void OnCollisionEnter(Collision collision)
+        {
+            if(collision.gameObject.layer == GameConstants.levelLayer)
+            {
+                shouldTurn = true;
+            }
+        }
+
+
         public override void TriggerHit(Collider other)
         {
             if (!isDead && (nextAttack < Time.time) && (other.gameObject == targetObject))
@@ -96,13 +105,7 @@ namespace CevarnsOfEvil
         }
 
 
-        public override void TriggerLeft(Collider other)
-        {
-            if (!isDead && (other.gameObject == targetObject))
-            {
-                
-            }
-        }
+        public override void TriggerLeft(Collider other) {/*DO NOTHING*/}
 
 
         public override void MeleeAttack()
@@ -135,12 +138,6 @@ namespace CevarnsOfEvil
             if(CanSeeTarget()) transform.LookAt(targetEntity.transform.position, Vector3.up);
             // ...otherwise face the direction of movement.
             else transform.LookAt(transform.position + direction);
-        }
-
-
-        public void OnCollisionEnter(Collision collision)
-        {
-            if(collision.gameObject != targetObject) shouldTurn = true;
         }
 
 

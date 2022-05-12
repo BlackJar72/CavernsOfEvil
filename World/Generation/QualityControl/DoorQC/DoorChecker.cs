@@ -43,8 +43,8 @@ namespace CevarnsOfEvil
 		{
 			if ((x < 0 || x >= dungeon.size.width) ||
 				(z < 0 || z >= dungeon.size.width)) return false;
-			return (dungeon.map.GetRoom(x, z) > 0);
-		}
+            else return (dungeon.map.GetRoom(x, z) > 0);
+        }
 
 
 		/**
@@ -58,7 +58,8 @@ namespace CevarnsOfEvil
 		 */
 		public static bool ValidateDoor(Level dungeon, Doorway door)
 		{
-			return (ValidateTile(dungeon, door.x - 1, door.z)
+			bool output = (ValidateTile(dungeon, door.x, door.z)
+					&& ValidateTile(dungeon, door.x - 1, door.z)
 					&& ValidateTile(dungeon, door.x + 1, door.z)
 					&& ValidateTile(dungeon, door.x, door.z - 1)
 					&& ValidateTile(dungeon, door.x, door.z + 1)
@@ -66,6 +67,8 @@ namespace CevarnsOfEvil
 					&& ValidateTile(dungeon, door.x + 1, door.z + 1)
 					&& ValidateTile(dungeon, door.x + 1, door.z - 1)
 					&& ValidateTile(dungeon, door.x - 1, door.z + 1));
+			if(!output) dungeon.map.SetDoorway(0, door.x, door.z);
+			return output;
 		}
 
 

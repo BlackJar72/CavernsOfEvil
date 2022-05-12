@@ -389,7 +389,7 @@ namespace CevarnsOfEvil
             foreach(EntityMob mob in mobs) 
             {
                 mob.ForgetPlayer();
-                mob.GetComponent<Animator>().enabled = false;
+                //mob.GetComponent<Animator>().enabled = false;
                 NavMeshAgent agent = mob.GetComponent<NavMeshAgent>();
                 if(agent != null) agent.enabled = false;
                 mob.enabled = false;
