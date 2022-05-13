@@ -20,6 +20,15 @@ namespace CevarnsOfEvil {
         public GameManager Manager {get {return gameManager;} }
 
 
+        public virtual void Update() 
+        {
+            if(transform.position.y < -16f) 
+            {
+                Destroy(gameObject);
+            }
+        }
+
+
         public virtual bool TakeDamage(ref Damages damage)
         {
             return !isDead;

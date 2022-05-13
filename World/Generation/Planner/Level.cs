@@ -45,6 +45,7 @@ namespace CevarnsOfEvil
         {
             manager = GetComponent<GameManager>();
             PlanLevel();
+            map.GlobalDoorFixer();
             AStarLevel tester = new AStarLevel(this, nodes[0].theRoom, nodes[1].theRoom);
             if(!tester.Seek())
                 SceneManager.LoadScene("DungeonScene");

@@ -86,8 +86,9 @@ namespace CevarnsOfEvil
         }
 
 
-        public virtual void Update()
+        public override void Update()
         {
+            base.Update();
             if(!currentBehavior.StateUpdate(this)) FindNewBehavior();
 #if UNITY_EDITOR
             if (dungeon != null)

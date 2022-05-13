@@ -219,6 +219,35 @@ namespace CevarnsOfEvil
         }
 
 
+        // If this doesn't get rid of those damn doors to nowhere 
+        // I give up -- what else could be done?
+        public void GlobalDoorFixer() 
+        {
+            int end = size.width - 1;
+            // First, set all tiles at the edge of the map to not have doorways;
+            // this is simpler than including bounds checking later.
+            for(int i = 0; i < size.width; i++) 
+            {
+                SetDoorway(0, i, 0);
+                SetDoorway(0, i, end);
+                SetDoorway(0, 0, i);
+                SetDoorway(0, end, i);
+            }
+            // Now, remove doorways boarding room #0 (null room / not in level) from
+            // the middle of the map.
+            for(int i = 1; i < end; i++) 
+                for(int j = 0; j < end; j++)
+                {
+                    if((GetRoom(i, j) == 0) ||
+                       (GetRoom(i + 1, j) == 0) || (GetRoom(i - 1, j) == 0) || 
+                       (GetRoom(i, j + 1) == 0) || (GetRoom(i, j - 1) == 0))
+                       {
+                           SetDoorway(0, i, j);
+                       }
+                }
+        }
+
+
     }
 
 

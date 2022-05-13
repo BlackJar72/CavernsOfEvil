@@ -66,9 +66,16 @@ namespace CevarnsOfEvil
         // Update is called once per frame
         void Update()
         {
-            if(health.PlayerRegen()) healthBar.UpdateHealth(health);
-            if(isDead) HandleDeath((Damages)killer);  // This should never be called, but just in case...
-            else healthBar.UpdateStamina(actor);
+            if(transform.position.y < -16) 
+            {
+                Die(new Damages(0x7fffffff, 0x7fffffff, 0x7fffffff, null));
+            }
+            else
+            {
+                if(health.PlayerRegen()) healthBar.UpdateHealth(health);
+                if(isDead) HandleDeath((Damages)killer);  // This should never be called, but just in case...
+                else healthBar.UpdateStamina(actor);
+            }
         }
 
 
