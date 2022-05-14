@@ -1,18 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 
 namespace CevarnsOfEvil
 {
 
-    public class EntityDeath : MonoBehaviour
+    public class CCDeath : EntityDeath
     {
-        [SerializeField] protected Collider[] colliders;
-        
 
-        protected virtual void Update()
+        [SerializeField] CCPhysics ccphysics;
+
+
+        protected virtual void Awake()
         {
-            Rigidbody rb = GetComponent<Rigidbody>();
+            if(ccphysics == null) ccphysics = GetComponent<CCPhysics>();
+        }
+
+
+        protected virtual void OnEnable()
+        {
+            ccphysics.Die();
+        }
+
+
+        protected override void Update()
+        {
             Entity mob = gameObject.GetComponent<EntityMob>();
             if(mob != null) 
             {
@@ -27,42 +40,29 @@ namespace CevarnsOfEvil
                     return;
                 }
             }
-            if ((rb.velocity.magnitude < 0.01) && (rb.angularVelocity.magnitude < 0.01f))
+            if (ccphysics.ShouldCorpseStop())
             {
-                rb.isKinematic = true;
-                rb.Sleep();
+                ccphysics.enabled = false;
                 foreach (Collider collider in colliders) { collider.enabled = false; }
-                NavMeshAgent nma = GetComponent<NavMeshAgent>();
-                if(nma != null) nma.enabled = false;
                 enabled = false;
             }
         }
 
 
 
-        public virtual void ForceImmediate() 
+        public override void ForceImmediate() 
         {
-            Rigidbody rb = GetComponent<Rigidbody>();
-            rb.isKinematic = true;
-            rb.Sleep();
+            ccphysics.enabled = false;
             foreach (Collider collider in colliders) { collider.enabled = false; }
-            NavMeshAgent nma = GetComponent<NavMeshAgent>();
-            if(nma != null) nma.enabled = false;
             enabled = false;
         }
 
 
-        public virtual void Reset()
+        public override void Reset()
         {
             foreach (Collider collider in colliders) { collider.enabled = true; }
-            Rigidbody rb = GetComponent<Rigidbody>();
-            if (rb.velocity.magnitude < 0.01)
-            {
-                rb.isKinematic = false;
-                rb.WakeUp();
-                enabled = false;
-            }
-
+            ccphysics.enabled = true;
         }
     }
+
 }

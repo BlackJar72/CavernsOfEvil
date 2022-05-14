@@ -19,17 +19,9 @@ namespace CevarnsOfEvil
 
         public override void Start()
         {
-            rigid = GetComponent<Rigidbody>();
             nextChangeIdle = Time.time;
             animSpeed = 0.75f;
             base.Start();
-        }
-
-
-        public override void Update() 
-        {
-            Move();
-            base.Update();
         }
 
 
@@ -41,13 +33,14 @@ namespace CevarnsOfEvil
 
         public void RefreshIdle()
         {
-            anim.SetFloat("LooState", Random.Range(0.0f, 2.0f));
+            anim.SetFloat("LookState", Random.Range(0.0f, 2.0f));
             nextChangeIdle = Time.time + Random.Range(0.5f, 4.0f);
         }
 
 
         public override bool TakeDamage(ref Damages damage)
         {
+            wasHit = true;
             if (damage.type == DamageType.fire) return false;
             else if (Random.value < 0.2)
             {
@@ -62,11 +55,9 @@ namespace CevarnsOfEvil
         public override void Die(Damages damages)
         {
             entitySounds.PlayDeath(voice, 0);
-            rigid.useGravity = true;
-            Vector3 fall = rigid.velocity;
-            fall.y = Mathf.Min(fall.y, -1.0f);
-            rigid.velocity = fall;
             base.Die(damages);
+            ccphysics.Die();
+            ccphysics.Falling = true;            
         }
 
 
@@ -95,12 +86,8 @@ namespace CevarnsOfEvil
             {
                 nextAttack = Time.time + attackTime;
                 entitySounds.PlayAttack(voice, 0);
-                
+                ccphysics.AIMove = Vector3.zero; 
                 MeleeAttack();
-            }
-            else if((other.gameObject.layer & GameConstants.StaticMask) != 0)
-            {
-                shouldTurn = true;
             }
         }
 

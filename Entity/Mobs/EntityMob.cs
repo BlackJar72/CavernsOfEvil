@@ -80,9 +80,10 @@ namespace CevarnsOfEvil
         }
 
 
-        public void SetGameLevel(Level level)
+        public virtual void SetGameLevel(Level level)
         {
             dungeon = level;
+            SetGameManager(dungeon.Manager);
         }
 
 

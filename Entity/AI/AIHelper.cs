@@ -96,8 +96,38 @@ namespace CevarnsOfEvil
         {
             float dy = velocity.y;
             velocity.y = 0;
-            velocity = FindSkewDirection() * velocity;
+            velocity = FindTurnDirection() * velocity;
             velocity.y = dy;
+            return velocity;
+        }
+
+
+        private static void WallTurnDirection(ref Vector3 velocity)
+        {
+            float dy = velocity.y;
+            velocity.y = 0;
+            switch(Random.Range(0, 3))
+            {
+                case 0:
+                    velocity = -velocity;
+                    velocity.y = dy;
+                    break;
+                case 1:
+                    velocity = FindSkewDirection() * -velocity;
+                    velocity.y = dy;
+                    break;
+                case 2:
+                default:
+                    velocity = FindTurnDirection() * -velocity;
+                    velocity.y = dy;
+                    break;
+            }
+        }
+
+
+        public static Vector3 GetWallTurnDirection3d(Vector3 velocity) 
+        {
+            WallTurnDirection(ref velocity);
             return velocity;
         }
 

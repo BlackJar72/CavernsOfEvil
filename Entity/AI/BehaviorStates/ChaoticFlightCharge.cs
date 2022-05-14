@@ -22,15 +22,21 @@ namespace CevarnsOfEvil {
             if (output)
             {
                 ChaoticRanged flyer = ownerIn as ChaoticRanged;
-                if (flyer.CanSeeTarget())
+                if (flyer.wasHit || flyer.CanSeeTarget())
                 {
                     if(flyer.NextAttack < Time.time) 
                     {
                         flyer.CurrentBehavior = attackState;
                     }
                     SetHeadingTowardTarget(flyer);
+                    flyer.wasHit = false;
                 }
-                else if(flyer.ShouldTurn || (flyer.WanderUpdateTime < Time.time))
+                else if (flyer.ShouldTurn || flyer.Physics.hitWall) 
+                {
+                    flyer.DesiredDirection = AIHelper.GetWallTurnDirection3d(flyer.DesiredDirection);
+                    flyer.ShouldTurn = flyer.Physics.hitWall = false;
+                }
+                else if(flyer.WanderUpdateTime < Time.time)
                 {
                     flyer.WanderUpdateTime = Time.time + 2f + (Random.value * 2f);
                     if(Random.value > 0.75f) 
@@ -43,7 +49,8 @@ namespace CevarnsOfEvil {
                         flyer.ShouldTurn = false;
                     }
                 }
-                flyer.FaceHeading();
+                flyer.SetMovement();
+                flyer.FaceHeading();                
             }
             if ((ownerIn.NextIdleTalk < Time.time) && (Random.value < (Time.deltaTime * vocalRate)))
             {

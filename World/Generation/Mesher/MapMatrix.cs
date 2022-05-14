@@ -54,50 +54,18 @@ namespace CevarnsOfEvil
 
         public void MeshRoom(Room room)
         {
-            if(room is Cave)
-            {
-                MeshCave(ref room);
-            }
-            else
-            {
-                /*
-                   List<Quad> floorQuads = new List<Quad>();
-                   List<Quad> ceilingQuads = new List<Quad>();
-                   MeshWalls(ref room, ref floorQuads, ref ceilingQuads);
-                   MeshFlatsGreedily(ref room, Vector3.up, ref floorQuads);
-                   MeshFlatsGreedily(ref room, Vector3.down, ref ceilingQuads);
-                   MeshLiquidsGreedily(ref room);
-                */
-                List<Quad> floorQuads = new List<Quad>();
-                List<Quad> ceilingQuads = new List<Quad>();
-                List<BoxBounds> wallsBoxes = new List<BoxBounds>();
-                MeshWallBoxily(ref room, ref wallsBoxes);
-                MeshFlatsBoxily(ref room, Vector3.up, ref floorQuads);
-                MeshFlatsBoxily(ref room, Vector3.down, ref ceilingQuads);
-                MeshPillarsBoxily(ref room);
-                MeshLiquidsGreedily(ref room);
-
-            }
+            List<Quad> floorQuads = new List<Quad>();
+            List<Quad> ceilingQuads = new List<Quad>();
+            List<BoxBounds> wallsBoxes = new List<BoxBounds>();
+            MeshWallBoxily(ref room, ref wallsBoxes);
+            MeshFlatsBoxily(ref room, Vector3.up, ref floorQuads);
+            MeshFlatsBoxily(ref room, Vector3.down, ref ceilingQuads);
+            MeshPillarsBoxily(ref room);
+            MeshLiquidsGreedily(ref room);
         }
 
 
-        public void MeshCave(ref Room room)
-        {
-            Mesher mesher = room.walls.GetComponent<Mesher>();
-            List<Quad> quads = new List<Quad>();
-            MeshWallW(ref room, ref quads);
-            MeshWallE(ref room, ref quads);
-            MeshWallN(ref room, ref quads);
-            MeshWallS(ref room, ref quads);
-            MeshDoors(ref room, ref quads);
-            MeshPillars(ref room);
-            Quad[] qArray = quads.ToArray();
-            mesher.BuildWallsMesh(ref qArray);
-            room.floor.GetComponent<Mesher>().BuildCaveFloorMesh(room as Cave);
-            room.ceiling.GetComponent<Mesher>().BuildCaveRoofMesh(room as Cave);
-        }
-
-
+        #region Old Meshing System (Depricated and Unused)
         #region Mesh Floor
 
         private void MeshFlatsGreedily(ref Room room, Vector3 normal, ref List<Quad> quads)
@@ -173,77 +141,6 @@ namespace CevarnsOfEvil
             } while (more);
             Quad[] qArray = quads.ToArray();
             mesher.BuildFlatsMesh(ref qArray, normal);
-        }
-
-
-        private void MeshLiquidsGreedily(ref Room room)
-        {
-            int count = 0;
-            ResetUsed(room);
-            float fheight;
-            int x = 0, z = 0, index, height = 0;
-            bool more, available;
-            Vector3 ul, ur, ll, lr;
-            List<Quad> quads = new List<Quad>();
-            Mesher mesher;
-            int[] flats;
-            Coords coords = new Coords(0, 0);
-            flats = floorY;
-            mesher = room.liquids.GetComponent<Mesher>();
-            do
-            {
-                more = false;
-                for (int i = Mathf.Max(room.beginX - 1, 0); i <= room.endX; i++)
-                {
-                    for (int j = Mathf.Max(room.beginZ - 1, 0); j <= room.endZ; j++)
-                    {
-                        index = (j * size.width) + i;
-                        if (!used[index] && (pools[index] > 0) && (rooms[index] == room.id))
-                        {
-                            coords.x = x = i;
-                            coords.z = z = j;
-                            more = used[index] = true;
-                            height = flats[index] + pools[index];
-                            break;
-                        }
-                    }
-                    if (more) break;
-                }
-                if (!more) break;
-                // Find width of face
-                do
-                {
-                    x++;
-                    index = (z * size.width) + x;
-                } while ((x <= room.endX) && !used[index] && (pools[index] > 0) 
-                        && (flats[index] + pools[index] == height) && (rooms[index] == room.id));
-                // Find length of face
-                do
-                {
-                    z++;
-                    available = true;
-                    for (int i = coords.x; available && (i < x); i++)
-                    {
-                        index = (z * size.width) + i;
-                        available = (z <= room.endZ) && !used[index] && (pools[index] > 0) 
-                                    && (flats[index] + pools[index] == height) && (rooms[index] == room.id);
-                    }
-                } while (available);
-                for (int i = coords.x; i < x; i++)
-                    for (int j = coords.z; j < z; j++)
-                    {
-                        used[(j * size.width) + i] = true;
-                    }
-                fheight = height - 0.1f;
-                ll = new Vector3(coords.x, fheight, coords.z);
-                ul = new Vector3(coords.x, fheight, z);
-                ur = new Vector3(x, fheight, z);
-                lr = new Vector3(x, fheight, coords.z);
-                quads.Add(new Quad(ll, ul, lr, ur, height));
-                count++;
-            } while (more);
-            Quad[] qArray = quads.ToArray();
-            mesher.BuildLiquidMesh(ref qArray);
         }
 
 
@@ -871,11 +768,13 @@ namespace CevarnsOfEvil
 
         #endregion
         #endregion
+        #endregion
 
 
-        #region New Wall Mesher (boxy)
+        #region New Meshing System (boxy)
 	   
-	   
+	    /// This will find areas of wall to be meshed using a greedy algorithm 
+        /// which will them be turned into cube primatives for sections of wall.
         private void MeshWallBoxily(ref Room room, ref List<BoxBounds> boxes)
         {
             int count = 0;
@@ -943,6 +842,8 @@ namespace CevarnsOfEvil
         }
 
 
+        /// This will find areas of floor or ceiling to be meshed using a greedy algorithm 
+        /// which will them be turned into cube primatives that extend up or down.
         private void MeshFlatsBoxily(ref Room room, Vector3 normal, ref List<Quad> quads)
         {
             int count = 0;
@@ -1020,7 +921,8 @@ namespace CevarnsOfEvil
             else mesher.BuildCeilingBoxes(ref qArray, ref room);
         }
 
-
+        
+        /// This will find pillars which will them become cube primatives.
         private void MeshPillarsBoxily(ref Room room)
         {
             Mesher mesher = room.pillars.GetComponent<Mesher>();
@@ -1040,10 +942,82 @@ namespace CevarnsOfEvil
             mesher.BuildWallBoxes(ref qArray, ref room);
         }
 
-
+        
+        /// This will find areas of liquid to be meshed using a greedy algorithm 
+        /// which will them be turned into surface meshes.
+        private void MeshLiquidsGreedily(ref Room room)
+        {
+            int count = 0;
+            ResetUsed(room);
+            float fheight;
+            int x = 0, z = 0, index, height = 0;
+            bool more, available;
+            Vector3 ul, ur, ll, lr;
+            List<Quad> quads = new List<Quad>();
+            Mesher mesher;
+            int[] flats;
+            Coords coords = new Coords(0, 0);
+            flats = floorY;
+            mesher = room.liquids.GetComponent<Mesher>();
+            do
+            {
+                more = false;
+                for (int i = Mathf.Max(room.beginX - 1, 0); i <= room.endX; i++)
+                {
+                    for (int j = Mathf.Max(room.beginZ - 1, 0); j <= room.endZ; j++)
+                    {
+                        index = (j * size.width) + i;
+                        if (!used[index] && (pools[index] > 0) && (rooms[index] == room.id))
+                        {
+                            coords.x = x = i;
+                            coords.z = z = j;
+                            more = used[index] = true;
+                            height = flats[index] + pools[index];
+                            break;
+                        }
+                    }
+                    if (more) break;
+                }
+                if (!more) break;
+                // Find width of face
+                do
+                {
+                    x++;
+                    index = (z * size.width) + x;
+                } while ((x <= room.endX) && !used[index] && (pools[index] > 0) 
+                        && (flats[index] + pools[index] == height) && (rooms[index] == room.id));
+                // Find length of face
+                do
+                {
+                    z++;
+                    available = true;
+                    for (int i = coords.x; available && (i < x); i++)
+                    {
+                        index = (z * size.width) + i;
+                        available = (z <= room.endZ) && !used[index] && (pools[index] > 0) 
+                                    && (flats[index] + pools[index] == height) && (rooms[index] == room.id);
+                    }
+                } while (available);
+                for (int i = coords.x; i < x; i++)
+                    for (int j = coords.z; j < z; j++)
+                    {
+                        used[(j * size.width) + i] = true;
+                    }
+                fheight = height - 0.1f;
+                ll = new Vector3(coords.x, fheight, coords.z);
+                ul = new Vector3(coords.x, fheight, z);
+                ur = new Vector3(x, fheight, z);
+                lr = new Vector3(x, fheight, coords.z);
+                quads.Add(new Quad(ll, ul, lr, ur, height));
+                count++;
+            } while (more);
+            Quad[] qArray = quads.ToArray();
+            mesher.BuildLiquidMesh(ref qArray);
+        }
 
 
         #endregion
+        
 
     }
 

@@ -30,13 +30,20 @@ namespace CevarnsOfEvil
                 ownerIn.NextIdleTalk += (2 / vocalRate) + (Random.value * 3);
             }
             ChaoticFlyer flyer = ownerIn as ChaoticFlyer;
-            if(flyer.ShouldTurn || (flyer.WanderUpdateTime < Time.time))
+            if (flyer.ShouldTurn || flyer.Physics.hitWall) 
+            {
+                flyer.DesiredDirection = AIHelper.GetWallTurnDirection3d(flyer.DesiredDirection);
+                flyer.ShouldTurn = flyer.Physics.hitWall = false;
+            }
+            else if(flyer.WanderUpdateTime < Time.time)
             {
                 flyer.WanderUpdateTime = Time.time + 2f + (Random.value * 2f);
                 flyer.DesiredDirection = AIHelper.GetTurnDirection3d(flyer.DesiredDirection);
                 flyer.ShouldTurn = false;
             }
+            flyer.SetMovement();
             flyer.FaceHeading();
+            if(flyer.wasHit) ownerIn.CurrentBehavior = onSeePlayer;
             return true;
         }
 

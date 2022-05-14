@@ -8,11 +8,12 @@ namespace CevarnsOfEvil
 
     public abstract partial class ChaoticFlyer : EntityMob
     {
-        [SerializeField] protected Rigidbody rigid;
+        [SerializeField] protected CCPhysics ccphysics;
         protected Vector3 direction3d;
         protected float prefferedSpeed;
         protected float wanderUpdateTime;
         protected bool shouldTurn = false;
+        [HideInInspector] public bool wasHit;
 
         // Accessors
         public float PrefferedSpeed { get => prefferedSpeed; set { prefferedSpeed = value; } }
@@ -20,6 +21,7 @@ namespace CevarnsOfEvil
         public bool ShouldTurn { get { return shouldTurn; } set { shouldTurn = value; } }
 
         public Vector3 DesiredDirection { get {return desiredDirection; } set {desiredDirection = value; } }
+        public CCPhysics Physics { get {return ccphysics; } }
 
 
         // Start is called before the first frame update
@@ -34,7 +36,15 @@ namespace CevarnsOfEvil
         {
                 if (!currentBehavior.StateUpdate(this)) FindNewBehavior();
                 float tFactor = Time.deltaTime * 10;
-            }
+        }
+
+
+        public override void SetGameLevel(Level level)
+        {
+            dungeon = level;
+            ccphysics.LevelData = level.map;
+            SetGameManager(dungeon.Manager);
+        }
 
 
         public void SetAnimSpeed(float speed)
@@ -101,7 +111,7 @@ namespace CevarnsOfEvil
 
         public override void SetDirectionZero()
         {
-            AIVelocity = direction3d = direction = desiredDirection = Vector3.zero;
+            ccphysics.AIMove = direction3d = direction = desiredDirection = Vector3.zero;
         }
 
 
@@ -113,18 +123,10 @@ namespace CevarnsOfEvil
             direction.y = 0;
             if (direction3d != Vector3.zero) direction3d.Normalize();
             if (direction != Vector3.zero) direction.Normalize();
-            AIVelocity = baseMoveSpeed * direction3d;
+            ccphysics.AIMove = baseMoveSpeed * direction3d;
         }
 
 
-        public override void Move()
-        {
-            SetMovement();   
-            rigid.velocity = AIVelocity;
-        }
-
-
-        
 
 //*/
 #endregion

@@ -14,12 +14,14 @@ namespace CevarnsOfEvil
     {
         [SerializeField] protected Vector3 gravity;
         [SerializeField] protected bool falling; // Should use gravity
+        [SerializeField] protected GameObject body;
 
         protected CharacterController cc;
         protected Vector3 velocity;
         protected Vector3 physcialVelocity;
         protected Vector3 aimove;
         protected MapMatrix leveldata;
+        public bool hitWall;
 
 
         public bool Falling { get {return falling; } set { falling = value; } }
@@ -35,13 +37,14 @@ namespace CevarnsOfEvil
         {
             cc = GetComponent<CharacterController>();
             velocity = physcialVelocity = aimove = Vector3.zero;
+            if(body == null) body = gameObject;
         }
 
 
 
         protected virtual void FixedUpdate()
         {
-            if(falling && IsOnGround()) 
+            if(falling && !IsOnGround()) 
             {
                 physcialVelocity += gravity * Time.deltaTime;
             }
@@ -50,37 +53,37 @@ namespace CevarnsOfEvil
                 physcialVelocity = Vector3.zero;
             }
             velocity = PhysicalVelocity + aimove;
-            cc.Move(velocity * Time.deltaTime);
+            hitWall = (cc.Move(velocity * Time.deltaTime) == CollisionFlags.Sides);
         }
 
 
         protected virtual bool IsOnGround() 
         {
-            float floorHeght = leveldata.GetFloorY((int)(transform.position.x + 0.5f), 
-                                                   (int)(transform.position.z + 0.5f));
-            if(transform.position.y < floorHeght) 
+            float floorHeght = leveldata.GetFloorY((int)(body.transform.position.x + 0.5f), 
+                                                   (int)(body.transform.position.z + 0.5f));
+            if(body.transform.position.y < floorHeght) 
                 {
                     Vector3 newPos = transform.position;
                     newPos.y = floorHeght;
-                    transform.position = newPos;
+                    body.transform.position = newPos;
                     return true;
                 }
-            return transform.position.y == floorHeght;
+            return body.transform.position.y == floorHeght;
         }
 
 
-        protected virtual bool ShouldCorpseStop() 
+        public virtual bool ShouldCorpseStop() 
         {
             return (velocity.magnitude < 0.01)
-                && (transform.position.y < leveldata.GetFloorY((int)(transform.position.x + 0.5f), 
-                                                   (int)(transform.position.z + 0.5f)));
+                && (body.transform.position.y < leveldata.GetFloorY((int)(body.transform.position.x + 0.5f), 
+                                                   (int)(body.transform.position.z + 0.5f)));
         }
 
 
         public virtual void Die() 
         {
             aimove = Vector3.zero;
-            falling = true;
+            falling = true;            
         }
 
 }
