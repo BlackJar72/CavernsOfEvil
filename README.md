@@ -15,7 +15,7 @@ toward a great final form and my first commercial game -- tha was a mistake.  Bu
 to fix. This should never been released on Steam, but simply treated as a learning project.  Unfortunately, Steam 
 does not seem to allow a game to be changed from paid to free once published, so I have made it as cheap as is allowed.
 
-**This has been abandoned, the files for the game deleted, so there will be no further updates.
+**This has been abandoned, the files for the game deleted, so there will be no further updates.**
 
 ## About the Code
 
