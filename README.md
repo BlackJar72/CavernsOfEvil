@@ -40,8 +40,8 @@ to use this code as-is.
 None of these are included with the scripts or covered by the Licenses below.  Wall and floor textures about 2/3 my 
 own creation, 1/3 are scrunged from various free and non-free assets from the Unity Asset store.  Models and skins 
 are from purchased assets.  Sound effects were created from pre-made assets but edited by me as the game creator. 
-Music was all written, mixed, and mastered by me as well, though not for this game but as a hobby project in the 
-early 00's. 
+Music was all written, synthesized, mixed, and mastered by me as well, though not for this game but as a hobby project 
+in the 00's. 
 
 ## License
 
