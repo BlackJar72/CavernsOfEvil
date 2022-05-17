@@ -41,7 +41,7 @@ None of these are included with the scripts or covered by the Licenses below.  W
 own creation, 1/3 are scrunged from various free and non-free assets from the Unity Asset store.  Models and skins 
 are from purchased assets.  Sound effects were created from pre-made assets but edited by me as the game creator.  
 Music was all written, mixed, and mastered by me as well, though not for this game but as a hobby project in the 
-early 00's.
+early 00's. 
 
 ## License
 
