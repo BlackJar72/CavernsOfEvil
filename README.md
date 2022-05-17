@@ -1,13 +1,21 @@
 # Caverns Of Evil
 The Scripts (and only the scripts) for the game Caverns of Evil (and only those specific to Caverns of Evil).
 
-Caverns of Evil is an action roguelike that plays like a '90s first-person shooter, though with a few innovations 
+Caverns of Evil is an action-roguelite that plays like a '90s first-person shooter, though with a few innovations 
 and quirks of its own.  Fight through ever-increasing hordes of monsters while the gathering ever more powerful 
 weapons you'll need to survive.  Explore entirely new procedural levels every time, adapting to ever changing level 
 design.  This is a simple game, designed for some good old-fashioned violent fun.
 
 * https://store.steampowered.com/app/1929380/Caverns_of_Evil/
 * https://jaredbgreat.itch.io/caverns-of-evil
+
+This is my first Unity game and only my fourth game, counting arcade games.  Unity turned out to be so easy that it 
+produced a lot of over confidence as half-way through there seemed to be no bugs and everything seemed to be heading 
+toward a great final form and my first commercial game -- tha was a mistake.  Bugs showed up that I have no clue how 
+to fix. 
+
+This has been abandoned, the files for the game deleted, so there will be no further updates.  This should never been 
+released on steam, but simply treated as a learning project.
 
 ## About the Code
 
@@ -26,6 +34,14 @@ the player model.  In short, the player model is probably not a good thing to im
 These scripts contain referrence to third party code, most notably FastPriorityQueue by BlueRaja, but also the paid 
 assets Procedutal Lightening and FinalIK.  These entirely separate from this project and not include, but are required 
 to use this code as-is.
+
+## Graphical and Sound Assets
+
+None of these are included with the scripts or covered by the Licenses below.  Wall and floor textures about 2/3 my 
+own creation, 1/3 are scrunged from various free and non-free assets from the Unity Asset store.  Models and skins 
+are from purchased assets.  Sound effects were created from pre-made assets but edited by me as the game creator.  
+Music was all written, mixed, and mastered by me as well, though not for this game but as a hobby project in the 
+early 00's.
 
 ## License
 
