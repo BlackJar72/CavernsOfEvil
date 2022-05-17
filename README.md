@@ -12,11 +12,10 @@ design.  This is a simple game, designed for some good old-fashioned violent fun
 This is my first Unity game and only my fourth game, counting arcade games.  Unity turned out to be so easy that it 
 produced a lot of over confidence as half-way through there seemed to be no bugs and everything seemed to be heading 
 toward a great final form and my first commercial game -- tha was a mistake.  Bugs showed up that I have no clue how 
-to fix. 
+to fix. This should never been released on Steam, but simply treated as a learning project.  Unfortunately, Steam 
+does not seem to allow a game to be changed from paid to free once published, so I have made it as cheap as is allowed.
 
-This has been abandoned, the files for the game deleted, so there will be no further updates.  This should never been 
-released on Steam, but simply treated as a learning project.  Unfortunately, Steam does not seem to allow a game to 
-be changed from paid to free once published, so I have made it as cheap as is allowed.
+**This has been abandoned, the files for the game deleted, so there will be no further updates.
 
 ## About the Code
 
