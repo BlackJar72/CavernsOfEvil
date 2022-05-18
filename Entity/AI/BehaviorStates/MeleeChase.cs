@@ -28,7 +28,6 @@ namespace CevarnsOfEvil
                 return true;
             }
             ownerIn.RoutingAgent.isStopped = true;
-            ownerIn.FindNewBehavior();
             return false;
         }
 

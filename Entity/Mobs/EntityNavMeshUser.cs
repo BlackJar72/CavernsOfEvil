@@ -38,7 +38,7 @@ namespace CevarnsOfEvil
 
         public override void Update()
         {
-            if (!currentBehavior.StateUpdate(this)) FindNewBehavior();
+            if (!currentBehavior.StateUpdate(this)) SetState(defaultState);
 #if UNITY_EDITOR
             if (dungeon != null)
             {

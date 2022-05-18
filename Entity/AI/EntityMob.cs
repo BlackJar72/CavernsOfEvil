@@ -28,14 +28,15 @@ namespace CevarnsOfEvil
         protected StepDataAI aiStep;
         protected Collider[] footContats;
 
-        [SerializeField] protected BehaviorObject[] behaviorStates;
+        [SerializeField] protected StandardStates behaviorStates;
+        [SerializeField] protected EStandardStates defaultState;
         protected IBehaviorState currentBehavior = EmptyState.Instance;
         protected IBehaviorState previousBehavior = EmptyState.Instance;
         protected float stasisAI; // To force some AI state to linger
 
 
         //Properties
-        public BehaviorObject[] Behaviors { get { return behaviorStates; } }
+        public StandardStates Behaviors { get { return behaviorStates; } }
         public IBehaviorState CurrentBehavior
         {
             get { return currentBehavior; }
@@ -56,14 +57,18 @@ namespace CevarnsOfEvil
 
 
         #region Behavior States
-        /// <summary>
-        /// This will look for a new state in the base list of 
-        /// states by priority.  This is called if the current 
-        /// state is no longer valid.
-        /// </summary>
-        public void FindNewBehavior()
+
+        public void SetState(EStandardStates state) 
         {
-            CurrentBehavior = EmptyState.Instance.NextState(this);
+            BehaviorObject behavior = behaviorStates.GetState(state);
+            if(behavior) CurrentBehavior = behavior;
+        }
+
+
+        public void SetSpecialState(int state) 
+        {
+            BehaviorObject behavior = behaviorStates.GetSpecialState(state);
+            if(behavior) CurrentBehavior = behavior;
         }
 
 

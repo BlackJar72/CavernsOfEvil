@@ -269,7 +269,8 @@ namespace CevarnsOfEvil
 
         private void PlaceMobs()
         {
-            GetComponent<NavMeshSurface>().BuildNavMesh();
+            // FIXME: Replace with A* Project Pro
+            //GetComponent<NavMeshSurface>().BuildNavMesh();
             /*for (int i = 2; i < rooms.TotalCount; i++)
             {
                 MobPlacer.Process(rooms[i], this);

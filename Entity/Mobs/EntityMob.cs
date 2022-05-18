@@ -65,7 +65,8 @@ namespace CevarnsOfEvil
         {
             anim = GetComponent<Animator>();
             aggroRangeSq = aggroRange * aggroRange;
-            CurrentBehavior = EmptyState.Instance.NextState(this);
+            SetState(defaultState);
+            if(currentBehavior == null) CurrentBehavior = EmptyState.Instance;
             player = GameObject.Find("FemalePlayer");
             enviroCooldown = nextIdleTalk = stasisAI = nextAttack = Time.time;
             setAnimByVelocity = new SetAnimSpeed(SetAnimSpeedVelocity);
@@ -90,7 +91,6 @@ namespace CevarnsOfEvil
         public override void Update()
         {
             base.Update();
-            if(!currentBehavior.StateUpdate(this)) FindNewBehavior();
 #if UNITY_EDITOR
             if (dungeon != null)
             {

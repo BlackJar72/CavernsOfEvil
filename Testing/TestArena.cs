@@ -24,7 +24,8 @@ namespace CevarnsOfEvil
             Setup();
             Plan();
             BuildLevel(); 
-            GetComponent<NavMeshSurface>().BuildNavMesh();
+            // FIXME: Replace this with A* Project Pro
+            //GetComponent<NavMeshSurface>().BuildNavMesh();
             PlacePlayer();
             spawnRoom.PopulateSpawnRoom(this);
             mobRoom.PoulateMobRoom(this);

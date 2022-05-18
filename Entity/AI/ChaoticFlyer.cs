@@ -34,7 +34,6 @@ namespace CevarnsOfEvil
         // Update is called once per frame
         public override void Update()
         {
-                if (!currentBehavior.StateUpdate(this)) FindNewBehavior();
                 float tFactor = Time.deltaTime * 10;
         }
 
