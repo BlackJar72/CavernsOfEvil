@@ -31,6 +31,16 @@ an overly complex system of caching into static variable from which the real dat
 new level -- a system the spreads accross several classes, including all items due to the hard-coded connection to 
 the player model.  In short, the player model is probably not a good thing to immitate.
 
+One other thing I would do differently now is implementing the AI states as a simpler and more consistent state machine, 
+similar to that of Doom (1993).  Here I have a list of starting states in order of preference, and from there each state 
+just includes references to whatever others it can transistion to.  I imagined this would be more flexible, since any 
+state could be set to transition to any other free form.  In reality it was less flexible, while a class containing  
+standard states (possibly with a "special" field containing included) would have made re-used of AI states much simpler. 
+Such state fileds would likely include: idle, wander, chase, melee, missle, pain, die, and special (a list).  This would 
+not technically prevent the use substates referenced directly from states if desired, though this would probably have 
+been niether necessary nor generally desirable in term sof consistency or decoupling.  As it is the state machine is 
+disorganized with states that are typically hard to reused.
+
 These scripts contain referrence to third party code, most notably FastPriorityQueue by BlueRaja, but also the paid 
 assets Procedutal Lightening and FinalIK.  These entirely separate from this project and not include, but are required 
 to use this code as-is.
