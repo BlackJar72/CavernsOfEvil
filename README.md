@@ -32,7 +32,7 @@ new level -- a system the spreads accross several classes, including all items d
 the player model.  In short, the player model is probably not a good thing to immitate.
 
 One other thing I would do differently now is implementing the AI states as a simpler and more consistent state machine, 
-similar to that of Doom (1993).  Here I have a list of starting states in order of preference, and from there each state 
+similar to that of id Tech 1 games.  Here I have a list of starting states in order of preference, and from there each state 
 just includes references to whatever others it can transistion to.  I imagined this would be more flexible, since any 
 state could be set to transition to any other free form.  In reality it was less flexible, while a class containing 
 standard states (possibly with a "special" field containing included) would have made re-used of AI states much simpler. 
