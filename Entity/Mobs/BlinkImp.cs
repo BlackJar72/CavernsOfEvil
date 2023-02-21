@@ -1,35 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 namespace CevarnsOfEvil
 {
 
     public class BlinkImp : EntityRangedNavMeshUser
-    {        
+    {
         [SerializeField] protected Collider hitbox;
         [SerializeField] protected GameObject telepuff;
         [SerializeField] protected GameObject deathExplosion;
 
-        private bool shouldTeleport;
 
-
-        public bool ShouldTeleport { get { return shouldTeleport; } set { shouldTeleport = value; }  }
-
-
-        public override void Start()
-        {
-            shouldTeleport = false;
-            base.Start();
-        }
-        
-
-        public override void Update()
-        {
-            if(shouldTeleport) Teleport();
-            base.Update();
-        }
+        private bool shouldtp = false;
 
 
         public override Collider GetCollider()
@@ -38,13 +23,20 @@ namespace CevarnsOfEvil
         }
 
 
+        public override void Update() {
+            if(shouldtp || (targetEntity && ((Random.value < (0.1 * Time.deltaTime)) || (DistanceToTarget() < 2.5f)))) {
+                Teleport();
+            }
+            base.Update();
+        }
+
+
         public void Teleport()
         {
-            shouldTeleport = false;
             for (int tries = 0; tries < 10; tries++)
             {
                 Vector3 destination;
-                float distance = Random.Range(8, 16);
+                float distance = Random.Range(4, 16);
                 float angle = Random.Range(0, 360);
                 if (targetObject != null)
                 {
@@ -59,18 +51,22 @@ namespace CevarnsOfEvil
                 int tilez = (int)(destination.z + distance * Mathf.Sin(angle));
                 destination.x = tilex + 0.5f;
                 destination.z = tilez + 0.5f;
-                destination.y = dungeon.map.GetNFloorY(tilex, tilez) + 1.5f;
-                if (dungeon.map.GetPassableAndSafe(tilex, tilez)
-                    && ((targetObject == null) || (CanSeeTargetFrom(destination))))
+                if (dungeon.map.GetInBounds(tilex, tilez) && dungeon.map.GetPassableAndSafe(tilex, tilez))
                 {
-                    Instantiate(telepuff, transform.position, transform.rotation);
-                    Instantiate(telepuff, destination, Quaternion.identity);
-                    destination.y = destination.y - 1.5f;
-                    GetComponent<Rigidbody>().position = destination;
-                    RoutingAgent.Warp(destination);
-                    if (targetObject != null) transform.rotation
-                             .SetLookRotation(targetObject.transform.position - destination, Vector3.up);
-                    break;
+                    NavMeshHit hit;
+                    destination.y = dungeon.map.GetFloorY(tilex, tilez);
+                    if (NavMesh.SamplePosition(destination, out hit, 0.25f, NavMesh.AllAreas)
+                            && CanSeeTargetFrom(destination)) {
+                        shouldtp = false;
+                        Instantiate(telepuff, transform.position, transform.rotation);
+                        Instantiate(telepuff, destination, Quaternion.identity);
+                        destination.y = destination.y;
+                        GetComponent<Rigidbody>().position = destination;
+                        RoutingAgent.Warp(destination);
+                        if (targetObject != null) transform.rotation
+                                    .SetLookRotation(targetObject.transform.position - destination, Vector3.up);
+                        break;
+                    }
                 }
             }
         }
@@ -87,15 +83,16 @@ namespace CevarnsOfEvil
 
         public bool CanSeeTargetFrom(Vector3 location)
         {
-            return ((targetObject != null)
-                && (targetObject.GetComponent<Collider>() != null)
-                && CanSeeColliderFrom(targetObject, location));
+            location.y += 1.5f;
+            return ((targetEntity != null)
+                && (targetEntity.GetCollider() != null)
+                && !Physics.Linecast(location, targetEntity.GetCollider().bounds.center, GameConstants.LevelMask));
         }
 
 
         public override void Die(Damages damages)
         {
-            shouldTeleport = false;
+            Debug.Log("Imp Died!");
             Instantiate(deathExplosion, transform.position, transform.rotation);
             Destroy(gameObject);
         }
@@ -104,14 +101,10 @@ namespace CevarnsOfEvil
         public override bool TakeDamage(ref Damages damage)
         {
             if (damage.type == DamageType.fire) return false;
-            else if (Random.value < 0.2)
-            {
-                entitySounds.PlayHurt(voice, 0);
-                anim.SetTrigger("Pain");
-                nextAttack += 0.625f;
+            else {
+                shouldtp = shouldtp || (Random.value < 0.666);
             }
-            Teleport();
-            return base.TakeDamage(ref damage);
+            return !isDead;
         }
 
 
@@ -119,25 +112,42 @@ namespace CevarnsOfEvil
         {
             if (nextFireTime < Time.time)
             {
+                anim.SetTrigger("Attack");
                 nextAttack = Time.time + attackTime;
-                RangedAttack();
+                SetFactorSpeed(0.0f);
+                RoutingAgent.isStopped = true;
             }
         }
 
 
         public override void TriggerHit(Collider other)
         {
-            if (!isDead && (other.gameObject == targetObject))
+            if (!isDead && (nextAttack < Time.time) && (other.gameObject == targetObject))
             {
-                shouldTeleport = true;
+                nextAttack = Time.time + attackTime;
+                entitySounds.PlayAttack(voice, 0);
+
+                MeleeAttack();
             }
         }
 
 
-        public override void TriggerLeft(Collider other) {/*Not Applicable*/}
+        public override void TriggerLeft(Collider other)
+        {
+            if (!isDead && (other.gameObject == targetObject))
+            {
+
+            }
+        }
 
 
-        public override void MeleeAttack() {/*Not Applicable*/}
+        public override void MeleeAttack()
+        {
+            base.MeleeAttack();
+            anim.SetInteger("AnimID", 2);
+            entitySounds.PlayAttack(voice, 1);
+            nextFireTime = Mathf.Max(nextFireTime, nextAttack);
+        }
 
 
         public override void RangedAttack()
@@ -150,7 +160,6 @@ namespace CevarnsOfEvil
                 GameObject proj = Instantiate(projectile, aim.from, ProjSpawn.rotation);
                 proj.GetComponent<SimpleProjectile>().LaunchSimple(aim.toward, this);
             }
-            anim.SetInteger("AnimID", 1);
             entitySounds.PlayAttack(voice, 0);
         }
     }

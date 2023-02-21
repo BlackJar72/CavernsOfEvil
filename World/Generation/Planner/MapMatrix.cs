@@ -75,6 +75,7 @@ namespace CevarnsOfEvil
 	    public int GetWallBottom(int x, int z) => floorY[(z * size.width) + x] + doors[(z * size.width) + x];
         public int GetWallBottom(int i) => floorY[i] + doors[i];
         public int GetSurfaceHeight(int x, int z) => floorY[(z * size.width) + x] + pools[(z * size.width) + x];
+        public bool GetInBounds(int x, int z) => ((x > -1) && (z > -1) && (x < size.width) && (z < size.width));
 
 
         // Setters

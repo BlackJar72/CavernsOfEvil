@@ -30,7 +30,6 @@ namespace CevarnsOfEvil
 
         // Accessor Properties
         public Animator Anim { get { return anim; } }
-
         public float AttackTime { get { return attackTime; } }
         public float AggroRangeSq { get { return aggroRangeSq; } }
         public float NextAttack { get { return nextAttack; } set { nextAttack = value; } }
@@ -63,10 +62,13 @@ namespace CevarnsOfEvil
 
         public virtual void Start()
         {
+            /*if(!dungeon.map.IsValidLocation(transform.position, GetCollider().bounds.extents.y * 2))
+            {
+                Destroy(gameObject);
+            }*/
             anim = GetComponent<Animator>();
             aggroRangeSq = aggroRange * aggroRange;
-            SetState(defaultState);
-            if(currentBehavior == null) CurrentBehavior = EmptyState.Instance;
+            CurrentBehavior = EmptyState.Instance.NextState(this);
             player = GameObject.Find("FemalePlayer");
             enviroCooldown = nextIdleTalk = stasisAI = nextAttack = Time.time;
             setAnimByVelocity = new SetAnimSpeed(SetAnimSpeedVelocity);
@@ -81,16 +83,15 @@ namespace CevarnsOfEvil
         }
 
 
-        public virtual void SetGameLevel(Level level)
+        public void SetGameLevel(Level level)
         {
             dungeon = level;
-            SetGameManager(dungeon.Manager);
         }
 
 
-        public override void Update()
+        public virtual void Update()
         {
-            base.Update();
+            if(!currentBehavior.StateUpdate(this)) FindNewBehavior();
 #if UNITY_EDITOR
             if (dungeon != null)
             {
@@ -145,11 +146,6 @@ namespace CevarnsOfEvil
         public float DistanceSqrToPlayer()
         {
             return (transform.position - player.transform.position).sqrMagnitude;
-        }
-
-        internal float DistanceSqrToTarget()
-        {
-            return (targetObject.transform.position - transform.position).sqrMagnitude;
         }
 
 
@@ -209,15 +205,6 @@ namespace CevarnsOfEvil
         }
 
 
-        public virtual void ForgetPlayer() 
-        {
-            if(targetEntity == player) 
-            {
-                targetEntity = null;
-            }
-        }
-
-
         public override bool TakeDamage(ref Damages damage)
         {
             bool output = base.TakeDamage(ref damage);
@@ -229,6 +216,16 @@ namespace CevarnsOfEvil
                 if(damage.attacker is Player) AlertNearby(this, 8);
             }
             return output;
+        }
+
+
+        public virtual void ForgetPlayer()
+        {
+            if(targetEntity == player)
+            {
+                targetEntity = null;
+                CurrentBehavior = EmptyState.Instance.NextState(this);
+            }
         }
 
 
@@ -247,22 +244,15 @@ namespace CevarnsOfEvil
         }
 
 
-        #region Wall Mob Fix Haxk
-        // For safety, only check once, so that it will not fire after the mobs is activated.
-        protected bool notCheckedForWall = true;
-        public void DespawnWallMob()
+        // This does not work for some reason; it seems to glitch and randomly despawn mobs it shouldn't, often in combat.
+        protected void DespawnWallMob()
         {
 #if UNITY_EDITOR
-            if(notCheckedForWall && (dungeon != null) 
-                && !dungeon.map.GetPassable((int)transform.position.x, (int)transform.position.z)) dungeon.RemoveMob(this);
-            else notCheckedForWall = false;
+            if((dungeon != null) && dungeon.map.GetWall((int)transform.position.x, (int)transform.position.z)) Destroy(gameObject);
 #else
-            if (notCheckedForWall 
-                && !dungeon.map.GetPassable((int)transform.position.x, (int)transform.position.z)) dungeon.RemoveMob(this);
-            else notCheckedForWall = false;
+            if (dungeon.map.GetWall((int)transform.position.x, (int)transform.position.z)) Destroy(gameObject);
 #endif
         }
-        #endregion
 
     }
 

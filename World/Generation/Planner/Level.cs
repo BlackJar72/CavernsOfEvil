@@ -269,12 +269,11 @@ namespace CevarnsOfEvil
 
         private void PlaceMobs()
         {
-            // FIXME: Replace with A* Project Pro
-            //GetComponent<NavMeshSurface>().BuildNavMesh();
-            /*for (int i = 2; i < rooms.TotalCount; i++)
+            GetComponent<NavMeshSurface>().BuildNavMesh();
+            for (int i = 2; i < rooms.TotalCount; i++)
             {
                 MobPlacer.Process(rooms[i], this);
-            }*/
+            }
             MobPlacer.ProcessConsistent(rooms, this);
         }
 
@@ -289,8 +288,8 @@ namespace CevarnsOfEvil
 
             // Now we know the number of mobs, lets guestimate the amount of ammo needed
             float diffFactor = GameData.LevelDifficulty.levelDifficulty;
-            int guessHits = Mathf.CeilToInt(damageToKillAll /
-                (10 + (5 * diffFactor)));
+            int guessHits = Mathf.CeilToInt((damageToKillAll /
+                (10 + (5 * diffFactor))) / GameData.LevelDifficulty.levelDifficulty);
             guessHits = Mathf.CeilToInt(guessHits * (1 + (GameData.LevelDifficulty.areaPerEncounter / 1000f)));
             // Now, from the amount of time taken to kill each mob and an estimate of average damage lets guess the
             // number of health potions needed.
@@ -390,11 +389,13 @@ namespace CevarnsOfEvil
         {
             foreach(EntityMob mob in mobs) 
             {
-                mob.ForgetPlayer();
-                //mob.GetComponent<Animator>().enabled = false;
-                NavMeshAgent agent = mob.GetComponent<NavMeshAgent>();
-                if(agent != null) agent.enabled = false;
-                mob.enabled = false;
+                if(mob) {
+                    mob.ForgetPlayer();
+                    mob.GetComponent<Animator>().enabled = false;
+                    NavMeshAgent agent = mob.GetComponent<NavMeshAgent>();
+                    if(agent != null) agent.enabled = false;
+                    mob.enabled = false;
+                }
             }
         }
 

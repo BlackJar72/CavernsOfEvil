@@ -8,6 +8,7 @@ namespace CevarnsOfEvil
     [CreateAssetMenu(menuName = "DLD/AI/Archer Attack", fileName = "ArcherAttack", order = 10)]
     public class ArcherAttack : BehaviorObject
     {
+        [SerializeField] ArcherManeuver maneuverState;
         [SerializeField] ArcherChase chaseState;
 
 

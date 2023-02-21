@@ -7,26 +7,11 @@ namespace CevarnsOfEvil
 
     public class EntityDeath : MonoBehaviour
     {
-        [SerializeField] protected Collider[] colliders;
-        
+        [SerializeField] Collider[] colliders;
 
-        protected virtual void Update()
+        void Update()
         {
             Rigidbody rb = GetComponent<Rigidbody>();
-            Entity mob = gameObject.GetComponent<EntityMob>();
-            if(mob != null) 
-            {
-                float floorHeight = mob.Manager.Dungeon.map.GetFloorY((int)(transform.position.x + 0.5f), 
-                        (int)(transform.position.z + 0.5f));
-                if(transform.position.y < floorHeight) 
-                {
-                    Vector3 landing = transform.position;
-                    landing.y = floorHeight;
-                    transform.position = landing;
-                    ForceImmediate();
-                    return;
-                }
-            }
             if ((rb.velocity.magnitude < 0.01) && (rb.angularVelocity.magnitude < 0.01f))
             {
                 rb.isKinematic = true;
@@ -40,7 +25,7 @@ namespace CevarnsOfEvil
 
 
 
-        public virtual void ForceImmediate() 
+        public void ForceImmediate() 
         {
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
@@ -52,7 +37,7 @@ namespace CevarnsOfEvil
         }
 
 
-        public virtual void Reset()
+        public void Reset()
         {
             foreach (Collider collider in colliders) { collider.enabled = true; }
             Rigidbody rb = GetComponent<Rigidbody>();

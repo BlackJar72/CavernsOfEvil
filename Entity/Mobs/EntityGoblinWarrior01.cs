@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 namespace CevarnsOfEvil {
@@ -45,7 +48,6 @@ namespace CevarnsOfEvil {
         {
             entitySounds.PlayDeath(voice, 0);
             base.Die(damages);
-            GetComponent<EntityDeath>().ForceImmediate();
         }
 
 
@@ -58,10 +60,7 @@ namespace CevarnsOfEvil {
                 anim.SetTrigger("Attack");
                 SetFactorSpeed(0);
                 entitySounds.PlayAttack(voice, 0);
-                if (navMeshAgent.isActiveAndEnabled && navMeshAgent.isOnNavMesh)
-                {
-                    navMeshAgent.isStopped = true;
-                }
+                navMeshAgent.isStopped = true;
                 useNavmesh = false;
 
                 EntityHealth victim = other.gameObject.GetComponent<EntityHealth>();

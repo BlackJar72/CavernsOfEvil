@@ -28,21 +28,19 @@ namespace CevarnsOfEvil
         protected StepDataAI aiStep;
         protected Collider[] footContats;
 
-        [SerializeField] protected StandardStates behaviorStates;
-        [SerializeField] protected EStandardStates defaultState;
+        [SerializeField] protected BehaviorObject[] behaviorStates;
         protected IBehaviorState currentBehavior = EmptyState.Instance;
         protected IBehaviorState previousBehavior = EmptyState.Instance;
         protected float stasisAI; // To force some AI state to linger
 
 
         //Properties
-        public StandardStates Behaviors { get { return behaviorStates; } }
+        public BehaviorObject[] Behaviors { get { return behaviorStates; } }
         public IBehaviorState CurrentBehavior
         {
             get { return currentBehavior; }
             set
             {
-                DespawnWallMob();
                 currentBehavior.StateExit(this);
                 previousBehavior = currentBehavior;
                 currentBehavior = value;
@@ -57,18 +55,14 @@ namespace CevarnsOfEvil
 
 
         #region Behavior States
-
-        public void SetState(EStandardStates state) 
+        /// <summary>
+        /// This will look for a new state in the base list of 
+        /// states by priority.  This is called if the current 
+        /// state is no longer valid.
+        /// </summary>
+        public void FindNewBehavior()
         {
-            BehaviorObject behavior = behaviorStates.GetState(state);
-            if(behavior) CurrentBehavior = behavior;
-        }
-
-
-        public void SetSpecialState(int state) 
-        {
-            BehaviorObject behavior = behaviorStates.GetSpecialState(state);
-            if(behavior) CurrentBehavior = behavior;
+            CurrentBehavior = EmptyState.Instance.NextState(this);
         }
 
 
@@ -134,14 +128,6 @@ namespace CevarnsOfEvil
             desiredDirection = destination - transform.position;
             desiredDirection.y = 0;
             if(desiredDirection != Vector3.zero) desiredDirection.Normalize();
-        }
-
-
-        public virtual void TurnToDestinationFlying()
-        {
-            desiredDirection = destination - transform.position;
-            desiredDirection.y *= 2 + 1;
-            if (desiredDirection != Vector3.zero) desiredDirection.Normalize();
         }
 
 
@@ -268,8 +254,7 @@ namespace CevarnsOfEvil
         public bool LookForPlayer()
         {
             bool output = (((player != null) && CanSeeCollider(player))
-                || alerted) 
-                && !(player.GetComponent<MovePlayer>().flying || player.GetComponent<Entity>().IsDead);
+                || alerted) && !player.GetComponent<MovePlayer>().flying;
             if (output)
             {
                 SetTarget(player);

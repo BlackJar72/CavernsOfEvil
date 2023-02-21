@@ -1,10 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace CevarnsOfEvil
 {
 
-    [CreateAssetMenu(menuName = "DLD/AI/Idle Look", fileName = "IdleLook", order = 0)]
+    [CreateAssetMenu(menuName ="DLD/AI/Idle Look", fileName = "IdleLook", order = 0)]
     public class IdleLook : BehaviorObject
     {
         [SerializeField] BehaviorObject onSeePlayer;
@@ -12,12 +14,12 @@ namespace CevarnsOfEvil
 
         public override bool StateUpdate(EntityMob entityMob)
         {
-            EntityMob ownerIn = entityMob;
+            EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
             if (ownerIn.LookForPlayer() || (ownerIn.targetEntity != null))
             {
                 ownerIn.CurrentBehavior = onSeePlayer;
-            }
-            else if ((ownerIn.NextIdleTalk < Time.time) && (Random.value < (Time.deltaTime * vocalRate)))
+            } 
+            else if((ownerIn.NextIdleTalk < Time.time) && (Random.value < (Time.deltaTime * vocalRate)))
             {
                 ownerIn.Sounds.PlayIdle(ownerIn.Voice);
                 ownerIn.NextIdleTalk += (2 / vocalRate) + (Random.value * 3);
@@ -35,16 +37,13 @@ namespace CevarnsOfEvil
         public override void StateEnter(EntityMob entityMob)
         {
             EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
-            if (ownerIn)
+            ownerIn.SetFactorSpeed(AnimMoveSpeed);
+            ownerIn.ClearNavmeshDestination();
+            if ((ownerIn.RoutingAgent != null)
+                && ownerIn.RoutingAgent.isActiveAndEnabled
+                && ownerIn.RoutingAgent.isOnNavMesh)
             {
-                ownerIn.SetFactorSpeed(AnimMoveSpeed);
-                ownerIn.ClearNavmeshDestination();
-                if ((ownerIn.RoutingAgent != null)
-                    && ownerIn.RoutingAgent.isActiveAndEnabled
-                    && ownerIn.RoutingAgent.isOnNavMesh)
-                {
-                    ownerIn.RoutingAgent.isStopped = true;
-                }
+                ownerIn.RoutingAgent.isStopped = true;
             }
         }
 

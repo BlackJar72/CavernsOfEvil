@@ -75,8 +75,8 @@ namespace CevarnsOfEvil
 		{
 			float mean = Mathf.Sqrt(11 - mob.MobLevel) * (mobLevel / mob.MobLevel) * Mathf.Sqrt(level / mob.MobLevel);
 			float zscore = mean * numFactor;
-			return Mathf.RoundToInt(Mathf.Clamp(mean
-				+ (random.NextGaussian() * zscore), 1, mean * 2));
+			return Mathf.RoundToInt(Mathf.Clamp((mean
+				+ (random.NextGaussian() * zscore)) * levelDifficulty, 1, mean * 2));
 		}
 
 		public int GetBossLevel(Xorshift random)
@@ -95,8 +95,8 @@ namespace CevarnsOfEvil
 			float mean = Mathf.Sqrt(11 - mob.MobLevel) * ((bossLevel + bossMax) / (mob.MobLevel * 2.0f))
 				 * Mathf.Sqrt(level / mob.MobLevel);
 			float zscore = mean * numFactor;
-			return Mathf.RoundToInt(Mathf.Clamp(mean
-				+ (random.NextGaussian() * zscore), 1, mean * 2));
+			return Mathf.RoundToInt(Mathf.Clamp((mean
+				+ (random.NextGaussian() * zscore)) * Mathf.Sqrt(levelDifficulty), 1, mean * 2));
 		}
 
 		public bool ShouldHaveMobs(Xorshift random)

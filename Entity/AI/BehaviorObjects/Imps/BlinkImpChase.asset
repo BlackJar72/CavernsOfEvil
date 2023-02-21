@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 609957b90ba58b34581bfd91597502d7, type: 3}
-  m_Name: GoblinArcherAttack 1
+  m_Script: {fileID: 11500000, guid: da445761ad5004a4097a3e6904fb2518, type: 3}
+  m_Name: BlinkImpChase
   m_EditorClassIdentifier: 
   AnimMoveSpeed: 0
-  AnimID: 1
-  maneuverState: {fileID: 0}
-  chaseState: {fileID: 11400000, guid: 7986c1d39de200b4d94885c4966a6d27, type: 2}
+  AnimID: 0
+  attackState: {fileID: 11400000, guid: bc3e89952bb22d83e9d98c1434e13193, type: 2}

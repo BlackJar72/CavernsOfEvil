@@ -14,8 +14,6 @@ namespace CevarnsOfEvil
         MovePlayer mover;
         ToastController toastController;
 
-        Damages? killer = null;
-
         [SerializeField] HealthBar healthBar;
 
         [SerializeField] AudioSource voice;
@@ -29,7 +27,6 @@ namespace CevarnsOfEvil
 
         public PlayerAct Actor { get { return actor; } }
         public MovePlayer Mover { get { return mover; } }
-        public Damages? Killer { get { return killer;  }  set { killer = value; } }
 
 
         // Start is called before the first frame update
@@ -44,7 +41,6 @@ namespace CevarnsOfEvil
                 Init();
             }
 #endif
-            Killer = null;
         }
 
 
@@ -66,23 +62,11 @@ namespace CevarnsOfEvil
         // Update is called once per frame
         void Update()
         {
-            if(transform.position.y < -16) 
-            {
-                Die(new Damages(0x7fffffff, 0x7fffffff, 0x7fffffff, null));
+            if(health.ShouldDie) Die(new Damages());
+            else if(health.PlayerRegen()) {
+                healthBar.UpdateHealth(health);
             }
-            else
-            {
-                if(health.PlayerRegen()) healthBar.UpdateHealth(health);
-                if(isDead) HandleDeath((Damages)killer);  // This should never be called, but just in case...
-                else healthBar.UpdateStamina(actor);
-            }
-        }
-
-
-        private void LateUpdate()
-        {
-            if (health.ShouldDie()) Die((Damages)killer);
-            else killer = null;
+            healthBar.UpdateStamina(actor);
         }
 
 
@@ -134,14 +118,6 @@ namespace CevarnsOfEvil
         {
             if (!isDead)
             {
-                HandleDeath(damages);
-                isDead = true;
-            }
-        }
-
-
-        private void HandleDeath(Damages damages) 
-        {                
                 if (mover.dungeon != null)
                 {
                     mover.dungeon.DeactivateMobs();
@@ -152,18 +128,14 @@ namespace CevarnsOfEvil
                 actor.Die();
                 actor.enabled = false;
                 mover.enabled = false;
-                //SaveGame.DeleteGame(GameData.SaveName);
                 StartCoroutine(DeathPause());
-                if(damages.attacker == this)
-                {
-                    killedMessage.text = "Commited Suicide!";
-                }
-                else if(damages.attacker != null)
+                if(damages.attacker != null)
                 {
                     killedMessage.text = "Killed by " + damages.attacker.EntityName;
                 }
                 base.Die(damages);
             }
+        }
 
 
         private IEnumerator DeathPause()

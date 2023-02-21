@@ -20,16 +20,13 @@ namespace CevarnsOfEvil
         protected override void Start()
         {
             GameData.Init(seed.ToString(), DifficultySettings.norm);
-            manager = GetComponent<GameManager>();
             Setup();
             Plan();
             BuildLevel(); 
-            // FIXME: Replace this with A* Project Pro
-            //GetComponent<NavMeshSurface>().BuildNavMesh();
+            GetComponent<NavMeshSurface>().BuildNavMesh();
             PlacePlayer();
             spawnRoom.PopulateSpawnRoom(this);
             mobRoom.PoulateMobRoom(this);
-            manager.Start();
         }
 
 

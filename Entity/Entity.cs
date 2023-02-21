@@ -17,17 +17,6 @@ namespace CevarnsOfEvil {
         public EntityHealth Health { get { return health; } }
         public string EntityName { get { return entityName; } }
 
-        public GameManager Manager {get {return gameManager;} }
-
-
-        public virtual void Update() 
-        {
-            if(transform.position.y < -16f) 
-            {
-                Destroy(gameObject);
-            }
-        }
-
 
         public virtual bool TakeDamage(ref Damages damage)
         {

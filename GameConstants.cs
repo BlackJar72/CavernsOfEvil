@@ -7,6 +7,7 @@ namespace CevarnsOfEvil
 
         // Layer IDs
         public const int levelLayer = 9;
+        //TODO/FIXME: Include all layers!
 
         // Layer Masks
         public const int MobMask = (0x1 << 11) | (0x1 << 17);

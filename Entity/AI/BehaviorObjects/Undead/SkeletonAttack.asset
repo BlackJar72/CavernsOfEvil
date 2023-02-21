@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096435d6d912d1d489910dbe87d0e1ae, type: 3}
-  m_Name: DemonsIdleLook
+  m_Script: {fileID: 11500000, guid: 609957b90ba58b34581bfd91597502d7, type: 3}
+  m_Name: SkeletonAttack
   m_EditorClassIdentifier: 
   AnimMoveSpeed: 0
-  AnimID: 0
-  onSeePlayer: {fileID: 11400000, guid: 136e503cf58dea14cb14823896171a95, type: 2}
-  vocalRate: 1
+  AnimID: 1
+  maneuverState: {fileID: 0}
+  chaseState: {fileID: 11400000, guid: 7986c1d39de200b4d94885c4966a6d27, type: 2}

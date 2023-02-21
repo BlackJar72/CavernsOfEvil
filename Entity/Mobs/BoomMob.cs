@@ -32,7 +32,6 @@ namespace CevarnsOfEvil
         {
             entitySounds.PlayDeath(voice, 0);
             base.Die(damages);
-            GetComponent<EntityDeath>().ForceImmediate();
         }
 
 

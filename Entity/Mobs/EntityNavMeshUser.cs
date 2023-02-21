@@ -38,7 +38,7 @@ namespace CevarnsOfEvil
 
         public override void Update()
         {
-            if (!currentBehavior.StateUpdate(this)) SetState(defaultState);
+            if (!currentBehavior.StateUpdate(this)) FindNewBehavior();
 #if UNITY_EDITOR
             if (dungeon != null)
             {
@@ -79,13 +79,6 @@ namespace CevarnsOfEvil
         {
             return (destination - transform.position).sqrMagnitude
                 < (navMeshAgent.stoppingDistance * navMeshAgent.stoppingDistance);
-        }
-
-
-        public override void ForgetPlayer() 
-        {
-            base.ForgetPlayer();
-            ClearNavmeshDestination();
         }
 
 

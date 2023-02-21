@@ -7,8 +7,8 @@ namespace CevarnsOfEvil {
 
     public abstract class EntityHealth : MonoBehaviour
     {
-        [SerializeField] protected Entity owner;
-        [SerializeField] protected GameObject bloodParticles;
+        [SerializeField] Entity owner;
+        [SerializeField] GameObject bloodParticles;
 
         public Entity Owner { get { return owner; } }
 
@@ -20,6 +20,8 @@ namespace CevarnsOfEvil {
         public abstract int Health { get; set; }
         public abstract float Shock { get; set;  }
         public abstract int Armor { get; set; }
+
+        public bool ShouldDie { get => ((Health < 1) || (Shock < 1)); }
 
         public int DamageToKill
         {
@@ -46,20 +48,13 @@ namespace CevarnsOfEvil {
 
         #region Hits and Damages
 
-
-        public virtual bool ShouldDie()
-        {
-            return (Shock < 1) || (Health < 1);
-        }
-
-
-        public virtual void BeHitByBullet(RaycastHit hit, Entity attacker)
+        public void BeHitByBullet(RaycastHit hit, Entity attacker)
         {
             BeHitByRaycastAttack(hit, 20, attacker);
         }
 
 
-        public virtual void BeHitByRaycastAttack(RaycastHit hit, int damageBase, Entity attacker)
+        public void BeHitByRaycastAttack(RaycastHit hit, int damageBase, Entity attacker)
         {
             Damages damage;
             if (Armor < 1)
@@ -84,11 +79,12 @@ namespace CevarnsOfEvil {
                         Quaternion.FromToRotation(Vector3.forward, hit.normal));
                     blood.transform.parent = hit.collider.transform;
                 }
+                owner.ShowDamage();
             }
         }
 
 
-        public virtual void BeHitByRaycastAttack(RaycastHit hit, int damageBase, DamageType type, Entity attacker)
+        public void BeHitByRaycastAttack(RaycastHit hit, int damageBase, DamageType type, Entity attacker)
         {
             Damages damage;
             if (Armor < 1)
@@ -113,11 +109,12 @@ namespace CevarnsOfEvil {
                         Quaternion.FromToRotation(Vector3.forward, hit.normal));
                     blood.transform.parent = hit.collider.transform;
                 }
+                owner.ShowDamage();
             }
         }
 
 
-        public virtual void BeHitByAttack(int damageBase, DamageType type, Entity attacker)
+        public void BeHitByAttack(int damageBase, DamageType type, Entity attacker)
         {
             Damages damage;
             if (Armor < 1)
@@ -136,11 +133,12 @@ namespace CevarnsOfEvil {
                 {
                     owner.Die(damage);
                 }
+                owner.ShowDamage();
             }
         }
 
 
-        public virtual void BeHitByAttack(int damageBase, Entity attacker)
+        public void BeHitByAttack(int damageBase, Entity attacker)
         {
             Damages damage;
             if (Armor < 1)
@@ -159,11 +157,12 @@ namespace CevarnsOfEvil {
                 {
                     owner.Die(damage);
                 }
+                owner.ShowDamage();
             }
         }
 
 
-        public virtual void TakePoisonDamage(int amount)
+        public void TakePoisonDamage(int amount)
         {
             Shock--;
             if (Shock < 1)
