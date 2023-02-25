@@ -18,7 +18,7 @@ namespace CevarnsOfEvil {
         public override int BaseHealth { get { return baseHealth; } }
         public override int BaseShock { get { return baseShock; } }  
         public override float RelativeHealth { get { return (float)health / (float)baseHealth; } }
-        public override float RelatvieShock { get { return (float)shock / (float)BaseShock; } }
+        public override float RelatvieShock { get { return shock / (float)BaseShock; } }
 
         public override int Health { get { return health; } set { health = value; } }
         public override float Shock { get { return shock; } set { shock = value; } }

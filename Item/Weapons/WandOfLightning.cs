@@ -70,7 +70,7 @@ namespace CevarnsOfEvil
                     {
                         lightning.Trigger(last, target.point);
                         hit = target.collider.gameObject;
-                        MobHealth victim = hit.GetComponent<MobHealth>();
+                        EntityHealth victim = hit.GetComponent<EntityHealth>();
                         if (hit.CompareTag("Floor") || hit.CompareTag("Wall"))
                         {
                             GameObject hitParticles = hit.GetComponent<Mesher>().Substance.HitParticles;

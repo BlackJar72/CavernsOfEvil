@@ -25,6 +25,8 @@ namespace CevarnsOfEvil
 
         [SerializeField] public bool testingMode = false;
 
+        private bool godmode = false;
+
         public PlayerAct Actor { get { return actor; } }
         public MovePlayer Mover { get { return mover; } }
 
@@ -59,6 +61,11 @@ namespace CevarnsOfEvil
         }
 
 
+        public void ToggleGodMode() {
+            godmode = !godmode;
+        }
+
+
         // Update is called once per frame
         void Update()
         {
@@ -78,7 +85,7 @@ namespace CevarnsOfEvil
 
         public override bool TakeDamage(ref Damages damage)
         {
-            if (isDead) { return false; }
+            if (isDead || godmode) { return false; }
             else
             {
                 actor.ActiveArmor.BeDamaged(damage);

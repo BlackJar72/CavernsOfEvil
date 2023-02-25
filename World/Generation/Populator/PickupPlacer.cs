@@ -159,16 +159,14 @@ namespace CevarnsOfEvil
         public static ItemEntry SelectAnArmor(Level dungeon, Room rooms)
         {
             PickupList armorList = dungeon.pickupLists.Armors;
-            List<ItemEntry> items = new List<ItemEntry>();
             for (int i = 0; i < armorList.Items.Length; i++)
             {
-                if (armorList.Items[i].Level < GameData.LevelDifficulty.levelDifficulty)
+                if (armorList.Items[i].Level > GameData.LevelDifficulty.levelDifficulty)
                 {
-                    items.Add(armorList.Items[i]);
+                    return armorList.Items[i - 1];
                 }
             }
-            if (items.Count < 2) return armorList.Items[0];
-            else return items[dungeon.random.NextInt(items.Count)];
+            return armorList.Items[armorList.Items.Length - 1];
         }
 
 

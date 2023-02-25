@@ -102,8 +102,7 @@ namespace CevarnsOfEvil
 
         public bool ShouldTake(Armor other)
         {
-            return (other == null) || (!other.equiped) 
-                || (other.armorValue <= armorValue);
+            return (other == null) || (other.armorValue <= armorValue);
         }
 
     }

@@ -73,7 +73,8 @@ namespace CevarnsOfEvil
 
 		public int GetNumberAppearing(Xorshift random, int level, MobEntry mob)
 		{
-			float mean = Mathf.Sqrt(11 - mob.MobLevel) * (mobLevel / mob.MobLevel) * Mathf.Sqrt(level / mob.MobLevel);
+			float mean = Mathf.Sqrt(Mathf.Max(9 - mob.MobLevel, 1)) * (mobLevel / mob.MobLevel)
+						* Mathf.Sqrt(level / mob.MobLevel);
 			float zscore = mean * numFactor;
 			return Mathf.RoundToInt(Mathf.Clamp((mean
 				+ (random.NextGaussian() * zscore)) * levelDifficulty, 1, mean * 2));

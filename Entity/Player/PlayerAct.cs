@@ -496,6 +496,10 @@ namespace CevarnsOfEvil
         public bool AddToInventory(ItemPickup pickup)
         {
             Item item = allItems[pickup.ItemID];
+            if(item is Armor)
+            {
+                return false;
+            }
             if (item is Sword)
             {
                 Sword oldSword = (Sword)inventory[item.preferredSlot];
@@ -571,7 +575,7 @@ namespace CevarnsOfEvil
         public bool AddToArmor(ItemPickup pickup, bool always)
         {
             int slot = pickup.ItemID;
-            Armor armor = (Armor)armors[slot];
+            Armor armor = armors[slot];
             bool output = always || armor.ShouldTake(armors[activeArmor]);
             if (output)
             {

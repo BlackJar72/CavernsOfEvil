@@ -136,6 +136,7 @@ namespace CevarnsOfEvil
                 {
 					map.SetRoom(id, i, j);
 					map.SetFloorY(floorY, i, j);
+					map.UnSetPillar(i, j);
 					map.UnSetWall(i, j);
 					map.SetPool(0, i, j);
 					map.SetDoorway(0, i, j);

@@ -24,7 +24,7 @@ namespace CevarnsOfEvil
 
 
         public override void Update() {
-            if(shouldtp || (targetEntity && ((Random.value < (0.1 * Time.deltaTime)) || (DistanceToTarget() < 2.5f)))) {
+            if(shouldtp || (targetEntity && ((Random.value < (0.375 * Time.deltaTime)) || (DistanceToTarget() < 2.5f)))) {
                 Teleport();
             }
             base.Update();
@@ -92,7 +92,6 @@ namespace CevarnsOfEvil
 
         public override void Die(Damages damages)
         {
-            Debug.Log("Imp Died!");
             Instantiate(deathExplosion, transform.position, transform.rotation);
             Destroy(gameObject);
         }
