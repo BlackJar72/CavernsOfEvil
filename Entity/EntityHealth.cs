@@ -173,6 +173,11 @@ namespace CevarnsOfEvil {
             }
         }
 
+
+        public void BeHitByEnviroDamage(int damage, DamageType type) {
+            owner.BeHitByEnviroDamage(damage, type);
+        }
+
         #endregion
 
 

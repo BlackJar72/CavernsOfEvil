@@ -151,7 +151,7 @@ namespace CevarnsOfEvil
 			{
 				int x = Random.Range(beginX + 1, endX);
 				int z = Random.Range(beginZ + 1, endZ);
-				if(dungeon.map.GetGoodMobSpawn(x, z))
+				if(dungeon.map.GetGoodSmallMobSpawn(x, z))
                 {
 					return new Vector3(x + 0.5f, dungeon.map.GetFloorY(x, z), z + 0.5f);
                 }

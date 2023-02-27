@@ -113,6 +113,24 @@ namespace CevarnsOfEvil
             {
                 actor.Stamina = Mathf.Clamp(actor.Stamina + (Time.deltaTime * 10), 0, PlayerAct.baseStamina);
             }
+
+#if UNITY_EDITOR
+            // Hopefully this will help when the player gets glitched into the ceiling by an arrow.
+            if((dungeon != null)
+                        && (transform.position.y > dungeon.map.GetCeilY((int)transform.position.x,
+                        (int)transform.position.z))) {
+                Vector3 newpos = transform.position;
+                newpos.y = dungeon.map.GetFloorY((int)transform.position.x, (int)transform.position.z);
+                transform.position = newpos;
+            }
+#else
+            // Hopefully this will help when the player gets glitched into the ceiling by an arrow.
+            if(transform.position.y > dungeon.map.GetCeilY((int)transform.position.x, (int)transform.position.z)) {
+                Vector3 newpos = transform.position;
+                newpos.y = dungeon.map.GetFloorY((int)transform.position.x, (int)transform.position.z);
+                transform.position = newpos;
+            }
+#endif
         }
 
 
@@ -289,6 +307,15 @@ namespace CevarnsOfEvil
             flying = !flying;
         }
         */
+
+
+        public void BeHitByEnviroDamage(int damage, DamageType type, ref EntityHealth health) {
+            if(Time.time > enviroCooldown) {
+                health.BeHitByAttack(damage, type, null);
+                enviroCooldown = Time.time + 1.0f;
+            }
+        }
+
 
         private void SetAnimationVars()
         {

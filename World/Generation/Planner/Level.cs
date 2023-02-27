@@ -315,9 +315,13 @@ namespace CevarnsOfEvil
         }
 
 
-        public void SpawnGameMob(GameObject mob, int x, int z, bool randomRotation = true)
+        public void SpawnGameMob(GameObject mob, int x, int z, bool randomRotation = true, bool large = false)
         {
             Vector3 location = new Vector3((float)x + 0.5f, map.GetFloorY(x, z), (float)z + 0.5f);
+            if(large) {
+                location.x += 0.5f;
+                location.z += 0.5f;
+            }
             Quaternion q = mob.transform.rotation;
             if(randomRotation) q *= Quaternion.Euler(0, random.NextFloat() * 360, 0);
             GameObject monster = Instantiate(mob, location, q);

@@ -12,7 +12,7 @@ namespace CevarnsOfEvil
         void Update()
         {
             Rigidbody rb = GetComponent<Rigidbody>();
-            if ((rb.velocity.magnitude < 0.01) && (rb.angularVelocity.magnitude < 0.01f))
+            if (rb && (rb.velocity.magnitude < 0.01) && (rb.angularVelocity.magnitude < 0.01f))
             {
                 rb.isKinematic = true;
                 rb.Sleep();
@@ -41,7 +41,7 @@ namespace CevarnsOfEvil
         {
             foreach (Collider collider in colliders) { collider.enabled = true; }
             Rigidbody rb = GetComponent<Rigidbody>();
-            if (rb.velocity.magnitude < 0.01)
+            if (rb && (rb.velocity.magnitude < 0.01))
             {
                 rb.isKinematic = false;
                 rb.WakeUp();

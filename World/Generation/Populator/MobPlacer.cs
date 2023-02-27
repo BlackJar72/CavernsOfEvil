@@ -140,6 +140,16 @@ namespace CevarnsOfEvil
 
         public static bool PlaceAMob(Room room, Level dungeon, MobEntry entry, HashSet<Vector2Int> used)
         {
+            if(entry.Size < MobSize.large) {
+                return PlaceSmallAMob(room, dungeon, entry, used);
+            } else {
+                return PlaceALargeMob(room, dungeon, entry, used);
+            }
+        }
+
+
+        public static bool PlaceSmallAMob(Room room, Level dungeon, MobEntry entry, HashSet<Vector2Int> used)
+        {
             int x, z;
             int width = room.endX - room.beginX;
             int length = room.endZ - room.beginZ;
@@ -149,10 +159,45 @@ namespace CevarnsOfEvil
                 x = room.beginX + dungeon.random.NextInt(width);
                 z = room.beginZ + dungeon.random.NextInt(length);
                 Vector2Int location = new Vector2Int(x, z);
-                if (map.GetGoodMobSpawn(x, z) && !used.Contains(location))
+                if (map.GetGoodSmallMobSpawn(x, z) && !used.Contains(location))
                 {
                     dungeon.SpawnGameMob(entry.MobPrefab, x, z);
                     used.Add(location);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        public static bool PlaceALargeMob(Room room, Level dungeon, MobEntry entry, HashSet<Vector2Int> used)
+        {
+            int x, z;
+            int width = room.endX - room.beginX - 1;
+            int length = room.endZ - room.beginZ - 1;
+            bool good;
+            MapMatrix map = dungeon.map;
+            for(int tries = 0; tries < 10; good = false, tries++)
+            {
+                x = room.beginX + dungeon.random.NextInt(width);
+                z = room.beginZ + dungeon.random.NextInt(length);
+                Vector2Int location = new Vector2Int(x, z);
+                good = map.GetGoodLargeMobSpawn(x, z) && map.GetGoodLargeMobSpawn(x + 1, z)
+                    && map.GetGoodLargeMobSpawn(x, z + 1) & map.GetGoodLargeMobSpawn(x + 1, z + 1);
+                Vector2Int subloc = location;
+                for(int i = 0; i < 4; i++) {
+                    subloc.x = location.x + (i % 2);
+                    subloc.x = location.x + (i / 2);
+                    good = good && !used.Contains(subloc);
+                }
+                if (good)
+                {
+                    dungeon.SpawnGameMob(entry.MobPrefab, x, z, true, true);
+                    for(int i = 0; i < 4; i++) {
+                        subloc.x = location.x + (i % 2);
+                        subloc.x = location.x + (i / 2);
+                        used.Add(subloc);
+                    }
                     return true;
                 }
             }

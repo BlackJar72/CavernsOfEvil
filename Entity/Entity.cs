@@ -77,6 +77,9 @@ namespace CevarnsOfEvil {
         }
 
 
+        public abstract void BeHitByEnviroDamage(int damage, DamageType type);
+
+
         #region Special Signals
 
         public virtual void TriggerHit(Collider other) { }

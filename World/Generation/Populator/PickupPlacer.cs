@@ -77,7 +77,7 @@ namespace CevarnsOfEvil
                 {
                     x = dungeon.random.NextInt(width) + room.beginX;
                     z = dungeon.random.NextInt(length) + room.beginZ;
-                    if (dungeon.map.GetGoodMobSpawn(x, z))
+                    if (dungeon.map.GetGoodSmallMobSpawn(x, z))
                     {
                         dungeon.SpawnPickup(entry, x, z);
                         output++;
@@ -99,13 +99,19 @@ namespace CevarnsOfEvil
                     && (dungeon.rooms[hubIndex] != null) 
                     && (dungeon.random.NextFloat() < 0.8))
                 {
-                    PlaceABigItem(dungeon, dungeon.rooms[hubIndex], true, i % 3);
+                    PlaceABigItem(dungeon, dungeon.rooms[hubIndex], true, GetSelector(i));
                 }
                 else
                 {
-                    PlaceABigItem(dungeon, rooms[i], false, i % 3);
+                    PlaceABigItem(dungeon, rooms[i], false, GetSelector(i));
                 }
             }
+        }
+
+
+        private static int GetSelector(int i) {
+            if((i == 2) && (GameData.LevelDifficulty.levelDifficulty < 0.75)) return 3;
+            return i % 3;
         }
 
 
@@ -118,6 +124,13 @@ namespace CevarnsOfEvil
                     break;
                 case 1:
                         entry = SelectAnArmor(dungeon, room);
+                    break;
+                case 2:
+                    if (dungeon.random.NextBool()) entry = SelectAWeapon(dungeon, room);
+                    else entry = SelectAnArmor(dungeon, room);
+                    break;
+                case 3:
+                    entry = SelectBestWeapon(dungeon, room);
                     break;
                 default:
                         if (dungeon.random.NextBool()) entry = SelectAWeapon(dungeon, room);
@@ -136,7 +149,7 @@ namespace CevarnsOfEvil
                 {
                     x = dungeon.random.NextInt(width) + room.beginX;
                     z = dungeon.random.NextInt(length) + room.beginZ;
-                    if(dungeon.map.GetGoodMobSpawn(x, z) && (dungeon.map.GetFloorY(x, z) == 0))
+                    if(dungeon.map.GetGoodSmallMobSpawn(x, z) && (dungeon.map.GetFloorY(x, z) == 0))
                     {
                         dungeon.SpawnPickup(entry, x, z);
                         return;
@@ -184,6 +197,23 @@ namespace CevarnsOfEvil
             }
             if (items.Count < 2) return weaponList.Items[0];
             else return items[dungeon.random.NextInt(items.Count)];
+        }
+
+
+        public static ItemEntry SelectBestWeapon(Level dungeon, Room rooms)
+        {
+            PickupList weaponsList = dungeon.pickupLists.Weapons;
+            for (int i = 0; i < weaponsList.Items.Length; i++)
+            {
+                if (weaponsList.Items[i].Level > GameData.LevelDifficulty.levelDifficulty)
+                {
+                    if((i > 1) && (weaponsList.Items[i - 1].Level == weaponsList.Items[i - 2].Level)) {
+                        return weaponsList.Items[i - dungeon.random.NextInt(2) - 1];
+                    }
+                    return weaponsList.Items[i - 1];
+                }
+            }
+            return weaponsList.Items[weaponsList.Items.Length - 1];
         }
 
 

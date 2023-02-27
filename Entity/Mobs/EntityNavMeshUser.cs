@@ -49,7 +49,6 @@ namespace CevarnsOfEvil
             stepData = dungeon.map.GetStepData(transform.position, dungeon,
                 health, ref enviroCooldown);
 #endif
-            float tFactor = Time.deltaTime * 10;
             setAnimSpeed();
         }
 

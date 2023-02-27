@@ -18,6 +18,7 @@ namespace CevarnsOfEvil
 
         public override bool TakeDamage(ref Damages damage)
         {
+            if(damage.attacker == this) return false;
             if (Random.value < 0.2)
             {
                 entitySounds.PlayHurt(voice, 0);

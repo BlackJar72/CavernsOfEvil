@@ -102,7 +102,6 @@ namespace CevarnsOfEvil
             stepData = dungeon.map.GetStepData(transform.position, dungeon,
                 health, ref enviroCooldown);
 #endif
-            float tFactor = Time.deltaTime * 10;
             setAnimSpeed();
             Move();
         }
@@ -240,6 +239,14 @@ namespace CevarnsOfEvil
                 {
                     (health.Owner as EntityMob).HearAllies(voice.transform.position);
                 }
+            }
+        }
+
+
+        public override void BeHitByEnviroDamage(int damage, DamageType type) {
+            if(Time.time > enviroCooldown) {
+                health.BeHitByAttack(damage, type, null);
+                enviroCooldown = Time.time + 1.0f;
             }
         }
 

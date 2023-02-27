@@ -69,9 +69,14 @@ namespace CevarnsOfEvil
         public bool GetPassableAndSafe(int x, int z) => ((!isWall[(z * size.width) + x]
                     && !isPillar[(z * size.width) + x]) || (doors[(z * size.width) + x] > 2)) 
                     && (pools[(z * size.width) + x] < 1);
-        public bool GetGoodMobSpawn(int x, int z) => !isWall[(z * size.width) + x]
+        public bool GetGoodSmallMobSpawn(int x, int z) => !isWall[(z * size.width) + x]
                     && !isPillar[(z * size.width) + x] && (pools[(z * size.width) + x] < 1)
-	    && (rooms[(z * size.width) + x] > 0) && !astared[(z * size.width) + x];
+	                && (rooms[(z * size.width) + x] > 0) && !astared[(z * size.width) + x]
+                    && ((GetCeilY(x, z) - GetFloorY(x, z)) > 1);
+        public bool GetGoodLargeMobSpawn(int x, int z) => !isWall[(z * size.width) + x]
+                    && !isPillar[(z * size.width) + x] && (pools[(z * size.width) + x] < 1)
+                    && (rooms[(z * size.width) + x] > 0) && !astared[(z * size.width) + x]
+                    && ((GetCeilY(x, z) - GetFloorY(x, z)) > 2);
 	    public int GetWallBottom(int x, int z) => floorY[(z * size.width) + x] + doors[(z * size.width) + x];
         public int GetWallBottom(int i) => floorY[i] + doors[i];
         public int GetSurfaceHeight(int x, int z) => floorY[(z * size.width) + x] + pools[(z * size.width) + x];

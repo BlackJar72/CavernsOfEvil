@@ -24,7 +24,7 @@ namespace CevarnsOfEvil
 
 
         public override void Update() {
-            if(shouldtp || (targetEntity && ((Random.value < (0.375 * Time.deltaTime)) || (DistanceToTarget() < 2.5f)))) {
+            if(shouldtp || (targetEntity && ((Random.value < (0.25 * Time.deltaTime)) || (DistanceToTarget() < 2.5f)))) {
                 Teleport();
             }
             base.Update();

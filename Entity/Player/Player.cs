@@ -121,6 +121,11 @@ namespace CevarnsOfEvil
         }
 
 
+        public override void BeHitByEnviroDamage(int damage, DamageType type) {
+           mover.BeHitByEnviroDamage(damage, type, ref health);
+        }
+
+
         public override void Die(Damages damages)
         {
             if (!isDead)
