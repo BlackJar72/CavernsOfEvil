@@ -50,6 +50,8 @@ namespace CevarnsOfEvil
             if(!tester.Seek())
                 SceneManager.LoadScene("DungeonScene");
             CreateLevel();
+            if(mobs.Count < 4)
+                SceneManager.LoadScene("DungeonScene");
             ScoreData.NewLevel(mobs.Count);  
         }
 

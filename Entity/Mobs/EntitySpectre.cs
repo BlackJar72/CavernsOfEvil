@@ -55,7 +55,7 @@ namespace CevarnsOfEvil {
                 EntityHealth victim = other.gameObject.GetComponent<EntityHealth>();
                 if (victim != null)
                 {
-                    victim.BeHitByAttack(meleeDamage, this);
+                    victim.BeHitByAttack(meleeDamage, DamageType.magic, this);
                 }
             }
         }

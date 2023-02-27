@@ -41,6 +41,8 @@ namespace CevarnsOfEvil
         public float BaseMoveSpeed { get { return baseMoveSpeed; } }
         public Transform Eyes => eyes;
         public Level Dungeon { get { return dungeon; } }
+        public bool HasTarget => targetEntity;
+        public bool TargetEntity => targetEntity;
 
 
         // Special Internals -- may be replaced by other system

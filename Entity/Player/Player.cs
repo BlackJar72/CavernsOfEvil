@@ -25,6 +25,8 @@ namespace CevarnsOfEvil
 
         [SerializeField] public bool testingMode = false;
 
+        [SerializeField] Transform[] shoulders = new Transform[2];
+
         private bool godmode = false;
 
         public PlayerAct Actor { get { return actor; } }
@@ -155,6 +157,14 @@ namespace CevarnsOfEvil
             yield return new WaitForSeconds(5);
             SceneManager.LoadScene("Start");
         }
+
+
+        public bool IsShoulderVisible(Transform monsterEyes) {
+            return ((Vector3.Dot(monsterEyes.forward, shoulders[0].position - monsterEyes.position) > 0)
+                 || (Vector3.Dot(monsterEyes.forward, shoulders[1].position - monsterEyes.position) > 0));
+        }
+
+
     }
 
 

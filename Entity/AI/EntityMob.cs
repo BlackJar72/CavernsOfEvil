@@ -243,6 +243,17 @@ namespace CevarnsOfEvil
         }
 
 
+        public bool CanSeePlayerCollider(Player other)
+        {
+            Vector3 otherLoc = other.GetCollider().bounds.center;
+            Vector3 toOther = otherLoc - eyes.position;
+            float dist = toOther.sqrMagnitude;
+            return ((dist < 1.0f) || ((dist < aggroRangeSq)
+            && (other.IsShoulderVisible(eyes))
+            && !Physics.Linecast(eyes.position, otherLoc, GameConstants.LevelMask)));
+        }
+
+
         public bool CanSeeTarget()
         {
             return ((targetObject != null)
@@ -253,7 +264,7 @@ namespace CevarnsOfEvil
 
         public bool LookForPlayer()
         {
-            bool output = (((player != null) && CanSeeCollider(player))
+            bool output = (((player != null) && CanSeePlayerCollider(player.GetComponent<Player>()))
                 || alerted) && !player.GetComponent<MovePlayer>().flying;
             if (output)
             {

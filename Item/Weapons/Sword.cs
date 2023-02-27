@@ -105,7 +105,10 @@ namespace CevarnsOfEvil
                     }
                     else if (victim != null)
                     {
-                        victim.BeHitByRaycastAttack(target, damage, damageType, attacker);
+                        if((victim.Owner is EntityMob) && !((EntityMob)victim.Owner).HasTarget) {
+                            victim.BeHitByRaycastAttack(target, (damage * 2) + 10, damageType, attacker);
+                        }
+                        else victim.BeHitByRaycastAttack(target, damage, damageType, attacker);
                     }
                 }
             }
@@ -130,7 +133,11 @@ namespace CevarnsOfEvil
                     }
                     else if (victim != null)
                     {
-                        victim.BeHitByRaycastAttack(target, (damage * 2) + 10, damageType, attacker);
+                        if((victim.Owner is EntityMob) && !((EntityMob)victim.Owner).HasTarget) {
+                            victim.BeHitByRaycastAttack(target, (damage * 2) + 30, damageType, attacker);
+                        } else {
+                            victim.BeHitByRaycastAttack(target, (damage * 2) + 10, damageType, attacker);
+                        }
                         fireTime += (attackTime / 2f);
                         attacker.Actor.Stamina -= 5;
                     }
