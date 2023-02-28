@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -40,6 +39,10 @@ namespace CevarnsOfEvil
 
         public GameManager Manager { get { return manager; } }
 
+        public delegate void LevelBuilt();
+        public static event LevelBuilt LevelBuiltEvent;
+
+
         // Start is called before the first frame update
         protected virtual void Start()
         {
@@ -52,7 +55,9 @@ namespace CevarnsOfEvil
             CreateLevel();
             if(mobs.Count < 4)
                 SceneManager.LoadScene("DungeonScene");
-            ScoreData.NewLevel(mobs.Count);  
+            ScoreData.NewLevel(mobs.Count);
+            // This is to let loading screens know the level is complete
+            LevelBuiltEvent?.Invoke();
         }
 
 

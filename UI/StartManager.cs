@@ -10,6 +10,8 @@ namespace CevarnsOfEvil
 
     public class StartManager : MonoBehaviour
     {
+        private static bool justLoaded = true;
+
         public string seedString = ""; 
         public DifficultySettings difficulty = DifficultySettings.norm;
 
@@ -18,6 +20,8 @@ namespace CevarnsOfEvil
 
         [SerializeField] GameObject startScreen;
         [SerializeField] GameObject optionsScreen;
+        [SerializeField] GameObject backstoryScreen;
+        [SerializeField] GameObject helpScreen;
 
         void Start()
         {
@@ -25,12 +29,29 @@ namespace CevarnsOfEvil
             QualitySettings.vSyncCount = 1;
             Cursor.lockState = CursorLockMode.None;
             optionsScreen.GetComponent<Options>().Init();
+            if(justLoaded) {
+                StartCoroutine(TakeDownBackstory(30));
+            } else {
+                TakeDownBackstory();
+            }
+            justLoaded = false;
         }
 
         // Update is called once per frame
-        void Update()
+        /*void Update()
         {
 
+        }*/
+
+
+        IEnumerator TakeDownBackstory(float time) {
+            yield return new WaitForSeconds(time);
+            backstoryScreen.SetActive(false);
+        }
+
+
+        public void TakeDownBackstory() {
+            backstoryScreen.SetActive(false);
         }
 
 
@@ -69,6 +90,16 @@ namespace CevarnsOfEvil
         {
             optionsScreen.SetActive(true);
             startScreen.SetActive(false);
+        }
+
+
+        public void ShowHelpScreen() {
+            helpScreen.SetActive(true);
+        }
+
+
+        public void HideHelpScreen() {
+            helpScreen.SetActive(false);
         }
     }
 

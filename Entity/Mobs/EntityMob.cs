@@ -27,6 +27,7 @@ namespace CevarnsOfEvil
         protected StepData stepData;
         protected float enviroCooldown;
         protected float animSpeed;
+        protected float tooClose;
 
         // Accessor Properties
         public Animator Anim { get { return anim; } }

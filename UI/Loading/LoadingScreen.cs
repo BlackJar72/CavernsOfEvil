@@ -100,6 +100,16 @@ namespace CevarnsOfEvil
             StartCoroutine(ShowPieces());
         }
 
+
+        void OnEnable() {
+            Level.LevelBuiltEvent += OnSceneLoaded;
+        }
+
+
+        void OnDisable() {
+            Level.LevelBuiltEvent -= OnSceneLoaded;
+        }
+
         
         IEnumerator ShowPieces()
         {
@@ -121,6 +131,11 @@ namespace CevarnsOfEvil
         {
             //SaveGame.SaveGameData(SaveGame.STAND_IN);
             SceneManager.LoadScene("Start");
+        }
+
+
+        public void OnSceneLoaded() {
+            Debug.Log("SceneLoaded");
         }
 
     }

@@ -248,7 +248,7 @@ namespace CevarnsOfEvil
             Vector3 otherLoc = other.GetCollider().bounds.center;
             Vector3 toOther = otherLoc - eyes.position;
             float dist = toOther.sqrMagnitude;
-            return ((dist < 1.0f) || ((dist < aggroRangeSq)
+            return ((dist < 2.0f) || ((dist < aggroRangeSq)
             && (other.IsShoulderVisible(eyes))
             && !Physics.Linecast(eyes.position, otherLoc, GameConstants.LevelMask)));
         }
