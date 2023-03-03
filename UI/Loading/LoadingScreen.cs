@@ -101,14 +101,14 @@ namespace CevarnsOfEvil
         }
 
 
-        void OnEnable() {
-            Level.LevelBuiltEvent += OnSceneLoaded;
+        /*void OnEnable() {
+            //Level.LevelBuiltEvent += OnSceneLoaded;
         }
 
 
         void OnDisable() {
-            Level.LevelBuiltEvent -= OnSceneLoaded;
-        }
+            //Level.LevelBuiltEvent -= OnSceneLoaded;
+        }*/
 
         
         IEnumerator ShowPieces()
@@ -134,9 +134,9 @@ namespace CevarnsOfEvil
         }
 
 
-        public void OnSceneLoaded() {
-            Debug.Log("SceneLoaded");
-        }
+        /*public void OnSceneLoaded() {
+            //Debug.Log("SceneLoaded");
+        }*/
 
     }
 

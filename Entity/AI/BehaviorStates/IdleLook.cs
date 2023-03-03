@@ -19,7 +19,8 @@ namespace CevarnsOfEvil
             {
                 ownerIn.CurrentBehavior = onSeePlayer;
             } 
-            else if((ownerIn.NextIdleTalk < Time.time) && (Random.value < (Time.deltaTime * vocalRate)))
+            else if((ownerIn.NextIdleTalk < Time.time) && (Random.value < (Time.deltaTime * vocalRate)
+                    && ownerIn.DistanceSqrToPlayer() < 1024))
             {
                 ownerIn.Sounds.PlayIdle(ownerIn.Voice);
                 ownerIn.NextIdleTalk += (2 / vocalRate) + (Random.value * 3);

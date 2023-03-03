@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using QFSW.QC;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -27,7 +27,7 @@ namespace CevarnsOfEvil
 
         [SerializeField] Transform[] shoulders = new Transform[2];
 
-        private bool godmode = false;
+        private static bool godmode = false;
 
         public PlayerAct Actor { get { return actor; } }
         public MovePlayer Mover { get { return mover; } }
@@ -54,7 +54,7 @@ namespace CevarnsOfEvil
         /// </summary>
         public static void Init()
         {
-            Physics.gravity = new Vector3(0f, -15f, 0f);
+            godmode = false;
             PlayerHealth.Init();
             PlayerAct.Init();
             Item.StaticInit();
@@ -63,6 +63,7 @@ namespace CevarnsOfEvil
         }
 
 
+        [Command("jbgdqd")]
         public void ToggleGodMode() {
             godmode = !godmode;
         }

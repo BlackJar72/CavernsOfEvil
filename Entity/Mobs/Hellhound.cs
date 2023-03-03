@@ -82,10 +82,17 @@ namespace CevarnsOfEvil {
 
         public override void RangedAttack()
         {
-            base.RangedAttack();
-            SetFactorSpeed(0);
-            anim.SetInteger("AnimID", 1);
-            entitySounds.PlayAttack(voice, 0);
+            if(Random.Range(0, 2) < 1) {
+                int attack = Random.Range(1, 5);
+                SetFactorSpeed(0);
+                anim.SetInteger("AnimID", 4);
+                entitySounds.PlayAttack(voice, 0);
+            } else {
+                base.RangedAttack();
+                SetFactorSpeed(0);
+                anim.SetInteger("AnimID", 1);
+                entitySounds.PlayAttack(voice, 0);
+            }
         }
 
 

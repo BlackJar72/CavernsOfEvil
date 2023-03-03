@@ -41,10 +41,14 @@ namespace CevarnsOfEvil
             get { return currentBehavior; }
             set
             {
-                currentBehavior.StateExit(this);
-                previousBehavior = currentBehavior;
-                currentBehavior = value;
-                currentBehavior.StateEnter(this);
+                //try {
+                    currentBehavior.StateExit(this);
+                    previousBehavior = currentBehavior;
+                    currentBehavior = value;
+                    currentBehavior.StateEnter(this);
+                //} catch (System.Exception e) {
+                //    Die(new Damages());
+                //}
             }
         }
         public IBehaviorState PreviousBehavior { get { return previousBehavior; } }

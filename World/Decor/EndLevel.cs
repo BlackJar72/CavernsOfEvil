@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using QFSW.QC;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,8 +9,20 @@ namespace CevarnsOfEvil {
     {
         private Level level;
 
+        [Command("jbgwin")]
         public void End()
         {
+            level = GameObject.Find("Level").GetComponent<Level>();
+            ScoreData.endTime = Time.time;
+            ScoreData.totalKills = level.MobsKilled();
+            SceneManager.LoadScene("LoadingScreen");
+        }
+
+
+        [Command("jbgjump")]
+        public void jump(int to)
+        {
+            GameData.Level = to - 1;
             level = GameObject.Find("Level").GetComponent<Level>();
             ScoreData.endTime = Time.time;
             ScoreData.totalKills = level.MobsKilled();

@@ -44,7 +44,7 @@ namespace CevarnsOfEvil
 
         public static ulong InitialSeed { get { return initialSeed; } }
         public static Xorshift Xrandom { get { return random; } }
-        public static int Level { get { return level; } }
+        public static int Level { get { return level; } set { level = value; } }
         public static DifficultySettings GameDifficulty { get { return difficultySetting; } }
         public static DifficultySetting BaseDifficulty { get { return baseDifficulty; } }
         public static DifficultySetting LevelDifficulty { get { return levelDifficulty; } }
