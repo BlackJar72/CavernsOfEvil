@@ -144,8 +144,10 @@ namespace CevarnsOfEvil
                 actor.enabled = false;
                 mover.enabled = false;
                 StartCoroutine(DeathPause());
-                if(damages.attacker != null)
+                if((damages.attacker == null) || (damages.attacker == this))
                 {
+                    killedMessage.text = "You Died";
+                } else {
                     killedMessage.text = "Killed by " + damages.attacker.EntityName;
                 }
                 base.Die(damages);
