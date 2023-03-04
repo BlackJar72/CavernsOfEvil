@@ -45,10 +45,12 @@ namespace CevarnsOfEvil
 
         public override void Attack()
         {
-            if (nextFireTime < Time.time)
+            nextAttack = Time.time + attackTime;
+            if ((nextFireTime < Time.time) && (DistanceSqrToPlayer() > meleeStopDistance))
             {
-                nextAttack = Time.time + attackTime;
                 RangedAttack();
+            } else if(DistanceSqrToPlayer() < meleeStopDistance) {
+                MeleeAttack();
             }
         }
 
@@ -59,19 +61,13 @@ namespace CevarnsOfEvil
             {
                 nextAttack = Time.time + attackTime;
                 entitySounds.PlayAttack(voice, 0);
-                
+
                 MeleeAttack();
             }
         }
 
 
-        public override void TriggerLeft(Collider other)
-        {
-            if (!isDead && (other.gameObject == targetObject))
-            {
-                
-            }
-        }
+        public override void TriggerLeft(Collider other) {}
 
 
         public override void MeleeAttack()
