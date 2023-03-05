@@ -77,7 +77,6 @@ namespace CevarnsOfEvil
             setAnimByVelocity = new SetAnimSpeed(SetAnimSpeedVelocity);
             setAnimToZero = new SetAnimSpeed(SetAnimSpeedZero);
             setAnimSpeed = setAnimToZero;
-            nextIdleTalk = Random.Range(0.1f, 6.66f);
         }
 
 

@@ -1,7 +1,6 @@
 using System.Collections;
 using QFSW.QC;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -95,20 +94,8 @@ namespace CevarnsOfEvil
                 actor.ActiveArmor.BeDamaged(damage);
                 healthBar.UpdateHealth(health);
                 hurtSound.Play(voice);
-                if(Gamepad.current != null) {
-                    float amount = Mathf.Clamp(((3.0f - (health.RelativeHealth + health.RelatvieShock)) / 8.0f),
-                            0.25f, 0.50f);
-                    StartCoroutine(Rumble(amount, (amount + 0.5f) * 0.5f));
-                }
                 return true;
             }
-        }
-
-
-        private IEnumerator Rumble(float amount, float time) {
-            Gamepad.current.SetMotorSpeeds(amount, amount);
-            yield  return new WaitForSeconds(time);
-            Gamepad.current.SetMotorSpeeds(0.0f, 0.0f);
         }
 
 

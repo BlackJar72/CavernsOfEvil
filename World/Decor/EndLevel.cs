@@ -15,11 +15,7 @@ namespace CevarnsOfEvil {
             level = GameObject.Find("Level").GetComponent<Level>();
             ScoreData.endTime = Time.time;
             ScoreData.totalKills = level.MobsKilled();
-            if(GameData.Level == 16) {
-                SceneManager.LoadScene("VictoryScene");
-            } else {
-                SceneManager.LoadScene("LoadingScreen");
-            }
+            SceneManager.LoadScene("LoadingScreen");
         }
 
 

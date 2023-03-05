@@ -11,9 +11,7 @@ namespace CevarnsOfEvil
 
         public static float CalcDifficulty(float level)
         {
-            float diff = (float)Math.Sqrt(level / MAX_AS_FLOAT);
-            if(diff > 1) diff = 2 - (1 / diff);
-            return diff;
+            return (float)Math.Sqrt(level / MAX_AS_FLOAT);
         }
 
 

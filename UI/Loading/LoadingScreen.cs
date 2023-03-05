@@ -3,8 +3,6 @@ using TMPro;
 using System.Text;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 namespace CevarnsOfEvil
 
@@ -93,9 +91,6 @@ namespace CevarnsOfEvil
         [SerializeField] GameObject scores;
         [SerializeField] GameObject buttons;
 
-        [SerializeField] EventSystem eventSystem;
-        [SerializeField] GameObject startButton;
-
         private void Start()
         {
             levelText.text = "Level " + GameData.Level;
@@ -123,7 +118,6 @@ namespace CevarnsOfEvil
             yield return new WaitForSeconds(1);
             Cursor.lockState = CursorLockMode.None;
             buttons.SetActive(true);
-            eventSystem.SetSelectedGameObject(startButton);
         }
 
 

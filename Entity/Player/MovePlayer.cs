@@ -163,10 +163,6 @@ namespace CevarnsOfEvil
             lookIn[0] = lookIn[1]; lookIn[1] = lookIn[2];
             lookIn[2] = lookAction.ReadValue<Vector2>() * Options.lookSensitivity;
             lookIn[3] = ((lookIn[0] + lookIn[1] + lookIn[2]) / 3f);
-            #if UNITY_EDITOR
-            #else
-            if(Gamepad.current.rightStick.magnitude > 0f) lookIn[3] *= 8;
-            #endif
         }
 
 
@@ -278,6 +274,39 @@ namespace CevarnsOfEvil
             GetComponent<CharacterController>().Move(velocity * Time.deltaTime);
             shouldJump = false;
         }
+
+
+        /*
+        private void Fly()
+        {
+            GetMoveInput();
+            movement.Set(moveIn[3].x, 0, moveIn[3].y);
+
+            if (Input.GetAxis("Jump") > 0f) movement.y += 1;
+            if (Input.GetKey(KeyCode.LeftShift)) movement.y -= 1;
+
+                if (movement.magnitude > 0)
+            {
+                float speedFactor;
+                if (stepData.floorEffect == FloorEffect.slow) speedFactor = 1;
+                else speedFactor = moveType;
+                if (movement.magnitude > 1)
+                {
+                    transform.position += transform.rotation * (movement.normalized * 16 * Time.deltaTime);
+                }
+                else
+                {
+                    transform.position += transform.rotation * (movement * 16 * Time.deltaTime);
+                }
+            }
+        }
+
+
+        public void ToogleFlying()
+        {
+            flying = !flying;
+        }
+        */
 
 
         public void BeHitByEnviroDamage(int damage, DamageType type, ref EntityHealth health) {

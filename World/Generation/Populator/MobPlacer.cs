@@ -61,8 +61,7 @@ namespace CevarnsOfEvil
                 || (room.isNode && GameData.LevelDifficulty.ShouldHaveMobs(dungeon.random)));
             HashSet<Vector2Int> used = new HashSet<Vector2Int>();
             int level, num, rolledLevel;
-            if((room.id == 2) && (GameData.Level == 16)) level = 8;
-            else if (boss) level = GameData.LevelDifficulty.GetBossLevel(dungeon.random);
+            if (boss) level = GameData.LevelDifficulty.GetBossLevel(dungeon.random);
             else level = GameData.LevelDifficulty.GetMonsterLevel(dungeon.random);
             rolledLevel = level;
             MobList list = null;
