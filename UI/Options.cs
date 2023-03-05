@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 
@@ -30,6 +31,10 @@ namespace CevarnsOfEvil
         public static float musicVolume = -20;
         public static bool isFullscreen;
         public static int graphicsQuality;
+
+        [SerializeField] EventSystem eventSystem;
+        [SerializeField] GameObject startButton;
+        [SerializeField] GameObject optBackButton;
 
 
         private void Awake()
@@ -182,6 +187,7 @@ namespace CevarnsOfEvil
         {
             parentMenu.SetActive(true);
             gameObject.SetActive(false);
+            eventSystem.SetSelectedGameObject(startButton);
         }
 
 

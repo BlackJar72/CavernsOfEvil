@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 
 namespace CevarnsOfEvil
@@ -13,6 +12,10 @@ namespace CevarnsOfEvil
 
         [SerializeField] GameObject startScreen;
         [SerializeField] GameObject optionsScreen;
+
+        [SerializeField] EventSystem eventSystem;
+        [SerializeField] GameObject startButton;
+        [SerializeField] GameObject optBackButton;
 
 
         public void Return()
@@ -33,6 +36,12 @@ namespace CevarnsOfEvil
         {
             optionsScreen.SetActive(true);
             startScreen.SetActive(false);
+            eventSystem.SetSelectedGameObject(optBackButton);
+        }
+
+
+        void OnEnable() {
+            eventSystem.SetSelectedGameObject(startButton);
         }
 
     }

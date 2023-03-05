@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace CevarnsOfEvil
 {
@@ -22,6 +24,12 @@ namespace CevarnsOfEvil
         [SerializeField] GameObject optionsScreen;
         [SerializeField] GameObject backstoryScreen;
         [SerializeField] GameObject helpScreen;
+
+        [SerializeField] EventSystem eventSystem;
+        [SerializeField] GameObject startButton;
+        [SerializeField] GameObject optBackButton;
+        [SerializeField] GameObject helpBackButton;
+
 
         void Start()
         {
@@ -46,12 +54,13 @@ namespace CevarnsOfEvil
 
         IEnumerator TakeDownBackstory(float time) {
             yield return new WaitForSeconds(time);
-            backstoryScreen.SetActive(false);
+            TakeDownBackstory();
         }
 
 
         public void TakeDownBackstory() {
             backstoryScreen.SetActive(false);
+            eventSystem.SetSelectedGameObject(startButton);
         }
 
 
@@ -90,16 +99,19 @@ namespace CevarnsOfEvil
         {
             optionsScreen.SetActive(true);
             startScreen.SetActive(false);
+            eventSystem.SetSelectedGameObject(optBackButton);
         }
 
 
         public void ShowHelpScreen() {
             helpScreen.SetActive(true);
+            eventSystem.SetSelectedGameObject(helpBackButton);
         }
 
 
         public void HideHelpScreen() {
             helpScreen.SetActive(false);
+            eventSystem.SetSelectedGameObject(startButton);
         }
     }
 
