@@ -32,7 +32,8 @@ to use this code as-is.
 
 These scripts are the creation and copyright (C) of Jared Blackburn, 2021-2022.  These scripts, and only these scripts, 
 are covered under the MIT License.  This license does not extend to any other part of the game, so art assets and 
-third party scripts referrenced from (but not included with) these are excluded from said license.
+third party scripts referrenced from (but not included with) these are excluded from said license.  This also means that 
+THE GAME AS A WHOLE IS NOT OPEN SOURCE.
 
 Copyright (C) 2021-2022 Jared Blackburn
 
