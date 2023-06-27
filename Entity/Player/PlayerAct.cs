@@ -1,9 +1,10 @@
+using System.Collections;
+using System.IO;
+using QFSW.QC;
+using RootMotion.FinalIK;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using RootMotion.FinalIK;
-using System.IO;
-using TMPro;
-using System.Collections;
 
 namespace CevarnsOfEvil
 {
@@ -475,6 +476,35 @@ namespace CevarnsOfEvil
             int previous = activeSlot;
             activeSlot--;
             SetInventorySlot(previous, -1);
+        }
+
+
+        [Command("loser")]
+        public void AllItems() {
+            for(int i = 0; i < allItems.Length; i++) {
+                if(allItems[i]) allItems[i].BeAcquired();
+                if (allItems[i] is Sword)
+                {
+                    Sword oldSword = (Sword)inventory[allItems[i].preferredSlot];
+                    Sword newSword = (Sword)allItems[i];
+                    if (newSword.Damage > oldSword.Damage)
+                    {
+                        inventory[allItems[i].preferredSlot] = newSword;
+                        oldSword.equiped = false;
+                        newSword.BeAcquired();
+                        Sword.SetSword(i);
+                        if (activeSlot == allItems[i].preferredSlot)
+                        {
+                            oldSword.OnPlayerDeselect(this);
+                            newSword.OnPlayerSelect(this);
+                        }
+                    }
+                }
+            }
+            for(int i = 0; i < ammo.Length; i++) {
+                ammo[i].Fill(ammoText[i]);
+            }
+            ItemStack.PotionCheat();
         }
 
 

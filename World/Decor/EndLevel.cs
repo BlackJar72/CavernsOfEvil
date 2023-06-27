@@ -9,7 +9,7 @@ namespace CevarnsOfEvil {
     {
         private Level level;
 
-        [Command("jbgwin")]
+        [Command("win")]
         public void End()
         {
             level = GameObject.Find("Level").GetComponent<Level>();
@@ -19,7 +19,7 @@ namespace CevarnsOfEvil {
         }
 
 
-        [Command("jbgjump")]
+        [Command("jump")]
         public void jump(int to)
         {
             GameData.Level = to - 1;

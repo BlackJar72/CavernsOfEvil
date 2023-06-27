@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using QFSW.QC;
 
 
 namespace CevarnsOfEvil
@@ -366,6 +367,15 @@ namespace CevarnsOfEvil
         {
             mobs.Remove(mob);
             Destroy(mob.gameObject);
+        }
+
+
+        [Command("murderhobo")]
+        public void Killall() {
+            Damages fake = new Damages();
+            for(int i = 0; i < mobs.Count; i++) {
+                if(mobs[i]) mobs[i].Die(fake);
+            }
         }
 
 

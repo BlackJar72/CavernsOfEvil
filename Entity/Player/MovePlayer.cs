@@ -86,7 +86,7 @@ namespace CevarnsOfEvil
         void Update()
         {
             if (shouldSprint
-                && (actor.Stamina > 0) && (movement != Vector3.zero))
+            && (actor.Stamina > 0) && (movement != Vector3.zero))
             {
                 moveType = 3;
             }
@@ -99,12 +99,12 @@ namespace CevarnsOfEvil
             if ((dungeon != null) && !flying)
             {
                 stepData = dungeon.map.GetStepData(transform.position, dungeon,
-                    player.Health, ref enviroCooldown);
+                        player.Health, ref enviroCooldown);
             }
 #else
                 stepData = dungeon.map.GetStepData(transform.position, dungeon,
                     player.Health, ref enviroCooldown);
-#endif
+            #endif
             if (moveType == 3)
             {
                 actor.Stamina = Mathf.Clamp(actor.Stamina - Time.deltaTime, 0, PlayerAct.baseStamina);
@@ -117,20 +117,20 @@ namespace CevarnsOfEvil
 #if UNITY_EDITOR
             // Hopefully this will help when the player gets glitched into the ceiling by an arrow.
             if((dungeon != null)
-                        && (transform.position.y > dungeon.map.GetCeilY((int)transform.position.x,
-                        (int)transform.position.z))) {
+            && (transform.position.y > dungeon.map.GetCeilY((int)transform.position.x,
+                    (int)transform.position.z))) {
                 Vector3 newpos = transform.position;
                 newpos.y = dungeon.map.GetFloorY((int)transform.position.x, (int)transform.position.z);
                 transform.position = newpos;
             }
 #else
-            // Hopefully this will help when the player gets glitched into the ceiling by an arrow.
-            if(transform.position.y > dungeon.map.GetCeilY((int)transform.position.x, (int)transform.position.z)) {
-                Vector3 newpos = transform.position;
-                newpos.y = dungeon.map.GetFloorY((int)transform.position.x, (int)transform.position.z);
-                transform.position = newpos;
-            }
-#endif
+                // Hopefully this will help when the player gets glitched into the ceiling by an arrow.
+                if(transform.position.y > dungeon.map.GetCeilY((int)transform.position.x, (int)transform.position.z)) {
+                    Vector3 newpos = transform.position;
+                    newpos.y = dungeon.map.GetFloorY((int)transform.position.x, (int)transform.position.z);
+                    transform.position = newpos;
+                }
+            #endif
         }
 
 
@@ -205,9 +205,9 @@ namespace CevarnsOfEvil
             GetLookInput();
 
             transform.rotation = Quaternion.Euler(
-                transform.eulerAngles.x,
-                transform.eulerAngles.y + lookIn[3].x,
-                transform.eulerAngles.z
+                    transform.eulerAngles.x,
+                    transform.eulerAngles.y + lookIn[3].x,
+                    transform.eulerAngles.z
             );
 
             looky = Mathf.Clamp(looky - lookIn[3].y, -70f, 70f);
@@ -343,8 +343,8 @@ namespace CevarnsOfEvil
             // may be combined with map data and a gradient 
             // for handling ramps and stairs later.
             //return (rigid.velocity.y * rigid.velocity.y < 0.001f);
-            return (Physics.OverlapSphereNonAlloc(gameObject.transform.position, 
-                0.1f, footContats, GameConstants.LevelMask) > 0);
+            return (Physics.OverlapSphereNonAlloc(gameObject.transform.position,
+                    0.1f, footContats, GameConstants.LevelMask) > 0);
         }
 
 

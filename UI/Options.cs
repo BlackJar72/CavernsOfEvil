@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 
@@ -31,11 +32,9 @@ namespace CevarnsOfEvil
         public static bool isFullscreen;
         public static int graphicsQuality;
 
-
-        private void Awake()
-        {
-            
-        }
+        [SerializeField] EventSystem eventSystem;
+        [SerializeField] GameObject startButton;
+        [SerializeField] GameObject optBackButton;
 
 
         private void OnDisable()
@@ -51,8 +50,11 @@ namespace CevarnsOfEvil
             PlayerPrefs.SetFloat("MasterVolume", audioVolume);
             PlayerPrefs.SetFloat("GameVolume", gameVolume);
             PlayerPrefs.SetFloat("MusicVolume", musicVolume);
-            // Misc Variables
-            // ...TODO
+        }
+
+
+        void OnEnable() {
+            eventSystem.SetSelectedGameObject(optBackButton);
         }
 
 
@@ -83,8 +85,6 @@ namespace CevarnsOfEvil
             volumeSlider.value = Mathf.Pow(2, audioVolume / 10);
             SFXSlider.value = Mathf.Pow(2, gameVolume / 10);
             musicSlider.value = Mathf.Pow(2, musicVolume / 10);
-            // Misc Variables
-            // ...TODO
         }
 
 
@@ -101,22 +101,22 @@ namespace CevarnsOfEvil
 
         /*
          * A Brief Lession on Psychoaccustics
-         * 
-         * Intensity vs. Loudness: Intensity is a physical measure of 
-         * the energy of sound, and may be measured in terms of power 
-         * or sound preasure, with 10 dB being 10 times the power while 
-         * 20 dB is 10 times the sound preasure.  In contrast, loudness 
-         * is a subjective measure of how a sound sounds; research has 
-         * found 10 times the power (+10 dB) results in twice the 
+         *
+         * Intensity vs. Loudness: Intensity is a physical measure of
+         * the energy of sound, and may be measured in terms of power
+         * or sound preasure, with 10 dB being 10 times the power while
+         * 20 dB is 10 times the sound preasure.  In contrast, loudness
+         * is a subjective measure of how a sound sounds; research has
+         * found 10 times the power (+10 dB) results in twice the
          * subjective loudness to tested listeners.  Thus:
-         * 
+         *
          * +10 Db is
          * * 10 times the power
          * * 3.1622776... times the sound preasure, and
          * * 2 times the loudness
-         * 
-         * Based on this sound adjustment code is based on base 2 logarithms 
-         * with twice the input value converted to +10 db, to accurately 
+         *
+         * Based on this sound adjustment code is based on base 2 logarithms
+         * with twice the input value converted to +10 db, to accurately
          * model human auditory perception.
          */
 
@@ -142,17 +142,17 @@ namespace CevarnsOfEvil
 
 
         /*
-         * Input sensitity is set for a range of -1 to +1 and converted 
-         * to based on powers of the square root of 10, so that the total 
-         * range represents tuning the sensitivity such that the maximum 
-         * is 10 time as sensative as the minimum, a good range.  The 
-         * default value is 0, and converted to the sensitivity found best 
+         * Input sensitity is set for a range of -1 to +1 and converted
+         * to based on powers of the square root of 10, so that the total
+         * range represents tuning the sensitivity such that the maximum
+         * is 10 time as sensative as the minimum, a good range.  The
+         * default value is 0, and converted to the sensitivity found best
          * for play with keyboard and mouse during play testing.
-         * 
-         * This is valuable both because different players may prefer different 
-         * levels of sensitivity and because different systems and drivers 
-         * may respond differently.  Notably I have found a look sensitivity 
-         * that seems responsive with an XBox controller in Windows is very 
+         *
+         * This is valuable both because different players may prefer different
+         * levels of sensitivity and because different systems and drivers
+         * may respond differently.  Notably I have found a look sensitivity
+         * that seems responsive with an XBox controller in Windows is very
          * sluggish with the same controller in Linux.
          */
 
@@ -182,6 +182,7 @@ namespace CevarnsOfEvil
         {
             parentMenu.SetActive(true);
             gameObject.SetActive(false);
+            eventSystem.SetSelectedGameObject(startButton);
         }
 
 

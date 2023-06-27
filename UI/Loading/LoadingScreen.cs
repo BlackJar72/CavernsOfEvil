@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Text;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 namespace CevarnsOfEvil
@@ -14,6 +15,7 @@ namespace CevarnsOfEvil
         public static float endTime;
         public static int totalKills;
         public static int totalMobs;
+
 
         public static void Reset()
         {
@@ -87,15 +89,27 @@ namespace CevarnsOfEvil
         [SerializeField] TMP_Text levelText;
         [SerializeField] TMP_Text timeText;
         [SerializeField] TMP_Text killsText;
+        [SerializeField] TMP_Text hintText;
 
         [SerializeField] GameObject scores;
         [SerializeField] GameObject buttons;
 
+        [SerializeField] bool isNormal;
+        [SerializeField] GameObject quitButton;
+
+        [SerializeField] string[] hints;
+        private static List<string> shuffledHints = new List<string>();
+        private static bool hintsShuffled = false;
+
+
         private void Start()
         {
-            levelText.text = "Level " + GameData.Level;
-            timeText.text = "Time: " + ScoreData.GetTimeString();
-            killsText.text = "Kills: " + ScoreData.GetKillsString();
+            if(GameData.Level > 0) {
+                levelText.text = "Level " + GameData.Level;
+                timeText.text = "Time: " + ScoreData.GetTimeString();
+                killsText.text = "Kills: " + ScoreData.GetKillsString();
+                ShowHint();
+            }
             GameData.NextLevel();
             StartCoroutine(ShowPieces());
         }
@@ -117,13 +131,20 @@ namespace CevarnsOfEvil
             scores.SetActive(true);
             yield return new WaitForSeconds(1);
             Cursor.lockState = CursorLockMode.None;
+            // 17 because the level has now incremented, though to end at 16 we need 17
+            if((GameData.Level == 17) && isNormal) quitButton.SetActive(false);
             buttons.SetActive(true);
         }
 
 
         public void StartNextLevel()
         {
-            SceneManager.LoadScene("DungeonScene");
+            // 17 because the level has now incremented, though to end at 16 we need 17
+            if((GameData.Level == 17) && isNormal) {
+                SceneManager.LoadScene("VictoryScene");
+            } else {
+                SceneManager.LoadScene("DungeonScene");
+            }
         }
 
 
@@ -131,6 +152,32 @@ namespace CevarnsOfEvil
         {
             //SaveGame.SaveGameData(SaveGame.STAND_IN);
             SceneManager.LoadScene("Start");
+        }
+
+
+        public void ShuffleHints() {
+            shuffledHints.Clear();
+            for(int i = 0; i < hints.Length; i++) {
+                shuffledHints.Add(hints[i]);
+            }
+            shuffledHints.Shuffle<string>();
+            hintsShuffled = true;
+        }
+
+
+        private void ShowHint() {
+            if(!hintsShuffled || (shuffledHints.Count < 1)) ShuffleHints();
+            int which = GameData.Level - 1;
+            if(which < shuffledHints.Count) {
+                hintText.text = shuffledHints[which];
+            } else {
+                hintText.text = hints[Random.Range(0, hints.Length)];
+            }
+        }
+
+
+        public static void ResetHintShuffle() {
+            hintsShuffled = false;
         }
 
 

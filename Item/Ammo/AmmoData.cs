@@ -44,6 +44,12 @@ namespace CevarnsOfEvil
         }
 
 
+        public void Fill(TMP_Text text) {
+            amount = type.Max;
+            text.text = amount.ToString();
+        }
+
+
         public void Add(int quantity, TMP_Text text)
         {
             amount = Mathf.Clamp(amount + quantity, 0, type.Max);

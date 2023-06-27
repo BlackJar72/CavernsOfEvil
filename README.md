@@ -6,8 +6,6 @@ and quirks of its own.  Fight through ever-increasing hordes of monsters while t
 weapons you'll need to survive.  Explore entirely new procedural levels every time, adapting to ever changing level 
 design.  This is a simple game, designed for some good old-fashioned violent fun.
 
-https://store.steampowered.com/app/1929380/Caverns_of_Evil
-
 https://jaredbgreat.itch.io/caverns-of-evil
 
 ## About the Code
@@ -32,8 +30,7 @@ to use this code as-is.
 
 These scripts are the creation and copyright (C) of Jared Blackburn, 2021-2022.  These scripts, and only these scripts, 
 are covered under the MIT License.  This license does not extend to any other part of the game, so art assets and 
-third party scripts referrenced from (but not included with) these are excluded from said license.  This also means that 
-THE GAME AS A WHOLE IS NOT OPEN SOURCE.
+third party scripts referrenced from (but not included with) these are excluded from said license.
 
 Copyright (C) 2021-2022 Jared Blackburn
 

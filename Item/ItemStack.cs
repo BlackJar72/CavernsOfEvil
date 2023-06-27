@@ -27,6 +27,11 @@ namespace CevarnsOfEvil {
         }
 
 
+        public static void PotionCheat() {
+            stackSize = 24;
+        }
+
+
         public override void Init()
         {
             equiped = stackSize > 0;

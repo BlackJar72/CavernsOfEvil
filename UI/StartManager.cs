@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace CevarnsOfEvil
 {
@@ -12,7 +14,7 @@ namespace CevarnsOfEvil
     {
         private static bool justLoaded = true;
 
-        public string seedString = ""; 
+        public string seedString = "";
         public DifficultySettings difficulty = DifficultySettings.norm;
 
         [SerializeField] TMP_Dropdown difficultyMenu;
@@ -22,6 +24,12 @@ namespace CevarnsOfEvil
         [SerializeField] GameObject optionsScreen;
         [SerializeField] GameObject backstoryScreen;
         [SerializeField] GameObject helpScreen;
+
+        [SerializeField] EventSystem eventSystem;
+        [SerializeField] GameObject startButton;
+        [SerializeField] GameObject optBackButton;
+        [SerializeField] GameObject helpBackButton;
+
 
         void Start()
         {
@@ -46,18 +54,19 @@ namespace CevarnsOfEvil
 
         IEnumerator TakeDownBackstory(float time) {
             yield return new WaitForSeconds(time);
-            backstoryScreen.SetActive(false);
+            TakeDownBackstory();
         }
 
 
         public void TakeDownBackstory() {
             backstoryScreen.SetActive(false);
+            eventSystem.SetSelectedGameObject(startButton);
         }
 
 
         public void OnDifficultyUpdate()
         {
-            difficulty = (DifficultySettings)difficultyMenu.value + 1;
+            difficulty = (DifficultySettings)(difficultyMenu.value + 1);
         }
 
 
@@ -80,26 +89,23 @@ namespace CevarnsOfEvil
         }
 
 
-        public void RestoreGame()
-        {
-            //SaveGame.LoadGame(SaveGame.STAND_IN);
-        }
-
-
         public void GoToOptions()
         {
             optionsScreen.SetActive(true);
             startScreen.SetActive(false);
+            eventSystem.SetSelectedGameObject(optBackButton);
         }
 
 
         public void ShowHelpScreen() {
             helpScreen.SetActive(true);
+            eventSystem.SetSelectedGameObject(helpBackButton);
         }
 
 
         public void HideHelpScreen() {
             helpScreen.SetActive(false);
+            eventSystem.SetSelectedGameObject(startButton);
         }
     }
 

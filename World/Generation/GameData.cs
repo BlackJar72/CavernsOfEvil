@@ -62,7 +62,7 @@ namespace CevarnsOfEvil
             SeedString = seed;
             baseDifficulty = DifficultyTable.GetDifficultySetting(difficultySetting);
             levelDifficulty = baseDifficulty.FromLevel(level);
-            // TODO: Set this with episode data
+            LoadingScreen.ResetHintShuffle();
             levelSize = Size.tiny;
             sizeData = SizeTable.GetData(levelSize);
             MusicManager.Init();
