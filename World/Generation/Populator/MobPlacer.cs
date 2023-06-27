@@ -61,8 +61,13 @@ namespace CevarnsOfEvil
                 || (room.isNode && GameData.LevelDifficulty.ShouldHaveMobs(dungeon.random)));
             HashSet<Vector2Int> used = new HashSet<Vector2Int>();
             int level, num, rolledLevel;
-            if (boss) level = GameData.LevelDifficulty.GetBossLevel(dungeon.random);
-            else level = GameData.LevelDifficulty.GetMonsterLevel(dungeon.random);
+            if((GameData.Level == 16) && (room.id == 2)) {
+                PlaceFinalBoss(room, dungeon, used);
+                level = GameData.LevelDifficulty.GetMonsterLevel(dungeon.random);
+            } else {
+                if (boss) level = GameData.LevelDifficulty.GetBossLevel(dungeon.random);
+                else level = GameData.LevelDifficulty.GetMonsterLevel(dungeon.random);
+            }
             rolledLevel = level;
             MobList list = null;
             while (((list == null) || (list.Empty)) && (level > -1))
@@ -95,8 +100,13 @@ namespace CevarnsOfEvil
             // Some of one kind
             {
                 int level, num, rolledLevel;
-                if (boss) level = GameData.LevelDifficulty.GetBossLevel(dungeon.random);
-                else level = GameData.LevelDifficulty.GetMonsterLevel(dungeon.random);
+                if((GameData.Level == 16) && (room.id == 2)) {
+                    PlaceFinalBoss(room, dungeon, used);
+                    level = GameData.LevelDifficulty.GetMonsterLevel(dungeon.random);
+                } else {
+                    if (boss) level = GameData.LevelDifficulty.GetBossLevel(dungeon.random);
+                    else level = GameData.LevelDifficulty.GetMonsterLevel(dungeon.random);
+                }
                 rolledLevel = level;
                 MobList list = null;
                 while (((list == null) || (list.Empty)) && (level > -1))
@@ -148,6 +158,18 @@ namespace CevarnsOfEvil
         }
 
 
+        public static void PlaceFinalBoss(Room room, Level dungeon, HashSet<Vector2Int> used) {
+            MobEntry entry = dungeon.theme.MobLists.Lists[7].Mobs[0];
+            dungeon.SpawnGameMob(entry.MobPrefab, room.midX, room.midZ - 1, false, true);
+            Vector2Int subloc = new Vector2Int();
+            for(int i = 0; i < 4; i++) {
+                subloc.x = room.midX + (i % 2);
+                subloc.y = room.midZ + (i / 2) - 1;
+                used.Add(subloc);
+            }
+        }
+
+
         public static bool PlaceSmallAMob(Room room, Level dungeon, MobEntry entry, HashSet<Vector2Int> used)
         {
             int x, z;
@@ -195,7 +217,7 @@ namespace CevarnsOfEvil
                     dungeon.SpawnGameMob(entry.MobPrefab, x, z, true, true);
                     for(int i = 0; i < 4; i++) {
                         subloc.x = location.x + (i % 2);
-                        subloc.x = location.x + (i / 2);
+                        subloc.y = location.y + (i / 2);
                         used.Add(subloc);
                     }
                     return true;

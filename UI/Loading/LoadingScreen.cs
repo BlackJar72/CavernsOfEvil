@@ -104,14 +104,16 @@ namespace CevarnsOfEvil
 
         private void Start()
         {
-            if(GameData.Level > 0) {
-                levelText.text = "Level " + GameData.Level;
-                timeText.text = "Time: " + ScoreData.GetTimeString();
-                killsText.text = "Kills: " + ScoreData.GetKillsString();
-                ShowHint();
+            if (GameData.Level > 0) {
+                if (isNormal) {
+                    levelText.text = "Level " + GameData.Level;
+                    timeText.text = "Time: " + ScoreData.GetTimeString();
+                    killsText.text = "Kills: " + ScoreData.GetKillsString();
+                    ShowHint();
+                    GameData.NextLevel();
+                    StartCoroutine(ShowPieces());
+                }
             }
-            GameData.NextLevel();
-            StartCoroutine(ShowPieces());
         }
 
 

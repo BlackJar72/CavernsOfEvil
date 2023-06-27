@@ -1,4 +1,6 @@
 using System;
+using kfutils;
+using UnityEngine;
 
 namespace CevarnsOfEvil
 {
@@ -11,7 +13,7 @@ namespace CevarnsOfEvil
 
         public static float CalcDifficulty(float level)
         {
-            return (float)Math.Sqrt(level / MAX_AS_FLOAT);
+            return (float)Math.Sqrt(KFMath.Asymptote(level, 16, 16) / MAX_AS_FLOAT);
         }
 
 

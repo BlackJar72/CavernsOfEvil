@@ -68,6 +68,9 @@ namespace CevarnsOfEvil
 				+ (random.NextGaussian() * mobLevel), 0, maxLevel));
 			if(output == 0) output = random.NextInt(Mathf.CeilToInt(mobLevel)) + 1;
 			if((output == 1) && (random.NextFloat() > upgradeL1chance)) output = 1;
+			if((GameData.Level < 17) && (GameData.GameDifficulty != DifficultySettings.nuts)) {
+				output = Mathf.Min(output, 6);
+			}
 			return output;
 		}
 
@@ -88,6 +91,9 @@ namespace CevarnsOfEvil
 				bossLevel, bossMax)), 2);
 			if ((output < (mean - (zscore * 2)) && (random.NextFloat() > upgradeL1chance))) 
 				output = Mathf.CeilToInt(mean);
+			if((GameData.Level < 17) && (GameData.GameDifficulty != DifficultySettings.nuts)) {
+				output = Mathf.Min(output, 6);
+			}
 			return output;
 		}
 
