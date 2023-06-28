@@ -21,7 +21,6 @@ namespace CevarnsOfEvil
         {
             Instantiate(visuals, transform.position, transform.rotation);
             Collider[] colliders = Physics.OverlapSphere(transform.position, range, GameConstants.DamageMask);
-            Collider projCollider = projectile.GetComponent<Collider>();
             foreach (Collider collider in colliders)
             {
                 EntityHealth health = collider.GetComponent<EntityHealth>();
@@ -39,7 +38,6 @@ namespace CevarnsOfEvil
         {
             Instantiate(visuals, transform.position, transform.rotation);
             Collider[] colliders = Physics.OverlapSphere(transform.position, range, GameConstants.DamageMask);
-            Collider projCollider = projectile.GetComponent<Collider>();
             foreach (Collider collider in colliders)
             {
                 EntityHealth health = collider.GetComponent<EntityHealth>();
@@ -70,11 +68,11 @@ namespace CevarnsOfEvil
         {
 #if UNITY_EDITOR
             return (player.Mover.dungeon == null) || (player.Mover.dungeon.Manager
-                .InSameRoom(hit.collider.bounds.center, collider.bounds.center));
+                .InSameRoom(transform.position, collider.bounds.center));
 
 #else
             return player.Mover.dungeon.Manager
-                .InSameRoom(hit.collider.bounds.center, collider.bounds.center);
+                .InSameRoom(transform.position, collider.bounds.center);
 #endif
         }
     }
