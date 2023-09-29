@@ -28,6 +28,9 @@ namespace CevarnsOfEvil
                     && (InSameRoom(attacker, hit, collider) || CheckSight(collider, hit)))
                 {
                     health.BeHitByAttack(damage, damageType, attacker);
+                    if(health is PlayerHealth) {
+                        ((Player)health.Owner).ActivateFireOverlay();
+                    }
                 }
             }
             Destroy(gameObject);
@@ -44,6 +47,9 @@ namespace CevarnsOfEvil
                 if ((health != null) && (CheckSight(collider, hit)))
                 {
                     health.BeHitByAttack(damage, damageType, attacker);
+                    if(health is PlayerHealth) {
+                        ((Player)health.Owner).ActivateFireOverlay();
+                    }
                 }
             }
             Destroy(gameObject);

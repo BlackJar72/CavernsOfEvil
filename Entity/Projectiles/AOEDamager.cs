@@ -25,9 +25,14 @@ namespace CevarnsOfEvil
             foreach (Collider collider in colliders)
             {
                 EntityHealth health = collider.GetComponent<EntityHealth>();
-                if ((health != null) && (CheckSight(collider, hit)))
+                if ((health != null) && (InSameRoom(attacker, hit, collider) || (CheckSight(collider, hit))))
                 {
                     health.BeHitByAttack(damage, damageType, attacker);
+                }
+                // This should be fine, as I don't think anything else used this besides wand of fire fire balls
+                // (if another uses is created, the script can be duplicated and this removed).
+                if(health is PlayerHealth) {
+                    ((Player)health.Owner).ActivateFireOverlay();
                 }
             }
             Destroy(gameObject);
@@ -43,6 +48,23 @@ namespace CevarnsOfEvil
         public override void OnSpawn(GameObject projectile, Collision hit, Entity attacker)
         {
             Explode(projectile, hit, attacker);
+        }
+
+
+        private bool InSameRoom(Entity entity, Collision hit, Collider collider)
+        {
+            if(entity is Player) {
+                Player player = entity as Player;
+                #if UNITY_EDITOR
+                return (player.Mover.dungeon == null) || (player.Mover.dungeon.Manager
+                .InSameRoom(transform.position, collider.bounds.center));
+
+                #else
+                return player.Mover.dungeon.Manager
+                .InSameRoom(transform.position, collider.bounds.center);
+                #endif
+            }
+            else return false;
         }
     }
 

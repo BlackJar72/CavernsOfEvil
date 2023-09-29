@@ -4,6 +4,7 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using LeastSquares;
 
 namespace CevarnsOfEvil
 
@@ -101,6 +102,8 @@ namespace CevarnsOfEvil
         private static List<string> shuffledHints = new List<string>();
         private static bool hintsShuffled = false;
 
+        [SerializeField] SteamAchievementsAndStats steam;
+
 
         private void Start()
         {
@@ -112,6 +115,9 @@ namespace CevarnsOfEvil
                     ShowHint();
                     GameData.NextLevel();
                     StartCoroutine(ShowPieces());
+                    if (steam != null) {
+                        steam.AddStat("HIGH_LEVEL", GameData.Level);
+                    }
                 }
             }
         }

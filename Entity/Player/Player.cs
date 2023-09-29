@@ -13,6 +13,8 @@ namespace CevarnsOfEvil
         PlayerAct actor;
         MovePlayer mover;
         ToastController toastController;
+        
+        public GameObject fireOverlay;
 
         [SerializeField] HealthBar healthBar;
 
@@ -165,6 +167,19 @@ namespace CevarnsOfEvil
         public bool IsShoulderVisible(Transform monsterEyes) {
             return ((Vector3.Dot(monsterEyes.forward, shoulders[0].position - monsterEyes.position) > 0)
                  || (Vector3.Dot(monsterEyes.forward, shoulders[1].position - monsterEyes.position) > 0));
+        }
+
+
+        public void ActivateFireOverlay() {
+            fireOverlay.SetActive(true);
+            StartCoroutine(DeactivateFireOverlay());
+        }
+
+
+        private IEnumerator DeactivateFireOverlay()
+        {
+            yield return new WaitForSeconds(2);
+            fireOverlay.SetActive(false);
         }
 
 

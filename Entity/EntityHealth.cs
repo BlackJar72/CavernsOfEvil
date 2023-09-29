@@ -40,7 +40,7 @@ namespace CevarnsOfEvil {
 
         public bool PlayerRegen()
         {
-            bool regen = (Shock < BaseShock);
+            bool regen = (Shock < BaseShock) && (Shock > 0);
             Shock = Mathf.Clamp(Shock + Time.deltaTime, 0, BaseShock);
             return regen;
         }
