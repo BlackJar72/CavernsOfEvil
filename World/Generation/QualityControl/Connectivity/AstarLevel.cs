@@ -35,6 +35,7 @@ namespace CevarnsOfEvil
 
 		public void MakeRoute(LevelStep end)
 		{
+			dungeon.map.ClearAStar();
 			LevelStep child = end, parent = end.parent;
 			if (parent == null) return;
 			dungeon.map.SetAstared(end.x, end.z);

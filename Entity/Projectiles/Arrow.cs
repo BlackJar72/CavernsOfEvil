@@ -39,16 +39,18 @@ namespace CevarnsOfEvil
             {
                 victim.BeHitByAttack(damageBase, damageType, attacker);
             }
-            if (collision.gameObject.layer == LEVELLAYER)
+            /*if (collision.gameObject.layer == LEVELLAYER)
             {
                 StartCoroutine(DestroyAfterDelay());
                 transform.parent = collision.transform;
+                transform.position = collision.contacts[0].point;
                 rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
                 GetComponent<Collider>().enabled = false;
                 rb.isKinematic = true;
                 enabled = false;
             }
-            else Destroy(gameObject);
+            else Destroy(gameObject);*/
+            Destroy(gameObject);
         }
 
 

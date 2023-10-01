@@ -452,6 +452,27 @@ namespace CevarnsOfEvil
         */}
 
 
+        /// <summary>
+        /// A place to add testing/debug code for level gen.
+        /// </summary>
+        [Command("theseus")]
+        private void ShowRoutes()
+        {
+            for(int i = 0; i < map.Size.width; i++)
+                for (int j = 0; j < map.Size.width; j++)
+                {
+                    if(map.GetAStared(i, j))
+                    {
+                        Vector3 location = new Vector3(i + 0.5f,
+                                                       map.GetFloorY(i, j) + 0.5f,
+                                                       j + 0.5f);
+                        GameObject item = Instantiate(testObject,
+                            location, testObject.transform.rotation);
+                    }
+                }
+        }
+
+
 
     }
 }

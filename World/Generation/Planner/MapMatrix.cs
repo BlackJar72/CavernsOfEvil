@@ -254,6 +254,13 @@ namespace CevarnsOfEvil
         }
 
 
+        public void ClearAStar() {
+            for(int i = 0; i < astared.Length; i++) {
+                astared[i] = false;
+            }
+        }
+
+
     }
 
 

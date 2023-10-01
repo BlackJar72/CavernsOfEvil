@@ -42,13 +42,14 @@ namespace CevarnsOfEvil
             }
             else
             {
+                if((GameData.Level == 2) && (usedTracks[index % usedTracks.Count] == levelOneMusic)) {
+                    index++;
+                    // This should not happen, but just in case....
+                    if(index >= usedTracks.Count) NewShuffle();
+                }
                 PlayTrack(index % usedTracks.Count);
                 index++;
-                if(index >= usedTracks.Count)
-                {
-                    index = 0;
-                    usedTracks.Shuffle();
-                }
+                if(index >= usedTracks.Count) NewShuffle();
             }
         }
 
@@ -57,6 +58,12 @@ namespace CevarnsOfEvil
         {
             music.clip = usedTracks[track];
             music.Play();
+        }
+
+
+        private void NewShuffle() {
+            index = 0;
+            usedTracks.Shuffle();
         }
 
 
