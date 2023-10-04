@@ -41,7 +41,6 @@ namespace CevarnsOfEvil
                         theme = themes[random.NextInt(themes.Length)];
                     }
                 }
-                Debug.Log(theme.name);
                 return theme;
             }
         }
