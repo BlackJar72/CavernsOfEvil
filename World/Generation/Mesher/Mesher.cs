@@ -242,9 +242,9 @@ namespace CevarnsOfEvil {
                 parts[i].transform.position = new Vector3((boxes[i].minx + boxes[i].maxx) / 2.0f,
                                                             (boxes[i].miny + boxes[i].maxy) / 2.0f,
                                                             (boxes[i].minz + boxes[i].maxz) / 2.0f);
-                parts[i].transform.localScale = new Vector3(boxes[i].maxx - boxes[i].minx,
-                                                                boxes[i].maxy - boxes[i].miny,
-                                                                boxes[i].maxz - boxes[i].minz);
+                parts[i].transform.localScale = new Vector3(Mathf.Abs(boxes[i].maxx - boxes[i].minx),
+                                                            Mathf.Abs(boxes[i].maxy - boxes[i].miny),
+                                                            Mathf.Abs(boxes[i].maxz - boxes[i].minz));
                 parts[i].transform.parent = this.transform;
                 parts[i].GetComponent<MeshRenderer>().sharedMaterial = substance.Material;
                 parts[i].AddComponent<Mesher>();
@@ -266,9 +266,9 @@ namespace CevarnsOfEvil {
                 parts[index].transform.position = new Vector3((quads[i].ul.x + quads[i].lr.x) / 2.0f,
                                                           (quads[i].y  - ((8 + quads[i].y) / 2.0f) - 0.125f),
                                                           (quads[i].ul.z + quads[i].lr.z) / 2.0f);
-                parts[index].transform.localScale = new Vector3(quads[i].ul.x - quads[i].lr.x,
+                parts[index].transform.localScale = new Vector3(Mathf.Abs(quads[i].ul.x - quads[i].lr.x),
                                                             8 + quads[i].y - 0.25f,
-                                                            quads[i].ul.z - quads[i].lr.z);
+                                                            Mathf.Abs(quads[i].ul.z - quads[i].lr.z));
                 parts[index].transform.parent = this.transform;
                 parts[index].GetComponent<MeshRenderer>().sharedMaterial = room.walls.GetComponent<Mesher>().substance.Material;
                 parts[index].AddComponent<Mesher>();
@@ -280,9 +280,9 @@ namespace CevarnsOfEvil {
                 parts[index].transform.position = new Vector3((quads[i].ul.x + quads[i].lr.x) / 2.0f,
                                                           quads[i].y - 0.125f,
                                                           (quads[i].ul.z + quads[i].lr.z) / 2.0f);
-                parts[index].transform.localScale = new Vector3(quads[i].ul.x - quads[i].lr.x,
+                parts[index].transform.localScale = new Vector3(Mathf.Abs(quads[i].ul.x - quads[i].lr.x),
                                                             0.25f,
-                                                            quads[i].ul.z - quads[i].lr.z);
+                                                            Mathf.Abs(quads[i].ul.z - quads[i].lr.z));
                 parts[index].transform.parent = this.transform;
                 parts[index].GetComponent<MeshRenderer>().sharedMaterial = substance.Material;
                 parts[index].AddComponent<Mesher>();
@@ -302,9 +302,9 @@ namespace CevarnsOfEvil {
                 parts[i].transform.position = new Vector3((quads[i].ul.x + quads[i].lr.x) / 2.0f,
                                                           quads[i].y + ((32 - quads[i].y) / 2.0f),
                                                           (quads[i].ul.z + quads[i].lr.z) / 2.0f);
-                parts[i].transform.localScale = new Vector3(quads[i].ul.x - quads[i].lr.x,
+                parts[i].transform.localScale = new Vector3(Mathf.Abs(quads[i].ul.x - quads[i].lr.x),
                                                             32 - quads[i].y,
-                                                            quads[i].ul.z - quads[i].lr.z);
+                                                            Mathf.Abs(quads[i].ul.z - quads[i].lr.z));
                 parts[i].transform.parent = this.transform;
                 parts[i].GetComponent<MeshRenderer>().sharedMaterial = substance.Material;
                 parts[i].AddComponent<Mesher>();
