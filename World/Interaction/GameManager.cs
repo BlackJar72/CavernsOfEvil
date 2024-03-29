@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using QFSW.QC;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -13,6 +13,7 @@ namespace CevarnsOfEvil
         Level level;
 
         [SerializeField] AudioMixer audioMixer;
+        [SerializeField] GameObject FPSCounter;
 
         private MapMatrix map;
 
@@ -191,6 +192,10 @@ namespace CevarnsOfEvil
             return map.GetRoom((int)a.x, (int)a.z) == map.GetRoom((int)b.x, (int)b.z);
         }
 
+        [Command]
+        public void ShowFPS() {
+            FPSCounter.SetActive(!FPSCounter.active);
+        }
 
 
         #endregion

@@ -61,10 +61,7 @@ namespace CevarnsOfEvil
                 || (room.isNode && GameData.LevelDifficulty.ShouldHaveMobs(dungeon.random)));
             HashSet<Vector2Int> used = new HashSet<Vector2Int>();
             int level, num, rolledLevel;
-            if((GameData.Level == 16) && (room.id == 2)) {
-                PlaceFinalBoss(room, dungeon, used);
-                level = GameData.LevelDifficulty.GetMonsterLevel(dungeon.random);
-            } else {
+            {
                 if (boss) level = GameData.LevelDifficulty.GetBossLevel(dungeon.random);
                 else level = GameData.LevelDifficulty.GetMonsterLevel(dungeon.random);
             }
@@ -100,10 +97,7 @@ namespace CevarnsOfEvil
             // Some of one kind
             {
                 int level, num, rolledLevel;
-                if((GameData.Level == 16) && (room.id == 2)) {
-                    PlaceFinalBoss(room, dungeon, used);
-                    level = GameData.LevelDifficulty.GetMonsterLevel(dungeon.random);
-                } else {
+                {
                     if (boss) level = GameData.LevelDifficulty.GetBossLevel(dungeon.random);
                     else level = GameData.LevelDifficulty.GetMonsterLevel(dungeon.random);
                 }

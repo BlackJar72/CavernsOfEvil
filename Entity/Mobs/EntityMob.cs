@@ -125,6 +125,7 @@ namespace CevarnsOfEvil
 
         public override void Die(Damages damages)
         {
+            gameObject.layer = GameConstants.WorldCollideLayer;
             anim.SetTrigger("Die");
             anim.SetBool("Dead", true);
             base.Die(damages);

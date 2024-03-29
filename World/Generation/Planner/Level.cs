@@ -320,6 +320,15 @@ namespace CevarnsOfEvil
             Room endRoom = nodes[1].theRoom;
             GameObject exit = Instantiate(endPad, new Vector3(endRoom.realX,
                 endRoom.floorY, endRoom.realZ), endPad.transform.rotation);
+            if(GameData.Level == 16) {
+                MobEntry entry = theme.MobLists.Lists[7].Mobs[0];
+                if(GameData.GameDifficulty < DifficultySettings.hard) {
+                    SpawnFinalBoss(entry.MobPrefab, endRoom.midX, endRoom.midZ - 1, Quaternion.identity);
+                } else {
+                    SpawnFinalBoss(entry.MobPrefab, endRoom.midX, endRoom.midZ + 1, Quaternion.identity);
+                    SpawnFinalBoss(entry.MobPrefab, endRoom.midX, endRoom.midZ - 1, Quaternion.Euler(0.0f, 180.0f, 0.0f));
+                }
+            }
         }
 
 
@@ -338,6 +347,23 @@ namespace CevarnsOfEvil
                 || monster.GetComponent<EntityMob>().CanSeeCollider(player)) Destroy(monster);
             else
             {
+                entity.SetGameManager(manager);
+                entity.SetGameLevel(this);
+                mobs.Add(entity);
+            }
+        }
+
+
+        public void SpawnFinalBoss(GameObject mob, int x, int z, Quaternion rot)
+        {
+            Vector3 location = new Vector3((float)x + 1.0f, map.GetFloorY(x, z), (float)z + 1.0f);
+            Quaternion q = mob.transform.rotation * rot;
+            GameObject monster = Instantiate(mob, location, q);
+            EntityMob entity = monster.GetComponent<EntityMob>();
+            if ((entity == null)) {
+                Debug.Log("Failed to spawn final boss");
+                Destroy(monster);
+            } else {
                 entity.SetGameManager(manager);
                 entity.SetGameLevel(this);
                 mobs.Add(entity);

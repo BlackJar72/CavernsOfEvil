@@ -138,6 +138,7 @@ namespace CevarnsOfEvil
             grabStringScript.enabled = false;
             bow.transform.parent = null;
             bowCollider.enabled = true;
+            bow.layer = GameConstants.WorldCollideLayer;
             bow.GetComponent<EntityDeath>().enabled = true;
             Rigidbody bowrb = bow.GetComponent<Rigidbody>();
             bowrb.isKinematic = false;
