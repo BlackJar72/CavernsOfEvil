@@ -36,7 +36,6 @@ namespace CevarnsOfEvil
 
         public static string GetTimeString()
         {
-            int hours = 0;
             int minutes = 0;
             int seconds = (int)(endTime - startTime);
 
@@ -45,41 +44,16 @@ namespace CevarnsOfEvil
                 minutes = seconds / 60;
                 seconds = seconds % 60;
             }
-            if(minutes > 60)
-            {
-                hours = minutes / 60;
-                minutes = minutes % 60;
-            }
-
-            StringBuilder sb = new StringBuilder();
-            if (hours > 0)
-            {
-                sb.Append(hours);
-                if(hours > 1) sb.Append(" hours, ");
-                else sb.Append(" hour, ");
-            }
-            if (minutes > 0)
-            {
-                sb.Append(minutes);
-                if(minutes > 1) sb.Append(" minutes, ");
-                else sb.Append(" minute, ");
-            }
-            sb.Append(seconds);
-            if(seconds == 1) sb.Append(" second");
-            else sb.Append(" seconds");
-            return sb.ToString();
+            return LocalizationManager.GetTranslation("UIStrings", "TimeN", minutes.ToString(), seconds.ToString());
         }
 
         public static string GetKillsString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(totalKills);
-            sb.Append(" of ");
-            sb.Append(totalMobs);
-            sb.Append(" (");
-            sb.Append((int)(((float)totalKills / (float)totalMobs) * 100));
-            sb.Append("%)");
-            return sb.ToString();
+            string[] append = new string[3];
+            append[0] = totalKills.ToString();
+            append[1] = totalMobs.ToString();
+            append[2] = ((int)(((float)totalKills / (float)totalMobs) * 100)).ToString();
+            return LocalizationManager.GetTranslation("UIStrings", "KillsN", append);
         }
     }
 
@@ -109,9 +83,9 @@ namespace CevarnsOfEvil
         {
             if (GameData.Level > 0) {
                 if (isNormal) {
-                    levelText.text = "Level " + GameData.Level;
-                    timeText.text = "Time: " + ScoreData.GetTimeString();
-                    killsText.text = "Kills: " + ScoreData.GetKillsString();
+                    levelText.text = LocalizationManager.GetTranslation("UIStrings", "LevelN", GameData.Level.ToString());
+                    timeText.text = ScoreData.GetTimeString();
+                    killsText.text = ScoreData.GetKillsString();
                     ShowHint();
                     GameData.NextLevel();
                     StartCoroutine(ShowPieces());
@@ -177,9 +151,10 @@ namespace CevarnsOfEvil
             if(!hintsShuffled || (shuffledHints.Count < 1)) ShuffleHints();
             int which = GameData.Level - 1;
             if(which < shuffledHints.Count) {
-                hintText.text = shuffledHints[which];
+                hintText.text = LocalizationManager.GetTranslation("Hints", shuffledHints[which]);
             } else {
-                hintText.text = hints[Random.Range(0, hints.Length)];
+                hintText.text = LocalizationManager.GetTranslation("Hints",
+                        hints[Random.Range(0, hints.Length)]);
             }
         }
 

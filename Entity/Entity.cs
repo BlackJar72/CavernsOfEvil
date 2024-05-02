@@ -8,6 +8,7 @@ namespace CevarnsOfEvil {
     public abstract class Entity : MonoBehaviour
     {
         [SerializeField] string entityName;
+        [SerializeField] string translationKey;
         [SerializeField] protected EntityHealth health;
                  
         protected bool isDead = false;
@@ -16,6 +17,7 @@ namespace CevarnsOfEvil {
         public bool IsDead { get { return isDead; } }
         public EntityHealth Health { get { return health; } }
         public string EntityName { get { return entityName; } }
+        public string LocalKey => translationKey;
 
 
         public virtual bool TakeDamage(ref Damages damage)

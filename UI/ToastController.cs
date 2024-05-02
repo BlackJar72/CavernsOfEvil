@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 using TMPro;
+using UnityEngine;
 
 
 namespace CevarnsOfEvil
@@ -24,10 +25,27 @@ namespace CevarnsOfEvil
         }
 
 
+        [Obsolete("Use ToastLocalized(tableIS, key) instead.")]
         public void Toast(string message)
         {
             toast.SetActive(visible = true);
             toastMessage.text = message;
+            timeout = Time.time + 3f;
+        }
+
+
+        public void ToastLocalized(string tableId, string key)
+        {
+            toast.SetActive(visible = true);
+            toastMessage.text = LocalizationManager.GetTranslation(tableId, key);
+            timeout = Time.time + 3f;
+        }
+
+
+        public void ToastLocalized(string tableId, string key, string appended)
+        {
+            toast.SetActive(visible = true);
+            toastMessage.text = LocalizationManager.GetTranslation(tableId, key) + " " + appended;
             timeout = Time.time + 3f;
         }
 

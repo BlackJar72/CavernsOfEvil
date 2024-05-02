@@ -148,9 +148,10 @@ namespace CevarnsOfEvil
                 StartCoroutine(DeathPause());
                 if((damages.attacker == null) || (damages.attacker == this))
                 {
-                    killedMessage.text = "You Died";
+                    killedMessage.text = LocalizationManager.GetTranslation("UIStrings", "YouDied");
                 } else {
-                    killedMessage.text = "Killed by " + damages.attacker.EntityName;
+                    killedMessage.text = LocalizationManager.GetTranslation("UIStrings", "KilledBy",
+                            LocalizationManager.GetTranslation("GameObjectNames", damages.attacker.LocalKey));
                 }
                 base.Die(damages);
             }

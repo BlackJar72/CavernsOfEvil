@@ -173,7 +173,7 @@ namespace CevarnsOfEvil
                 if (PickupItem(other.GetComponent<ItemPickup>(), false))
                 {
                     Destroy(other.gameObject);
-                    toastController.Toast(other.GetComponent<ItemPickup>().ItemName);
+                    toastController.ToastLocalized("GameObjectNames", other.GetComponent<ItemPickup>().LocalKey);
                 }
             }
         }
@@ -653,7 +653,7 @@ namespace CevarnsOfEvil
                 + System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".png";
             string filepath = SCREENSHOT_PATH + filename;
             File.WriteAllBytes(filepath, buffer);
-            toastController.Toast("Saved screenshot " + filename);
+            toastController.ToastLocalized("UIStrings", "Screenshot", "Saved screenshot " + filename);
             //Debug.Log("Saved screenshot at " + filepath);
             Destroy(screen);
         }

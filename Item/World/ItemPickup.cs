@@ -17,6 +17,7 @@ namespace CevarnsOfEvil
     public class ItemPickup : MonoBehaviour, IInteractable
     {
         [SerializeField] string itemName;
+        [SerializeField] string translationKey;
         [SerializeField] int itemID;
         [SerializeField] int ammoAmount;
         [SerializeField] PickupType type = PickupType.Hotbar;
@@ -25,6 +26,7 @@ namespace CevarnsOfEvil
         [HideInInspector] public bool touched = false;
 
         public string ItemName => itemName;
+        public string LocalKey => translationKey;
         public int ItemID { get { return itemID; } }
         public int AmmoAmount { get { return ammoAmount; } }
         public PickupType Type { get { return type; } }
