@@ -142,7 +142,7 @@ namespace CevarnsOfEvil
             bow.GetComponent<EntityDeath>().enabled = true;
             Rigidbody bowrb = bow.GetComponent<Rigidbody>();
             bowrb.isKinematic = false;
-            bowrb.velocity = (Vector3.down * 9.8f) 
+            bowrb.linearVelocity = (Vector3.down * 9.8f) 
                 + new Vector3(Random.value - 0.5f, Random.value - 0.5f, Random.value - 0.5f); ;
             bowrb.angularVelocity = new Vector3(Random.value - 0.5f, Random.value - 0.5f, Random.value - 0.5f);
             base.Die(damages);

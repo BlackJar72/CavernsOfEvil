@@ -21,7 +21,7 @@ namespace CevarnsOfEvil
         // Update is called once per frame
         void Update()
         {
-            Vector3 heading = rb.velocity.normalized;
+            Vector3 heading = rb.linearVelocity.normalized;
             rb.transform.forward = heading;
         }
 

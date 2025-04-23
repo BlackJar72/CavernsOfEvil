@@ -8,7 +8,6 @@ namespace CevarnsOfEvil
     public class MovePlayer : MonoBehaviour
     {
         public float baseSpeed = 3f;
-        public float jumpForce = 400f;
         public float mouseSensitivity = 10f;
         public GameObject camPivot;
         public GameObject playerCam;

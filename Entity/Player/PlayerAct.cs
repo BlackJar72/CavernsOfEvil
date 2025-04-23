@@ -261,7 +261,8 @@ namespace CevarnsOfEvil
         }
 
 
-        #region Input
+#region Input
+
         private void InitInput()
         {
             input = GetComponent<PlayerInput>();
@@ -324,7 +325,7 @@ namespace CevarnsOfEvil
         }
 
 
-        #endregion
+#endregion
 
 
 

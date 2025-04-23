@@ -33,7 +33,7 @@ namespace CevarnsOfEvil
         public void Launch(Vector3 dir, Entity attacker)
         {
             transform.rotation = Quaternion.LookRotation(dir);
-            GetComponent<Rigidbody>().velocity = dir * speed;
+            GetComponent<Rigidbody>().linearVelocity = dir * speed;
             this.attacker = attacker;
         }
 
@@ -46,7 +46,7 @@ namespace CevarnsOfEvil
         public void LaunchSimple(Vector3 dir, Entity attacker)
         {
             transform.rotation = Quaternion.LookRotation(dir);
-            GetComponent<Rigidbody>().velocity = dir.normalized * speed;
+            GetComponent<Rigidbody>().linearVelocity = dir.normalized * speed;
             this.attacker = attacker;
         }
 

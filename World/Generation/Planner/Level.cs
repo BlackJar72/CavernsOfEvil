@@ -31,6 +31,8 @@ namespace CevarnsOfEvil
         public RoomList rooms;
         public int roomCount;
 
+        public Unity.AI.Navigation.NavMeshSurface navMeshSurface;
+
         public GameObject testObject;
 
         public HubRoom[] nodes;
@@ -277,7 +279,7 @@ namespace CevarnsOfEvil
 
         private void PlaceMobs()
         {
-            GetComponent<NavMeshSurface>().BuildNavMesh();
+            navMeshSurface.BuildNavMesh();
             for (int i = 2; i < rooms.TotalCount; i++)
             {
                 MobPlacer.Process(rooms[i], this);
