@@ -1,6 +1,8 @@
 # Caverns Of Evil
 The Scripts (and only the scripts) for the game Caverns of Evil (and only those specific to Caverns of Evil).
 
+## Do to the flurry of new age verification laws I do not have the infrastructure to comply with, I will not be making or working on videogames or any other standalone software applications. ##
+
 Caverns of Evil is an action roguelike that plays like a '90s first-person shooter, though with a few innovations 
 and quirks of its own.  Fight through ever-increasing hordes of monsters while the gathering ever more powerful 
 weapons you'll need to survive.  Explore entirely new procedural levels every time, adapting to ever changing level 
