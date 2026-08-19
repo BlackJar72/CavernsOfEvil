@@ -123,9 +123,9 @@ namespace CevarnsOfEvil
         {
             // 17 because the level has now incremented, though to end at 16 we need 17
             if((GameData.Level == 17) && isNormal) {
-                SceneManager.LoadScene("VictoryScene");
+                SceneManager.LoadScene(GameConstants.VICTORY_SCENE);
             } else {
-                SceneManager.LoadScene("DungeonScene");
+                SceneManager.LoadScene(GameConstants.DUNGEON_SCENE);
             }
         }
 
@@ -133,7 +133,7 @@ namespace CevarnsOfEvil
         public void SaveAndExit()
         {
             //SaveGame.SaveGameData(SaveGame.STAND_IN);
-            SceneManager.LoadScene("Start");
+            SceneManager.LoadScene(GameConstants.START_SCENE);
         }
 
 

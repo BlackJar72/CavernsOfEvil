@@ -55,7 +55,6 @@ namespace CevarnsOfEvil
                 if (theme.liquidSubstance.Damage > 0) liquids.layer = 13;
                 else liquids.layer = 9;
             }
-
             map.MeshRoom(this);
             floor.isStatic = true;
             walls.isStatic = true;

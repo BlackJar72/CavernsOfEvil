@@ -161,7 +161,7 @@ namespace CevarnsOfEvil
         private IEnumerator DeathPause()
         {
             yield return new WaitForSeconds(5);
-            SceneManager.LoadScene("Start");
+            SceneManager.LoadScene(GameConstants.START_SCENE);
         }
 
 

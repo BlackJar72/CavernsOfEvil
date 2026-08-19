@@ -8,6 +8,7 @@ using QFSW.QC;
 namespace CevarnsOfEvil
 {
 
+    [RequireComponent(typeof(NavMeshSurface))]
     public class Level : MonoBehaviour
     {
         public GameObject protoRoom;
@@ -30,8 +31,6 @@ namespace CevarnsOfEvil
         public MapMatrix map;
         public RoomList rooms;
         public int roomCount;
-
-        public Unity.AI.Navigation.NavMeshSurface navMeshSurface;
 
         public GameObject testObject;
 
@@ -279,7 +278,9 @@ namespace CevarnsOfEvil
 
         private void PlaceMobs()
         {
-            navMeshSurface.BuildNavMesh();
+            NavMeshSurface navSurface = GetComponent<NavMeshSurface>();
+            Debug.Log(navSurface);
+            navSurface.BuildNavMesh();
             for (int i = 2; i < rooms.TotalCount; i++)
             {
                 MobPlacer.Process(rooms[i], this);

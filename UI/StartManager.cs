@@ -12,6 +12,7 @@ namespace CevarnsOfEvil
 
     public class StartManager : MonoBehaviour
     {
+
         private static bool justLoaded = true;
 
         public string seedString = "";
@@ -84,8 +85,9 @@ namespace CevarnsOfEvil
 
         public void StartGame()
         {
+            //FIXME
             GameData.Init(seedString, difficulty);
-            SceneManager.LoadScene("DungeonScene");
+            SceneManager.LoadScene(GameConstants.DUNGEON_SCENE);
         }
 
 

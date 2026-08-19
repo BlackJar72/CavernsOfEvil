@@ -14,7 +14,7 @@ namespace CevarnsOfEvil
     public class Substance : ScriptableObject
     {
         [SerializeField] Material material;
-        [SerializeField] PhysicsMaterial physicMaterial;
+        [SerializeField] PhysicMaterial physicMaterial;
         [SerializeField] GameObject hitParticles;
 
         [SerializeField] bool isLiquid = false;
@@ -28,7 +28,7 @@ namespace CevarnsOfEvil
 
 
         public Material Material => material;
-        public PhysicsMaterial PhysicMaterial => physicMaterial;
+        public PhysicMaterial PhysicMaterial => physicMaterial;
         public GameObject HitParticles => hitParticles;
         public bool IsLiquid => isLiquid;
         public int Damage => damage;

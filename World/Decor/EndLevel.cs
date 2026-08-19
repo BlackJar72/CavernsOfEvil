@@ -15,7 +15,7 @@ namespace CevarnsOfEvil {
             level = GameObject.Find("Level").GetComponent<Level>();
             ScoreData.endTime = Time.time;
             ScoreData.totalKills = level.MobsKilled();
-            SceneManager.LoadScene("LoadingScreen");
+            SceneManager.LoadScene(GameConstants.INTERMISSION_SCENE);
         }
 
 
@@ -26,7 +26,7 @@ namespace CevarnsOfEvil {
             level = GameObject.Find("Level").GetComponent<Level>();
             ScoreData.endTime = Time.time;
             ScoreData.totalKills = level.MobsKilled();
-            SceneManager.LoadScene("LoadingScreen");
+            SceneManager.LoadScene(GameConstants.INTERMISSION_SCENE);
         }
     }
 

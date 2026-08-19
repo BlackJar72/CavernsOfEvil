@@ -78,7 +78,8 @@ namespace CevarnsOfEvil
 
         private void Awake()
         {
-            SCREENSHOT_PATH = Application.persistentDataPath + "/Screeshots/";
+            SCREENSHOT_PATH = System.Environment
+                .GetFolderPath(System.Environment.SpecialFolder.MyPictures) + "/Screeshots/";
             InitInput();
         }
 
@@ -261,8 +262,7 @@ namespace CevarnsOfEvil
         }
 
 
-#region Input
-
+        #region Input
         private void InitInput()
         {
             input = GetComponent<PlayerInput>();
@@ -325,7 +325,7 @@ namespace CevarnsOfEvil
         }
 
 
-#endregion
+        #endregion
 
 
 

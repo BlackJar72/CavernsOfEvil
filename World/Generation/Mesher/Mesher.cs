@@ -89,6 +89,7 @@ namespace CevarnsOfEvil {
             mesh.RecalculateTangents();
             MeshCollider collider = GetComponent<MeshCollider>();
             collider.sharedMesh = mesh;
+            Debug.Log("mesh.isReadable = " + mesh.isReadable);
         }
 
 
