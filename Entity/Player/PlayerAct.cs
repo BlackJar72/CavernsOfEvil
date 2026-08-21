@@ -8,15 +8,6 @@ using UnityEngine.InputSystem;
 
 namespace CevarnsOfEvil
 {
-    public static class InventoryHolder
-    {
-        static public int activeSlot = 0;
-        static public int activeArmor = 0;
-
-        static public AmmoType[] ammoTypes = new AmmoType[4];
-        static public AmmoData[] ammo = new AmmoData[4];
-    }
-
     
     public class PlayerAct : MonoBehaviour, IHaveInventory
     {
@@ -117,27 +108,6 @@ namespace CevarnsOfEvil
             {
                 armors[i].Init(player.Health);
             }
-            if (newGame)
-            {
-                InventoryHolder.activeSlot = activeSlot;
-                InventoryHolder.ammoTypes = ammoTypes;
-                InventoryHolder.ammo = ammo;
-                InventoryHolder.activeArmor = activeArmor;
-                newGame = false;
-                stamina = baseStamina;
-            }
-            else
-            {
-                activeSlot = InventoryHolder.activeSlot;
-                ammoTypes = InventoryHolder.ammoTypes;
-                ammo = InventoryHolder.ammo;
-                activeArmor = InventoryHolder.activeArmor;
-                for (int i = 0; i < ammo.Length; i++)
-                {
-                    ammoText[i].text = ammo[i].Amount.ToString();
-                }
-                SetSword(Sword.Held);
-            }
             newGame = false;
         }
 
@@ -156,13 +126,6 @@ namespace CevarnsOfEvil
                 inventory[activeSlot].OnPlayerUse(this, animator);
             }
 
-        }
-
-
-        public void EndLevel()
-        {
-            InventoryHolder.activeSlot = activeSlot;
-            InventoryHolder.activeArmor = activeArmor;
         }
 
 

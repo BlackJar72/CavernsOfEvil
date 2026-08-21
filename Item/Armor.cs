@@ -21,7 +21,6 @@ namespace CevarnsOfEvil
         private EntityHealth health;
 
         private static bool[] worn = new bool[5];
-        private static int savedDurability;
 
         public int Durability { get { return fullDurability; } }
         public int RemainingDurability { get { return durability; } }
@@ -41,7 +40,6 @@ namespace CevarnsOfEvil
                 hotbarScript.Activate();
                 hotbarScript.Change(icon);
                 gameObject.SetActive(true);
-                durability = savedDurability;
                 durabilityScaler.SetBar(durability, fullDurability);
                 durabilityScaler.Activate();
                 health.Armor = armorValue;
@@ -57,7 +55,6 @@ namespace CevarnsOfEvil
             worn[2] = false;
             worn[3] = false;
             worn[4] = false;
-            savedDurability = 0;
         }
 
 
@@ -65,8 +62,6 @@ namespace CevarnsOfEvil
         {
             if (equiped)
             {
-                savedDurability = durability = Mathf.Clamp(durability - damage.toArmor,
-                        0, fullDurability);
                 durabilityScaler.SetBar(durability, fullDurability);
                 if (durability < 1) BeRemoved();
             }
@@ -79,7 +74,6 @@ namespace CevarnsOfEvil
             hotbarScript.Change(icon);
             equiped = true;
             gameObject.SetActive(true);
-            savedDurability = durability = fullDurability;
             durabilityScaler.SetBar(1.0f);
             durabilityScaler.Activate();
             health.Armor = armorValue;
@@ -92,7 +86,6 @@ namespace CevarnsOfEvil
             hotbarScript.Deactivate();
             equiped = false;
             gameObject.SetActive(false);
-            savedDurability = durability = 0;
             durabilityScaler.SetBar(0.0f);
             durabilityScaler.Deactivate();
             health.Armor = 0;

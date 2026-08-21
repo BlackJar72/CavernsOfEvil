@@ -13,6 +13,8 @@ namespace CevarnsOfEvil
     {
         private static Level instance;
 
+        public static bool levelReady;
+
         public GameObject protoRoom;
         public RoomComponents parts;
         public ulong seed = 0;
@@ -58,18 +60,20 @@ namespace CevarnsOfEvil
         // Start is called before the first frame update
         protected virtual void Start()
         {
+            levelReady = false;
             manager = GetComponent<DungeonManager>();
             PlanLevel();
             map.GlobalDoorFixer();
             AStarLevel tester = new AStarLevel(this, nodes[0].theRoom, nodes[1].theRoom);
-            if(!tester.Seek())
-                SceneManager.LoadScene("DungeonScene");
+            if(!tester.Seek())                
+                GameManager.Instance.ReloadLevel();
             CreateLevel();
             if(mobs.Count < 4)
-                SceneManager.LoadScene("DungeonScene");
+                GameManager.Instance.ReloadLevel();
             ScoreData.NewLevel(mobs.Count);
             // This is to let loading screens know the level is complete
             LevelBuiltEvent?.Invoke();
+            levelReady = true;
         }
 
 
