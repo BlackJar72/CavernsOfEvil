@@ -57,11 +57,11 @@ namespace CevarnsOfEvil
         /// </summary>
         public static void Init(string seed, DifficultySettings difficulty)
         {
-            level = 1;
+            Level = 1;
             difficultySetting = difficulty;
             SeedString = seed;
             baseDifficulty = DifficultyTable.GetDifficultySetting(difficultySetting);
-            levelDifficulty = baseDifficulty.FromLevel(level);
+            levelDifficulty = baseDifficulty.FromLevel(Level);
             LoadingScreen.ResetHintShuffle();
             levelSize = Size.tiny;
             sizeData = SizeTable.GetData(levelSize);
@@ -80,9 +80,9 @@ namespace CevarnsOfEvil
         /// </summary>
         public static void NextLevel()
         {
-            level++;
-            levelDifficulty = baseDifficulty.FromLevel(level);
-            levelSize = BetterIncSize(levelSize, level);
+            Level++;
+            levelDifficulty = baseDifficulty.FromLevel(Level);
+            levelSize = BetterIncSize(levelSize, Level);
             sizeData = SizeTable.GetData(levelSize);
         }
 

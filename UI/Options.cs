@@ -24,17 +24,26 @@ namespace CevarnsOfEvil
         [SerializeField] Toggle fullscreenToggle;
         [SerializeField] TMP_Dropdown qualityDropdown;
 
-        public static float lookSensitivity = 0.5f;
-        public static float moveSensitivity = 1.0f;
-        public static float audioVolume = 0;
-        public static float gameVolume = 0;
-        public static float musicVolume = -20;
-        public static bool isFullscreen;
-        public static int graphicsQuality;
+        private static float lookSensitivity = 0.5f;
+        private static float moveSensitivity = 1.0f;
+        private static float audioVolume = 0;
+        private static float gameVolume = 0;
+        private static float musicVolume = -20;
+        private static bool isFullscreen;
+        private static int graphicsQuality;
 
         [SerializeField] EventSystem eventSystem;
         [SerializeField] GameObject startButton;
         [SerializeField] GameObject optBackButton;
+
+        public static float LookSensitivity => lookSensitivity;
+        public static float MoveSensitivity => moveSensitivity;
+        public static float AudioVolume => audioVolume;
+        public static float GameVolume => gameVolume;
+        public static float MusicVolume => musicVolume;
+        public static bool IsFullscreen => isFullscreen;
+        public static int GraphicsQuality => graphicsQuality;
+
 
 
         private void OnDisable()

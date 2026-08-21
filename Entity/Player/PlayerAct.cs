@@ -407,6 +407,12 @@ namespace CevarnsOfEvil
         }
 
 
+        public void PseudoInventorySet()
+        {
+            SetInventorySlot(activeSlot, 0);
+        }
+
+
         private void SetInventorySlot(int previous, int direction)
             {
                 if (activeSlot >= inventory.Length) activeSlot = 0;

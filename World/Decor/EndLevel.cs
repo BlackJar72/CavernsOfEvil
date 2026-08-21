@@ -12,10 +12,10 @@ namespace CevarnsOfEvil {
         [Command("win")]
         public void End()
         {
-            level = GameObject.Find("Level").GetComponent<Level>();
+            level = Level.Instance; // GameObject.Find("Level").GetComponent<Level>();
             ScoreData.endTime = Time.time;
             ScoreData.totalKills = level.MobsKilled();
-            SceneManager.LoadScene(GameConstants.INTERMISSION_SCENE);
+            UIManager.Instance.ShowIntermission();
         }
 
 
@@ -23,10 +23,10 @@ namespace CevarnsOfEvil {
         public void jump(int to)
         {
             GameData.Level = to - 1;
-            level = GameObject.Find("Level").GetComponent<Level>();
+            level = Level.Instance; // GameObject.Find("Level").GetComponent<Level>();
             ScoreData.endTime = Time.time;
             ScoreData.totalKills = level.MobsKilled();
-            SceneManager.LoadScene(GameConstants.INTERMISSION_SCENE);
+            UIManager.Instance.ShowIntermission();
         }
     }
 

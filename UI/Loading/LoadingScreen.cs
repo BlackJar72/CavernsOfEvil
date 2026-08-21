@@ -79,7 +79,7 @@ namespace CevarnsOfEvil
         [SerializeField] SteamAchievementsAndStats steam;
 
 
-        private void Start()
+        public void Init()
         {
             if (GameData.Level > 0) {
                 if (isNormal) {
@@ -109,9 +109,9 @@ namespace CevarnsOfEvil
         
         IEnumerator ShowPieces()
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSecondsRealtime(1);
             scores.SetActive(true);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSecondsRealtime(1);
             Cursor.lockState = CursorLockMode.None;
             // 17 because the level has now incremented, though to end at 16 we need 17
             if((GameData.Level == 17) && isNormal) quitButton.SetActive(false);
@@ -123,9 +123,9 @@ namespace CevarnsOfEvil
         {
             // 17 because the level has now incremented, though to end at 16 we need 17
             if((GameData.Level == 17) && isNormal) {
-                SceneManager.LoadScene(GameConstants.VICTORY_SCENE);
+                UIManager.Instance.ShowVictory();
             } else {
-                SceneManager.LoadScene(GameConstants.DUNGEON_SCENE);
+                GameManager.Instance.NextLevel();
             }
         }
 

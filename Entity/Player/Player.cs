@@ -3,6 +3,7 @@ using QFSW.QC;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.InputSystem;
 
 
 namespace CevarnsOfEvil
@@ -10,6 +11,8 @@ namespace CevarnsOfEvil
 
     public class Player : Entity
     { 
+        private static Player instance;
+
         PlayerAct actor;
         MovePlayer mover;
         ToastController toastController;
@@ -33,6 +36,16 @@ namespace CevarnsOfEvil
 
         public PlayerAct Actor { get { return actor; } }
         public MovePlayer Mover { get { return mover; } }
+
+
+        public static Player PC => instance;
+        public static GameObject PCObject => instance.gameObject;
+
+
+        void Awake()
+        {
+          instance = this;  
+        }
 
 
         // Start is called before the first frame update
@@ -62,6 +75,12 @@ namespace CevarnsOfEvil
             Item.StaticInit();
             ItemStack.PotionInit();
             Armor.Init();
+        }
+
+
+        public void PseudoInventorySet()
+        {
+            actor.PseudoInventorySet();
         }
 
 
@@ -131,6 +150,26 @@ namespace CevarnsOfEvil
         }
 
 
+        public void TeleportTo(float x, float y, float z)
+        {
+            transform.position = new Vector3(x, y, z);
+        }
+
+
+        public void TeleportTo(Transform trans)
+        {
+            transform.position = trans.position;
+            transform.rotation = trans.rotation;
+        }
+
+
+        public void TeleportTo(TransformData data)
+        {
+            transform.position = data.position;
+            transform.rotation = data.rotation;
+        }
+
+
         public override void Die(Damages damages)
         {
             if (!isDead)
@@ -181,6 +220,20 @@ namespace CevarnsOfEvil
         {
             yield return new WaitForSeconds(2);
             fireOverlay.SetActive(false);
+        }
+
+
+        public void DisableInput()
+        {
+            PlayerInput input = GetComponent<PlayerInput>();
+            input.DeactivateInput();
+        }
+
+
+        public void EnableInput()
+        {
+            PlayerInput input = GetComponent<PlayerInput>();
+            input.ActivateInput();
         }
 
 

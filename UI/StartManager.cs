@@ -87,7 +87,9 @@ namespace CevarnsOfEvil
         {
             //FIXME
             GameData.Init(seedString, difficulty);
-            SceneManager.LoadScene(GameConstants.DUNGEON_SCENE);
+            //SceneManager.LoadScene(GameConstants.DUNGEON_SCENE);
+            SceneManager.LoadScene(GameConstants.PLAYER_SCENE, LoadSceneMode.Single);
+            SceneManager.LoadScene(GameConstants.DUNGEON_SCENE, LoadSceneMode.Additive);
         }
 
 

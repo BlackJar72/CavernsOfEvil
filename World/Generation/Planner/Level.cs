@@ -11,10 +11,12 @@ namespace CevarnsOfEvil
     [RequireComponent(typeof(NavMeshSurface))]
     public class Level : MonoBehaviour
     {
+        private static Level instance;
+
         public GameObject protoRoom;
         public RoomComponents parts;
         public ulong seed = 0;
-        public GameObject player;
+        public GameObject player => Player.PCObject;
 
         public PickupLists pickupLists;
 
@@ -37,18 +39,26 @@ namespace CevarnsOfEvil
         public HubRoom[] nodes;
         public List<EntityMob> mobs;
 
-        protected GameManager manager;
+        protected DungeonManager manager;
 
-        public GameManager Manager { get { return manager; } }
+        public DungeonManager Manager { get { return manager; } }
 
         public delegate void LevelBuilt();
         public static event LevelBuilt LevelBuiltEvent;
+
+        public static Level Instance => instance;
+
+
+        protected virtual void Awake()
+        {
+            instance = this;
+        }
 
 
         // Start is called before the first frame update
         protected virtual void Start()
         {
-            manager = GetComponent<GameManager>();
+            manager = GetComponent<DungeonManager>();
             PlanLevel();
             map.GlobalDoorFixer();
             AStarLevel tester = new AStarLevel(this, nodes[0].theRoom, nodes[1].theRoom);
@@ -279,7 +289,6 @@ namespace CevarnsOfEvil
         private void PlaceMobs()
         {
             NavMeshSurface navSurface = GetComponent<NavMeshSurface>();
-            Debug.Log(navSurface);
             navSurface.BuildNavMesh();
             for (int i = 2; i < rooms.TotalCount; i++)
             {
@@ -313,16 +322,18 @@ namespace CevarnsOfEvil
         protected virtual void PlacePlayer()
         {
             Room startRoom = nodes[0].theRoom;
-            Instantiate(startPad, new Vector3(startRoom.realX,
+            GameObject entrance = Instantiate(startPad, new Vector3(startRoom.realX,
                 startRoom.floorY, startRoom.realZ), startPad.transform.rotation);
-            player.transform.position = new Vector3(startRoom.realX, 
-                startRoom.floorY + 0.2f, startRoom.realZ);
-            player.GetComponent<MovePlayer>().SetLevel(this);
-            player.SetActive(true);
+            entrance.transform.parent = transform;
+            Player.PC.TeleportTo(startRoom.realX, 
+                startRoom.floorY + 0.2f, startRoom.realZ);    
+            Player.PC.GetComponent<MovePlayer>().SetLevel(this);
+            Player.PCObject.SetActive(true);
 
             Room endRoom = nodes[1].theRoom;
             GameObject exit = Instantiate(endPad, new Vector3(endRoom.realX,
                 endRoom.floorY, endRoom.realZ), endPad.transform.rotation);
+            exit.transform.parent = transform;
             if(GameData.Level == 16) {
                 MobEntry entry = theme.MobLists.Lists[7].Mobs[0];
                 if(GameData.GameDifficulty < DifficultySettings.hard) {
@@ -345,12 +356,13 @@ namespace CevarnsOfEvil
             Quaternion q = mob.transform.rotation;
             if(randomRotation) q *= Quaternion.Euler(0, random.NextFloat() * 360, 0);
             GameObject monster = Instantiate(mob, location, q);
+            monster.transform.parent = transform;
             EntityMob entity = monster.GetComponent<EntityMob>();
             if ((entity == null) || InStartArea(entity)
-                || monster.GetComponent<EntityMob>().CanSeeCollider(player)) Destroy(monster);
+                || monster.GetComponent<EntityMob>().CanSeeCollider(Player.PCObject)) Destroy(monster);
             else
             {
-                entity.SetGameManager(manager);
+                entity.SetDungeonManager(manager);
                 entity.SetGameLevel(this);
                 mobs.Add(entity);
             }
@@ -362,12 +374,13 @@ namespace CevarnsOfEvil
             Vector3 location = new Vector3((float)x + 1.0f, map.GetFloorY(x, z), (float)z + 1.0f);
             Quaternion q = mob.transform.rotation * rot;
             GameObject monster = Instantiate(mob, location, q);
+            monster.transform.parent = transform;
             EntityMob entity = monster.GetComponent<EntityMob>();
             if ((entity == null)) {
                 Debug.Log("Failed to spawn final boss");
                 Destroy(monster);
             } else {
-                entity.SetGameManager(manager);
+                entity.SetDungeonManager(manager);
                 entity.SetGameLevel(this);
                 mobs.Add(entity);
             }
@@ -380,12 +393,13 @@ namespace CevarnsOfEvil
             Quaternion q = mob.transform.rotation * mobRotation;
             Instantiate(mob, location, q);
             GameObject monster = Instantiate(mob, location, q);
+            monster.transform.parent = transform;
             EntityMob entity = monster.GetComponent<EntityMob>();
             if ((entity == null) || InStartArea(entity) 
-                || monster.GetComponent<EntityMob>().CanSeeCollider(player)) Destroy(monster);
+                || monster.GetComponent<EntityMob>().CanSeeCollider(Player.PCObject)) Destroy(monster);
             else
             {
-                entity.SetGameManager(manager);
+                entity.SetDungeonManager(manager);
                 entity.SetGameLevel(this);
                 mobs.Add(entity);
             }
@@ -408,10 +422,17 @@ namespace CevarnsOfEvil
         }
 
 
+        [Command("printlevel")] 
+        public void PrintLevelNumber()
+        {
+            Debug.Log(GameData.Level);
+        }
+
+
         private bool InStartArea(EntityMob mob)
         {
             return ((map.GetRoom((int)mob.transform.position.x, (int)mob.transform.position.z) < 2) 
-                || (player.transform.position - mob.transform.position).magnitude < 16);
+                || (Player.PC.transform.position - mob.transform.position).magnitude < 16);
         }
 
 
@@ -422,6 +443,7 @@ namespace CevarnsOfEvil
                                            pickup.Pickup.TransformData.position.z + z + 0.5f);
             GameObject item = Instantiate(pickup.WorldPrefab,
                 location, pickup.Pickup.TransformData.rotation);
+            item.transform.parent = transform;
         }
 
 
@@ -432,6 +454,7 @@ namespace CevarnsOfEvil
                                            z + 0.5f);
             GameObject item = Instantiate(testObject,
                 location, testObject.transform.rotation);
+            item.transform.parent = transform;
         }
 
 
@@ -497,6 +520,7 @@ namespace CevarnsOfEvil
                                                        j + 0.5f);
                         GameObject item = Instantiate(testObject,
                             location, testObject.transform.rotation);
+                        item.transform.parent = transform;
                     }
                 }
         }

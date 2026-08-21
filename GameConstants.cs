@@ -5,9 +5,7 @@ namespace CevarnsOfEvil
     {
         // Scene Names
         public const string START_SCENE = "Start";
-        public const string DUNGEON_SCENE_OLD = "DungeonScene-OLD";
-        public const string DUNGEON_SCENE_NEW = "DungeonScene";
-        public const string DUNGEON_SCENE = DUNGEON_SCENE_OLD;
+        public const string DUNGEON_SCENE = "DungeonScene";
         public const string PLAYER_SCENE = "PlayerScene";
         public const string INTERMISSION_SCENE = "LoadingScreen";
         public const string VICTORY_SCENE = "VictoryScene";

@@ -12,7 +12,7 @@ namespace CevarnsOfEvil {
         [SerializeField] protected EntityHealth health;
                  
         protected bool isDead = false;
-        protected GameManager gameManager;
+        protected DungeonManager dungeonManager;
 
         public bool IsDead { get { return isDead; } }
         public EntityHealth Health { get { return health; } }
@@ -26,9 +26,9 @@ namespace CevarnsOfEvil {
         }
 
 
-        public void SetManager(GameManager gameManager)
+        public void SetManager(DungeonManager dm)
         {
-            this.gameManager = gameManager;
+            dungeonManager = dm;
         }
 
 

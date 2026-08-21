@@ -80,9 +80,9 @@ namespace CevarnsOfEvil
         }
 
 
-        public void SetGameManager(GameManager manager)
+        public void SetDungeonManager(DungeonManager manager)
         {
-            gameManager = manager;
+            dungeonManager = manager;
         }
 
 

@@ -9,7 +9,7 @@ namespace CevarnsOfEvil
     public class GourndRouter : MonoBehaviour, IRoutingAgent
     {
         protected EntityMob owner;
-        protected GameManager manager;
+        protected DungeonManager manager;
         protected Level level;
         protected StepDataAI stepDataAI;
         protected Vector3 destination;

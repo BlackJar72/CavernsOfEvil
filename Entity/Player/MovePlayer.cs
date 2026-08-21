@@ -161,7 +161,7 @@ namespace CevarnsOfEvil
         private void GetLookInput()
         {
             lookIn[0] = lookIn[1]; lookIn[1] = lookIn[2];
-            lookIn[2] = lookAction.ReadValue<Vector2>() * Options.lookSensitivity;
+            lookIn[2] = lookAction.ReadValue<Vector2>() * Options.LookSensitivity;
             lookIn[3] = ((lookIn[0] + lookIn[1] + lookIn[2]) / 3f);
         }
 
@@ -169,7 +169,7 @@ namespace CevarnsOfEvil
         private void GetMoveInput()
         {
             moveIn[0] = moveIn[1]; moveIn[1] = moveIn[2];
-            moveIn[2] = moveAction.ReadValue<Vector2>() * Options.moveSensitivity;
+            moveIn[2] = moveAction.ReadValue<Vector2>() * Options.MoveSensitivity;
             moveIn[3] = ((moveIn[0] + moveIn[1] + moveIn[2]) / 3f);
         }
 

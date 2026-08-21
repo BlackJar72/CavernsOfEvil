@@ -10,6 +10,7 @@ namespace CevarnsOfEvil
     {
         [SerializeField] AudioClip levelOneMusic;
         [SerializeField] List<AudioClip> allTracks;
+        [SerializeField] AudioMixer audioMixer;
         private AudioSource music;
 
         private static int index;
@@ -31,7 +32,7 @@ namespace CevarnsOfEvil
 
 
         // Start is called before the first frame update
-        void Start()
+        public void Start()
         {
             music = GetComponent<AudioSource>();
             if (GameData.Level == 1)
@@ -54,6 +55,12 @@ namespace CevarnsOfEvil
         }
 
 
+        public void Stop()
+        {
+            music.Stop();
+        }
+
+
         private void PlayTrack(int track)
         {
             music.clip = usedTracks[track];
@@ -70,6 +77,20 @@ namespace CevarnsOfEvil
         public static void Init()
         {
             index = 0;
+        }
+
+
+        public void MuteGame()
+        {
+            
+            audioMixer.SetFloat("Game", float.MinValue);
+        }
+
+
+        public void UnMuteGame()
+        {
+            
+            audioMixer.SetFloat("Game", Options.GameVolume);
         }
     }
 

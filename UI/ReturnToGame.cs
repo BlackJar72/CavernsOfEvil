@@ -23,7 +23,7 @@ namespace CevarnsOfEvil
                 playerAct.enabled = true;
                 playerMove.enabled = true;
             }
-            GameManager.instance.SetupAudio();
+            GameManager.Instance.SetupAudio();
             Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1;
         }

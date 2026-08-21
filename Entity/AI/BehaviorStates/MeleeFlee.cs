@@ -66,7 +66,7 @@ namespace CevarnsOfEvil
         private void SetFleeDestination(EntityNavMeshUser ownerIn)
         {
             Level dungeon = ownerIn.Dungeon;
-            GameManager manager = dungeon.Manager;
+            DungeonManager manager = dungeon.Manager;
             Room rroom = null;
             for(int tries = 0; tries < 5; tries++)
             while (rroom == null)
