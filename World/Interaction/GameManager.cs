@@ -64,9 +64,9 @@ namespace CevarnsOfEvil
             yield return null;
             SceneManager.LoadScene(GameConstants.DUNGEON_SCENE, LoadSceneMode.Additive);
             yield return null;
-            UIManager.Instance.EnterPlayMode();
-            yield return null;
             while(!Level.levelReady) yield return null;
+            yield return null;
+            UIManager.Instance.EnterPlayMode();
             yield return null;
             Player.PC.EnableInput();
             UIManager.Instance.SoundManager.UnMuteGame();
