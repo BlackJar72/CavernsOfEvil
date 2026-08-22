@@ -14,7 +14,7 @@ namespace CevarnsOfEvil
         public int activeSlot;
         public int activeArmor;
         public ArmorData[] armor;
-        public int[] ammo;
+        public AmmoData[] ammo;
         public float stamina;
 
         public static ActData FromPlayerAct(PlayerAct pc)
@@ -24,7 +24,7 @@ namespace CevarnsOfEvil
                 activeSlot = pc.ActiveSlot,
                 activeArmor = pc.ActiveArmorSlot,
                 armor = pc.GetArmorData(),
-                ammo = AmmoData.ToIntArray(pc.Ammo),
+                ammo = pc.Ammo,
                 stamina = pc.Stamina
             };
         }
@@ -139,7 +139,7 @@ namespace CevarnsOfEvil
             activeSlot = data.activeSlot;
             activeArmor = data.activeArmor;
             SetArmorData(data.armor);
-            ammo = AmmoData.FromIntArray(ammo, data.ammo);
+            ammo = data.ammo;
             stamina = data.stamina;
         }
 

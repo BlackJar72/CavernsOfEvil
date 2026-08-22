@@ -61,6 +61,12 @@ namespace CevarnsOfEvil
         }
 
 
+        public void ResumePlay()
+        {
+            music.Play();
+        }
+
+
         private void PlayTrack(int track)
         {
             music.clip = usedTracks[track];

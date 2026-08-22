@@ -17,24 +17,6 @@ namespace CevarnsOfEvil
         public AmmoType Type { get { return type; } }
 
 
-        public static int[] ToIntArray(AmmoData[] ammoData)
-        {
-            int[] result = new int[ammoData.Length];
-            for(int i = 0; i < ammoData.Length; i++)
-            {
-                result[i] = ammoData[i].amount;
-            }
-            return result;
-        }
-
-
-        public static AmmoData[] FromIntArray(AmmoData[] ammoData, int[] amounts)
-        {
-            for(int i = 0; i < ammoData.Length; i++) ammoData[i].amount = amounts[i];
-            return ammoData;
-        }
-
-
         public AmmoData(AmmoType type)
         {
             this.type = type;

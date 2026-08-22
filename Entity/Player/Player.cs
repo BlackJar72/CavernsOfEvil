@@ -23,8 +23,8 @@ namespace CevarnsOfEvil
     { 
         private static Player instance;
 
-        PlayerAct actor;
-        MovePlayer mover;
+        [SerializeField] PlayerAct actor;
+        [SerializeField] MovePlayer mover;
         ToastController toastController;
         
         public GameObject fireOverlay;
@@ -61,8 +61,6 @@ namespace CevarnsOfEvil
         // Start is called before the first frame update
         void Start()
         {
-            actor = GetComponent<PlayerAct>();
-            mover = GetComponent<MovePlayer>();
             toastController = GetComponent<ToastController>();
 #if UNITY_EDITOR
             if(testingMode)

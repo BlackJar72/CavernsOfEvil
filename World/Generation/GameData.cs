@@ -31,6 +31,8 @@ namespace CevarnsOfEvil
         private static Size levelSize;
         private static SizeData sizeData;
 
+        public static bool resuming;
+
 
         public static string SeedString
         {
@@ -154,12 +156,11 @@ namespace CevarnsOfEvil
         public static void LoadGame()
         {
             GameDataPersistent gameData = GetPersistentData();
-            PlayerData playerData = Player.PC.GetPlayerData();
 
             string fileName = saveSubdir + System.IO.Path.DirectorySeparatorChar + saveFileName;
 
             gameData = ES3.Load("GameData", fileName, gameData);
-            playerData = ES3.Load("PlayerData", fileName, playerData);
+            PlayerData playerData = ES3.Load<PlayerData>("PlayerData", fileName);
 
             GameData.SetFromPersistentData(gameData);
             Player.PC.SetPlayerData(playerData);
