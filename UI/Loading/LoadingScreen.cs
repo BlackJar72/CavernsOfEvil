@@ -88,6 +88,7 @@ namespace CevarnsOfEvil
                     killsText.text = ScoreData.GetKillsString();
                     ShowHint();
                     GameData.NextLevel();
+                    quitButton.SetActive(!((GameData.Level == 17) && isNormal));
                     StartCoroutine(ShowPieces());
                     if (steam != null) {
                         steam.AddStat("HIGH_LEVEL", GameData.Level);
@@ -96,16 +97,6 @@ namespace CevarnsOfEvil
             }
         }
 
-
-        /*void OnEnable() {
-            //Level.LevelBuiltEvent += OnSceneLoaded;
-        }
-
-
-        void OnDisable() {
-            //Level.LevelBuiltEvent -= OnSceneLoaded;
-        }*/
-
         
         IEnumerator ShowPieces()
         {
@@ -113,8 +104,6 @@ namespace CevarnsOfEvil
             scores.SetActive(true);
             yield return new WaitForSecondsRealtime(1);
             Cursor.lockState = CursorLockMode.None;
-            // 17 because the level has now incremented, though to end at 16 we need 17
-            if((GameData.Level == 17) && isNormal) quitButton.SetActive(false);
             buttons.SetActive(true);
         }
 
