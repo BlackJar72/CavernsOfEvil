@@ -25,12 +25,38 @@ namespace CevarnsOfEvil {
         public override int Armor { get { return armor; } set { armor = value; } }
 
 
+        public static void SetFromData(HealthData data)
+        {
+            armor = data.armor;
+            health = data.health;
+            shock = data.shock;
+        }
 
 
         public static void Init()
         {
             health = BASE_HEALTH;
             shock = BASE_SHOCK;
+        }
+    }
+
+
+    [System.Serializable]
+    public struct HealthData
+    {
+        public int health;
+        public float shock;
+        public int armor;
+        
+        public HealthData FromHealth(EntityHealth entityHealth)
+        {
+            HealthData result = new()
+            {
+                health = entityHealth.Health,
+                shock = entityHealth.Shock,
+                armor = entityHealth.Armor
+            };
+            return result;
         }
     }
 

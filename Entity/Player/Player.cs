@@ -71,7 +71,6 @@ namespace CevarnsOfEvil
         {
             godmode = false;
             PlayerHealth.Init();
-            PlayerAct.Init();
             Item.StaticInit();
             ItemStack.PotionInit();
             Armor.Init();

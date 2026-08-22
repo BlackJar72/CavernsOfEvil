@@ -13,8 +13,6 @@ namespace CevarnsOfEvil
     {
         public static string SCREENSHOT_PATH;
 
-        private static bool newGame = true;
-
         [SerializeField] GameObject playerBody;
 
         [SerializeField] public Item[] inventory = new Item[9];
@@ -108,13 +106,6 @@ namespace CevarnsOfEvil
             {
                 armors[i].Init(player.Health);
             }
-            newGame = false;
-        }
-
-
-        public static void Init()
-        {
-            newGame = true;
         }
 
 

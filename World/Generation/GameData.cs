@@ -3,6 +3,17 @@ using UnityEngine;
 
 namespace CevarnsOfEvil
 {
+    [System.Serializable]
+    public struct GameDataPersistent
+    {
+        public string seedString;
+        public ulong initialSeed;
+        public ulong currentSeed;
+        public int level;
+        public DifficultySettings difficultySetting;
+        public Size levelSize;
+    }
+
 
     public static class GameData
     {
@@ -39,6 +50,34 @@ namespace CevarnsOfEvil
                 }
 
             }
+        }
+
+
+        public static GameDataPersistent GetPersistentData()
+        {
+            GameDataPersistent result = new()
+            {
+                seedString = seedString,
+                initialSeed = initialSeed,
+                currentSeed = random.GetSeed(),
+                level = level,
+                difficultySetting = difficultySetting,
+                levelSize = levelSize
+            };
+            return result;
+        }
+
+
+        public static void SetFromPersistentData(GameDataPersistent data)
+        {
+            seedString = data.seedString;
+            initialSeed = data.initialSeed;
+            random = new Xorshift(data.currentSeed);
+            level = data.level;
+            difficultySetting = data.difficultySetting;
+            baseDifficulty = DifficultyTable.GetDifficultySetting(difficultySetting);
+            levelDifficulty = baseDifficulty.FromLevel(Level);
+            levelSize = data.levelSize;
         }
 
 
