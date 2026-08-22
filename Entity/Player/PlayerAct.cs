@@ -13,6 +13,8 @@ namespace CevarnsOfEvil
     {
         public int activeSlot;
         public int activeArmor;
+        public ArmorData[] armor;
+        public int[] ammo;
         public float stamina;
 
         public static ActData FromPlayerAct(PlayerAct pc)
@@ -21,6 +23,8 @@ namespace CevarnsOfEvil
             {
                 activeSlot = pc.ActiveSlot,
                 activeArmor = pc.ActiveArmorSlot,
+                armor = pc.GetArmorData(),
+                ammo = AmmoData.ToIntArray(pc.Ammo),
                 stamina = pc.Stamina
             };
         }
@@ -63,6 +67,7 @@ namespace CevarnsOfEvil
         public Player PlayerScript { get { return player; } }
         public float Stamina { get { return stamina; } set { stamina = value; } }
         public int ActiveSlot => activeSlot;
+        public AmmoData[] Ammo => ammo;
 
         // Input System
         private PlayerInput input;
@@ -133,7 +138,28 @@ namespace CevarnsOfEvil
         {
             activeSlot = data.activeSlot;
             activeArmor = data.activeArmor;
+            SetArmorData(data.armor);
+            ammo = AmmoData.FromIntArray(ammo, data.ammo);
             stamina = data.stamina;
+        }
+
+
+        public ArmorData[] GetArmorData()
+        {
+            ArmorData[] result = new ArmorData[5];
+            for(int i = 0; i < 5; i++) result[i] = ArmorData.MakeArmorData(armors[i]);
+            return result;
+        }
+
+
+        public void SetArmorData(ArmorData[] data)
+        {
+            for(int i = 0; i < data.Length; i++)
+            {
+                armors[i].equiped = data[i].equiped;
+                armors[i].durability = data[i].durability;
+                armors[i].Init(Player.PC.Health);
+            }
         }
 
 
@@ -333,6 +359,14 @@ namespace CevarnsOfEvil
         }
 
 
+        private void SetSlotTo2()
+        {
+                int previous = activeSlot;
+                activeSlot = 1;
+                SetInventorySlot(previous, 0);
+        }
+
+
         private void SetSlotTo3(InputAction.CallbackContext context)
         {
                 int previous = activeSlot;
@@ -470,9 +504,10 @@ namespace CevarnsOfEvil
 
         [Command("loser")]
         public void AllItems() {
+            SetSlotTo2();
             for(int i = 0; i < allItems.Length; i++) {
                 if(allItems[i]) allItems[i].BeAcquired();
-                if (allItems[i] is Sword)
+                if (allItems[i] is Sword) 
                 {
                     Sword oldSword = (Sword)inventory[allItems[i].preferredSlot];
                     Sword newSword = (Sword)allItems[i];
@@ -492,7 +527,10 @@ namespace CevarnsOfEvil
             }
             for(int i = 0; i < ammo.Length; i++) {
                 ammo[i].Fill(ammoText[i]);
-            }
+            }            
+            armors[activeArmor].BeRemoved();
+            activeArmor = 4 ;
+            armors[4].BeAcquired();
             ItemStack.PotionCheat();
         }
 

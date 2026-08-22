@@ -7,13 +7,32 @@ using TMPro;
 namespace CevarnsOfEvil
 {
 
+    [System.Serializable]
     public class AmmoData
     {
-        AmmoType type;
-        int amount;
+        [SerializeField] AmmoType type;
+        [SerializeField] int amount;
 
         public int Amount { get { return amount; } set { amount = Mathf.Clamp(value, 0, type.Max); } }
         public AmmoType Type { get { return type; } }
+
+
+        public static int[] ToIntArray(AmmoData[] ammoData)
+        {
+            int[] result = new int[ammoData.Length];
+            for(int i = 0; i < ammoData.Length; i++)
+            {
+                result[i] = ammoData[i].amount;
+            }
+            return result;
+        }
+
+
+        public static AmmoData[] FromIntArray(AmmoData[] ammoData, int[] amounts)
+        {
+            for(int i = 0; i < ammoData.Length; i++) ammoData[i].amount = amounts[i];
+            return ammoData;
+        }
 
 
         public AmmoData(AmmoType type)

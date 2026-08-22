@@ -31,6 +31,7 @@ namespace CevarnsOfEvil
         private static float musicVolume = -20;
         private static bool isFullscreen;
         private static int graphicsQuality;
+        private static bool permadeath = true;
 
         [SerializeField] EventSystem eventSystem;
         [SerializeField] GameObject startButton;
@@ -43,6 +44,7 @@ namespace CevarnsOfEvil
         public static float MusicVolume => musicVolume;
         public static bool IsFullscreen => isFullscreen;
         public static int GraphicsQuality => graphicsQuality;
+        public static bool Permadeath => permadeath;
 
 
 

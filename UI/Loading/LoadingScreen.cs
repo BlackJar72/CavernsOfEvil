@@ -88,6 +88,7 @@ namespace CevarnsOfEvil
                     killsText.text = ScoreData.GetKillsString();
                     ShowHint();
                     GameData.NextLevel();
+                    GameData.SaveGame();
                     quitButton.SetActive(!((GameData.Level == 17) && isNormal));
                     StartCoroutine(ShowPieces());
                     if (steam != null) {
@@ -121,7 +122,6 @@ namespace CevarnsOfEvil
 
         public void SaveAndExit()
         {
-            GameData.SaveGame();
             SceneManager.LoadScene(GameConstants.START_SCENE);
         }
 

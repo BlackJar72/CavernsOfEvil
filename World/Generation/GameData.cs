@@ -21,7 +21,6 @@ namespace CevarnsOfEvil
         public const string saveFileExtension = ".es3";
         public const string saveFileName = "previous.es3";
 
-
         private static string seedString = "";
         private static ulong initialSeed;
         private static Xorshift random;
@@ -148,6 +147,37 @@ namespace CevarnsOfEvil
 
             ES3.Save("GameData", gameData, fileName);
             ES3.Save("PlayerData", playerData, fileName);
+        }
+
+
+
+        public static void LoadGame()
+        {
+            GameDataPersistent gameData = GetPersistentData();
+            PlayerData playerData = Player.PC.GetPlayerData();
+
+            string fileName = saveSubdir + System.IO.Path.DirectorySeparatorChar + saveFileName;
+
+            gameData = ES3.Load("GameData", fileName, gameData);
+            playerData = ES3.Load("PlayerData", fileName, playerData);
+
+            GameData.SetFromPersistentData(gameData);
+            Player.PC.SetPlayerData(playerData);
+        }
+
+
+        public static void DeleteSavedGame()
+        {
+            string fileName = saveSubdir + System.IO.Path.DirectorySeparatorChar + saveFileName;
+            ES3.DeleteFile(fileName);
+            
+        }
+
+
+        public static bool DoesSaveExist()
+        {
+            string fileName = saveSubdir + System.IO.Path.DirectorySeparatorChar + saveFileName;
+            return ES3.FileExists(fileName);
         }
 
     }

@@ -15,7 +15,6 @@ namespace CevarnsOfEvil
         public HealthData health;
         public MoveData moveData;
         public ActData actData;
-        public bool[] armorWorn;
         public bool[] itemsAquired;
     }
 
@@ -84,7 +83,6 @@ namespace CevarnsOfEvil
             PlayerHealth.Init();
             Item.StaticInit();
             ItemStack.PotionInit();
-            Armor.Init();
         }
 
 
@@ -96,7 +94,6 @@ namespace CevarnsOfEvil
                 health = PlayerHealth.GetStatichData(),
                 moveData = mover.GetMoveData(),
                 actData = actor.GetActData(),
-                armorWorn = Armor.worn,
                 itemsAquired = Item.acquired
             };
         }
@@ -108,7 +105,6 @@ namespace CevarnsOfEvil
             PlayerHealth.SetFromData(data.health);
             mover.SetFromData(data.moveData);
             actor.SetFromData(data.actData);
-            Armor.worn = data.armorWorn;
             Item.acquired = data.itemsAquired;
         }
 
@@ -150,6 +146,7 @@ namespace CevarnsOfEvil
                 actor.ActiveArmor.BeDamaged(damage);
                 healthBar.UpdateHealth(health);
                 hurtSound.Play(voice);
+                actor.ActiveArmor.BeDamaged(damage);
                 return true;
             }
         }
@@ -227,6 +224,7 @@ namespace CevarnsOfEvil
                     killedMessage.text = LocalizationManager.GetTranslation("UIStrings", "KilledBy",
                             LocalizationManager.GetTranslation("GameObjectNames", damages.attacker.LocalKey));
                 }
+                if(Options.Permadeath) GameData.DeleteSavedGame();
                 base.Die(damages);
             }
         }

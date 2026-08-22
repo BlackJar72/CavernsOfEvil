@@ -5,6 +5,25 @@ using UnityEngine;
 namespace CevarnsOfEvil
 {
 
+    [System.Serializable]
+    public struct ArmorData
+    {
+        public int durability;
+        public bool equiped;
+        
+
+        public static ArmorData MakeArmorData(Armor armor)
+        {
+            return new() 
+            { 
+                durability = armor.durability, 
+                equiped = armor.equiped
+            };
+        }
+    }
+
+
+
     public class Armor : MonoBehaviour
     {
         [SerializeField] string itemName;
@@ -16,11 +35,9 @@ namespace CevarnsOfEvil
         [SerializeField] protected int fullDurability;
         [SerializeField] protected AdvancedBarScaler durabilityScaler;
 
-        private int durability;
+        public int durability;
         private HotbarSlotControl hotbarScript;
         private EntityHealth health;
-
-        public static bool[] worn = new bool[5];
 
         public int Durability { get { return fullDurability; } }
         public int RemainingDurability { get { return durability; } }
@@ -33,7 +50,6 @@ namespace CevarnsOfEvil
         public virtual void Init(EntityHealth playerHealth)
         {
             hotbarScript = armorSlot.GetComponent<HotbarSlotControl>();
-            equiped = worn[armorID];
             health = playerHealth;
             if (equiped)
             {
@@ -43,27 +59,27 @@ namespace CevarnsOfEvil
                 durabilityScaler.SetBar(durability, fullDurability);
                 durabilityScaler.Activate();
                 health.Armor = armorValue;
-                worn[armorID] = true;
             }
         }
-
-
-        public static void Init()
-        {
-            worn[0] = false;
-            worn[1] = false;
-            worn[2] = false;
-            worn[3] = false;
-            worn[4] = false;
-        }
+        
 
 
         public void BeDamaged(Damages damage)
         {
             if (equiped)
             {
+                durability -= damage.toArmor;
                 durabilityScaler.SetBar(durability, fullDurability);
                 if (durability < 1) BeRemoved();
+            }
+        }
+
+
+        public void BeDamaged()
+        {
+            if (equiped)
+            {
+                durabilityScaler.SetBar(durability, fullDurability);
             }
         }
 
@@ -74,10 +90,10 @@ namespace CevarnsOfEvil
             hotbarScript.Change(icon);
             equiped = true;
             gameObject.SetActive(true);
+            durability = fullDurability;
             durabilityScaler.SetBar(1.0f);
             durabilityScaler.Activate();
             health.Armor = armorValue;
-            worn[armorID] = true;
         }
 
 
@@ -86,10 +102,10 @@ namespace CevarnsOfEvil
             hotbarScript.Deactivate();
             equiped = false;
             gameObject.SetActive(false);
+            durability = 0;
             durabilityScaler.SetBar(0.0f);
             durabilityScaler.Deactivate();
             health.Armor = 0;
-            worn[armorID] = false;
         }
 
 
