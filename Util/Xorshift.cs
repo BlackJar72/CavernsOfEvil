@@ -42,6 +42,12 @@ namespace CevarnsOfEvil
             return seed;
         }
 
+
+        public ulong GetCurrentSeed()
+        {
+            return val;
+        }
+
         public bool NextBool()
         {
             return (NextUlong() & 0x1) == 1U;

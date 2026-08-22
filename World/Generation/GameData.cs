@@ -63,7 +63,7 @@ namespace CevarnsOfEvil
             {
                 seedString = seedString,
                 initialSeed = initialSeed,
-                currentSeed = random.GetSeed(),
+                currentSeed = random.GetCurrentSeed(),
                 level = level,
                 difficultySetting = difficultySetting,
                 levelSize = levelSize
