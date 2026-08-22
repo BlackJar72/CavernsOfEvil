@@ -121,7 +121,7 @@ namespace CevarnsOfEvil
 
         public void SaveAndExit()
         {
-            //SaveGame.SaveGameData(SaveGame.STAND_IN);
+            GameData.SaveGame();
             SceneManager.LoadScene(GameConstants.START_SCENE);
         }
 

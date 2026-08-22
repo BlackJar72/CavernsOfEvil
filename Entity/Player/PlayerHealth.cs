@@ -25,6 +25,20 @@ namespace CevarnsOfEvil {
         public override int Armor { get { return armor; } set { armor = value; } }
 
 
+        public HealthData GetHealthData() => HealthData.FromHealth(this);
+
+
+        public static HealthData GetStatichData()
+        {
+            return new HealthData()
+            {
+                armor = PlayerHealth.armor,
+                health = PlayerHealth.health,
+                shock = PlayerHealth.shock                
+            };
+        }
+
+
         public static void SetFromData(HealthData data)
         {
             armor = data.armor;
@@ -48,15 +62,14 @@ namespace CevarnsOfEvil {
         public float shock;
         public int armor;
         
-        public HealthData FromHealth(EntityHealth entityHealth)
+        public static HealthData FromHealth(EntityHealth entityHealth)
         {
-            HealthData result = new()
+            return new()
             {
                 health = entityHealth.Health,
                 shock = entityHealth.Shock,
                 armor = entityHealth.Armor
             };
-            return result;
         }
     }
 

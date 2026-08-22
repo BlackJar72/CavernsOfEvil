@@ -5,6 +5,32 @@ using UnityEngine.InputSystem;
 namespace CevarnsOfEvil
 {
 
+    public struct MoveData
+    {
+        public TransformData transform;
+        public Vector3 movement;
+        public float looky;
+        public float enviroCooldown;
+        public Vector3 hVelocity;
+        public Vector3 velocity;
+        public float vSpeed;
+
+        public static MoveData FromMovePlayer(MovePlayer pc)
+        {
+            return new()
+            {
+                transform = new(pc.transform),
+                movement = pc.movement,
+                looky = pc.Looky,
+                enviroCooldown = pc.EnviroCooldown,
+                hVelocity = pc.HVelocity,
+                velocity = pc.Velocity,
+                vSpeed = pc.VSpeed
+            };
+        }
+    }
+
+
     public class MovePlayer : MonoBehaviour
     {
         public float baseSpeed = 3f;
@@ -42,6 +68,10 @@ namespace CevarnsOfEvil
 
         public bool OnGround { get; private set; }
         public float Looky { get => looky; }
+        public float EnviroCooldown => enviroCooldown; 
+        public Vector3 HVelocity => hVelocity;
+        public Vector3 Velocity => velocity;
+        public float VSpeed => vSpeed;
 
         // Input System
         private PlayerInput input;
@@ -79,6 +109,22 @@ namespace CevarnsOfEvil
         public void SetLevel(Level level)
         {
             dungeon = level;
+        }
+
+
+        public MoveData GetMoveData() => MoveData.FromMovePlayer(this);
+
+
+        public void SetFromData(MoveData data)
+        { 
+            transform.position = data.transform.position;
+            transform.rotation = data.transform.rotation;
+            movement = data.movement;
+            looky = data.looky;
+            enviroCooldown = data.enviroCooldown;
+            hVelocity = data.hVelocity;
+            velocity = data.velocity;
+            vSpeed = data.vSpeed;
         }
 
 

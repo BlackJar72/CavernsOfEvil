@@ -8,6 +8,24 @@ using UnityEngine.InputSystem;
 
 namespace CevarnsOfEvil
 {
+
+    public struct ActData
+    {
+        public int activeSlot;
+        public int activeArmor;
+        public float stamina;
+
+        public static ActData FromPlayerAct(PlayerAct pc)
+        {
+            return new()
+            {
+                activeSlot = pc.ActiveSlot,
+                activeArmor = pc.ActiveArmorSlot,
+                stamina = pc.Stamina
+            };
+        }
+    }
+
     
     public class PlayerAct : MonoBehaviour, IHaveInventory
     {
@@ -30,7 +48,6 @@ namespace CevarnsOfEvil
 
         private Camera cam;
         private Animator animator;
-        private MovePlayer moveScript;
         private Player player;
         private ToastController toastController;
         private Item[] allItems;
@@ -45,6 +62,7 @@ namespace CevarnsOfEvil
         public Armor ActiveArmor { get { return armors[activeArmor]; } }
         public Player PlayerScript { get { return player; } }
         public float Stamina { get { return stamina; } set { stamina = value; } }
+        public int ActiveSlot => activeSlot;
 
         // Input System
         private PlayerInput input;
@@ -76,7 +94,6 @@ namespace CevarnsOfEvil
         public void Start()
         {
             cam = gameObject.GetComponentInChildren<Camera>();
-            moveScript = gameObject.GetComponent<MovePlayer>();
             player = gameObject.GetComponent<Player>();
             animator = playerBody.GetComponent<Animator>();
             toastController = playerBody.GetComponent<ToastController>();
@@ -106,6 +123,17 @@ namespace CevarnsOfEvil
             {
                 armors[i].Init(player.Health);
             }
+        }
+
+
+        public ActData GetActData() => ActData.FromPlayerAct(this);
+
+
+        public void SetFromData(ActData data)
+        {
+            activeSlot = data.activeSlot;
+            activeArmor = data.activeArmor;
+            stamina = data.stamina;
         }
 
 
@@ -491,10 +519,10 @@ namespace CevarnsOfEvil
             {
                 return false;
             }
-            if (item is Sword)
+            if (item is Sword sword)
             {
                 Sword oldSword = (Sword)inventory[item.preferredSlot];
-                Sword newSword = (Sword)item;
+                Sword newSword = sword;
                 if (newSword.Damage > oldSword.Damage)
                 {
                     inventory[item.preferredSlot] = newSword;
@@ -510,21 +538,20 @@ namespace CevarnsOfEvil
                 }
                 return false;
             }
-            else if (item is Gun)
+            else if (item is Gun gun)
             {
                 if (inventory[item.preferredSlot].equiped
-                    && ammo[((Gun)item).AmmoTypeID].Full())
+                    && ammo[gun.AmmoTypeID].Full())
                 {
                     return false;
                 }
                 inventory[item.preferredSlot].BeAcquired();
-                ammo[((Gun)item).AmmoTypeID]
-                    .Add(pickup.AmmoAmount, ammoText[((Gun)item).AmmoTypeID]);
+                ammo[gun.AmmoTypeID]
+                    .Add(pickup.AmmoAmount, ammoText[gun.AmmoTypeID]);
                 return true;
             }
-            else if (item is Wand)
+            else if (item is Wand wand)
             {
-                Wand wand = (Wand)item;
                 if (wand.ShouldTake())
                 {
                     inventory[item.preferredSlot].BeAcquired();
@@ -532,9 +559,8 @@ namespace CevarnsOfEvil
                 }
                 return true;
             }
-            else if (item is ItemStack)
+            else if (item is ItemStack stack)
             {
-                ItemStack stack = (ItemStack)item;
                 if (stack.CanAddItem())
                 {
                     stack.BeAcquired();
@@ -602,7 +628,7 @@ namespace CevarnsOfEvil
         private IEnumerator CreateScreenshot()
         {
             yield return new WaitForEndOfFrame();
-            Texture2D screen = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+            Texture2D screen = new(Screen.width, Screen.height, TextureFormat.RGB24, false);
             screen.ReadPixels(new Rect(0 , 0, Screen.width, Screen.height), 0, 0);
             screen.Apply();
             byte[] buffer = screen.EncodeToPNG();

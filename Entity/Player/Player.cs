@@ -9,6 +9,17 @@ using UnityEngine.InputSystem;
 namespace CevarnsOfEvil
 {
 
+    public struct PlayerData
+    {
+        public bool godmode;
+        public HealthData health;
+        public MoveData moveData;
+        public ActData actData;
+        public bool[] armorWorn;
+        public bool[] itemsAquired;
+    }
+
+
     public class Player : Entity
     { 
         private static Player instance;
@@ -74,6 +85,31 @@ namespace CevarnsOfEvil
             Item.StaticInit();
             ItemStack.PotionInit();
             Armor.Init();
+        }
+
+
+        public PlayerData GetPlayerData()
+        {
+            return new PlayerData()
+            {
+                godmode = Player.godmode,
+                health = PlayerHealth.GetStatichData(),
+                moveData = mover.GetMoveData(),
+                actData = actor.GetActData(),
+                armorWorn = Armor.worn,
+                itemsAquired = Item.acquired
+            };
+        }
+
+
+        public void SetPlayerData(PlayerData data)
+        {
+            godmode = data.godmode;
+            PlayerHealth.SetFromData(data.health);
+            mover.SetFromData(data.moveData);
+            actor.SetFromData(data.actData);
+            Armor.worn = data.armorWorn;
+            Item.acquired = data.itemsAquired;
         }
 
 

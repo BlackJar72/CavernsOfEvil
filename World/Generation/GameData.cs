@@ -16,7 +16,12 @@ namespace CevarnsOfEvil
 
 
     public static class GameData
-    {
+    {   
+        public const string saveSubdir = "saves";
+        public const string saveFileExtension = ".es3";
+        public const string saveFileName = "previous.es3";
+
+
         private static string seedString = "";
         private static ulong initialSeed;
         private static Xorshift random;
@@ -131,6 +136,19 @@ namespace CevarnsOfEvil
 
         private static Size BetterIncSize(Size s, int level) =>
             (Size)Mathf.Clamp((int)s + 1, 0, Mathf.Min(5, DifficultyCalculator.CalcDifficulty(level) * 6));
+
+
+
+        public static void SaveGame()
+        {
+            GameDataPersistent gameData = GetPersistentData();
+            PlayerData playerData = Player.PC.GetPlayerData();
+
+            string fileName = saveSubdir + System.IO.Path.DirectorySeparatorChar + saveFileName;
+
+            ES3.Save("GameData", gameData, fileName);
+            ES3.Save("PlayerData", playerData, fileName);
+        }
 
     }
 

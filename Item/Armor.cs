@@ -20,7 +20,7 @@ namespace CevarnsOfEvil
         private HotbarSlotControl hotbarScript;
         private EntityHealth health;
 
-        private static bool[] worn = new bool[5];
+        public static bool[] worn = new bool[5];
 
         public int Durability { get { return fullDurability; } }
         public int RemainingDurability { get { return durability; } }
