@@ -98,7 +98,6 @@ namespace CevarnsOfEvil
 
         public void Start()
         {
-            Debug.Log("public void Start()");
             cam = gameObject.GetComponentInChildren<Camera>();
             player = gameObject.GetComponent<Player>();
             animator = playerBody.GetComponent<Animator>();
@@ -137,7 +136,6 @@ namespace CevarnsOfEvil
 
         public void SetFromData(ActData data)
         {
-            Debug.Log("public void SetFromData(ActData data)");
             activeSlot = data.activeSlot;
             activeArmor = data.activeArmor;
             SetArmorData(data.armor);
