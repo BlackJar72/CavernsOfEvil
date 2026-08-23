@@ -15,6 +15,10 @@ namespace CevarnsOfEvil
         public int activeArmor;
         public ArmorData[] armor;
         public AmmoData[] ammo;
+        public int wand04;
+        public int wand05;
+        public int wand06;
+        public int potions;
         public int swordHeld;
         public float stamina;
 
@@ -26,6 +30,10 @@ namespace CevarnsOfEvil
                 activeArmor = pc.ActiveArmorSlot,
                 armor = pc.GetArmorData(),
                 ammo = pc.Ammo,
+                wand04 = (pc.inventory[4] as Wand).Charges,
+                wand05 = (pc.inventory[5] as Wand).Charges,
+                wand06 = (pc.inventory[6] as Wand).Charges,
+                potions = ItemStack.stackSize,
                 swordHeld = Sword.Held,
                 stamina = pc.Stamina
             };
@@ -152,17 +160,23 @@ namespace CevarnsOfEvil
             {
                 startingSword.SetActive(false);
             }
+            (inventory[4] as Wand).Charges = data.wand04;
+            (inventory[5] as Wand).Charges = data.wand05;
+            (inventory[6] as Wand).Charges = data.wand06;
+            ItemStack.stackSize = data.potions;
             stamina = data.stamina;
         }
 
 
         public void FixSword()
-        {            
+        {   
+            // Nothing works, WTF!?!         
             int aslot = activeSlot;
             Item item = allItems[Sword.Held];
             Sword newSword = (Sword)item;
-            newSword.BeFixed();
+            SetSword(Sword.Held);
             activeSlot = aslot;
+            SetInventorySlot(0, activeSlot);
             if(activeSlot != 0) newSword.HotbarSlot.Deselect();
         }
 

@@ -11,7 +11,7 @@ namespace CevarnsOfEvil {
         [SerializeField] float useTime = 0.5f;
 
         // This works because it is only ever used for potions
-        static int stackSize = 0; 
+        public static int stackSize = 0; 
         private float usableTime;
 
 
