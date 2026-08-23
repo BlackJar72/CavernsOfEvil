@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using QFSW.QC;
 using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 
 
 namespace CevarnsOfEvil
@@ -12,9 +7,6 @@ namespace CevarnsOfEvil
     public class DungeonManager : MonoBehaviour
     {
         public static DungeonManager instance;
-
-        [SerializeField] AudioMixer audioMixer;
-        [SerializeField] GameObject FPSCounter;
 
         private MapMatrix map;
 

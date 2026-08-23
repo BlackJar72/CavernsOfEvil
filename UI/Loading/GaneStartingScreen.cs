@@ -35,6 +35,9 @@ namespace CevarnsOfEvil
         private IEnumerator LoadLevel()
         {
             Time.timeScale = 0.0f;
+            yield return null;
+            if(GameData.resuming) GameData.LoadGame();
+            yield return null;
             SceneManager.LoadScene(GameConstants.DUNGEON_SCENE, LoadSceneMode.Additive);
             yield return new WaitForSecondsRealtime(1.0f);
             ShowHint();            

@@ -61,6 +61,7 @@ namespace CevarnsOfEvil
         // Start is called before the first frame update
         void Start()
         {
+            if(instance != this) Destroy(gameObject);
             toastController = GetComponent<ToastController>();
 #if UNITY_EDITOR
             if(testingMode)
