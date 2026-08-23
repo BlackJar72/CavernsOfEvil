@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PriorityQueue;
 
 
 namespace CevarnsOfEvil
@@ -10,7 +9,7 @@ namespace CevarnsOfEvil
 	public class AStarLevel
 	{
 
-		SimplePriorityQueue<LevelStep, float> edges;  // Steps to consider
+		PriorityQueue<LevelStep> edges;  // Steps to consider
 		readonly Level dungeon;
 		readonly LevelStep root;
 		LevelStep end;
@@ -28,8 +27,8 @@ namespace CevarnsOfEvil
 
 			root = LevelStep.FirstFromStart(start, finish);
 
-			edges = new SimplePriorityQueue<LevelStep, float>();
-			edges.Enqueue(root, root.Value);
+			edges = new PriorityQueue<LevelStep>();
+			edges.Push(root);
 		}
 
 
@@ -63,7 +62,7 @@ namespace CevarnsOfEvil
 			LevelStep current;
 			do
 			{
-				current = edges.Dequeue();
+				current = edges.Pop();
 				AddNextSteps(current);
 				complete = current.Equals(end);
 			} 
@@ -86,7 +85,7 @@ namespace CevarnsOfEvil
             {
 				dungeon.map.SetUsed(childX, childZ);
 				LevelStep child = new LevelStep(childX, childZ, src, end, dungeon);
-				edges.Enqueue(child, child.Value);
+				edges.Push(child);
 			}
 		}
 

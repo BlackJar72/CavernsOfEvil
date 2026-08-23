@@ -59,7 +59,7 @@ namespace CevarnsOfEvil
 	 * @author Jared Blackburn
 	 *
 	 */
-	public class Doorway : Tile, IComparable 
+	public class Doorway : Tile, IComparable<Doorway> 
 	{
 		// The direction the door points
 		public Vector2Int direction;

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PriorityQueue;
 
 
 namespace CevarnsOfEvil
@@ -19,7 +18,7 @@ namespace CevarnsOfEvil
 	 * @author JaredBGreat (Jared Blackburn)
 	 *
 	 */
-	public class Step : IComparable<Step>
+	public class Step : IComparable<Step>, IComparable
 	{
 		// FIXME: This class has a lot data that turn out to be extraneous
 
@@ -85,8 +84,8 @@ namespace CevarnsOfEvil
 			distance = previous.distance + 1;
 			heuristic = Mathf.Abs(x - destination.x) + Mathf.Abs(z - destination.z);
 			changes = previous.changes;
-			if (dungeon.map.GetWall(x, z)) changes++;
-			if (dungeon.map.GetWall(x, z) && (dungeon.map.GetDoorway(x, z) < 1)) changes++;
+			if (dungeon.map.GetBlocked(x, z)) changes++;
+			if (dungeon.map.GetBlocked(x, z) && (dungeon.map.GetDoorway(x, z) < 1)) changes++;
 			if (dungeon.map.GetPool(x, z) > 0) changes++;
 			if (Mathf.Abs(dungeon.map.GetFloorY(x, z)
 					- dungeon.map.GetFloorY(previous.x, previous.z)) > 1) changes++;
@@ -143,15 +142,19 @@ namespace CevarnsOfEvil
 			return new Vector2Int(x, z);
         }
 
-	}
+        public int CompareTo(object obj)
+        {
+            return CompareTo(obj as Step);
+        }
+    }
 
 
 	public class AStar
 	{
 
 		readonly int roomID, oRoomID, x1, x2, z1, z2;   // Room id and bounds
-		SimplePriorityQueue<Step, float> edges;  // Steps to consider
-		readonly Level dungeon;
+        PriorityQueue<Step> edges;  // Steps to consider
+        readonly Level dungeon;
 		readonly Room room;
 		readonly Step root;
 		Step end;
@@ -210,8 +213,8 @@ namespace CevarnsOfEvil
 				z2 = root.z;
 			}
 
-			edges = new SimplePriorityQueue<Step, float>();
-			edges.Enqueue(root, root.value);
+			edges = new PriorityQueue<Step>();
+			edges.Push(root);
 		}
 
 
@@ -227,7 +230,7 @@ namespace CevarnsOfEvil
 			if (parent == null) return;
 
 			dungeon.map.SetAstared(end.x, end.z);
-			if (dungeon.map.GetWall(end.x, end.z))
+			if (dungeon.map.GetBlocked(end.x, end.z))
 				dungeon.map.SetDoorway(GameConstants.BaseDoorHeight, end.x, end.z);
 			if(dungeon.map.GetPillar(end.x, end.z))
 				dungeon.map.SetPillar(false, end.x, end.z);
@@ -237,7 +240,7 @@ namespace CevarnsOfEvil
 			do
 			{
 				dungeon.map.SetAstared(child.x, child.z);
-				if (dungeon.map.GetWall(child.x, child.z))
+				if (dungeon.map.GetBlocked(child.x, child.z))
 					AddDoor(parent, child);
 				if (dungeon.map.GetPillar(child.x, child.z))
 					dungeon.map.UnSetPillar(child.x, child.z);
@@ -249,7 +252,7 @@ namespace CevarnsOfEvil
 			} while (parent != null);
 
 			dungeon.map.SetAstared(child.x, child.z);
-			if (dungeon.map.GetWall(child.x, child.z))
+			if (dungeon.map.GetBlocked(child.x, child.z))
 				dungeon.map.SetDoorway(GameConstants.BaseDoorHeight, child.x, child.z);
 			if (dungeon.map.GetPillar(child.x, child.z))
 				dungeon.map.UnSetPillar(child.x, child.z);
@@ -288,7 +291,7 @@ namespace CevarnsOfEvil
 			Step current;
 			do
 			{
-				current = edges.Dequeue();
+				current = edges.Pop();
 				AddNextSteps(current);
 			} 
 			while ((edges.Count > 0) && !current.Equals(end));
@@ -309,7 +312,7 @@ namespace CevarnsOfEvil
             {
 				dungeon.map.SetUsed(childX, childZ);
 				Step child = new Step(childX, childZ, src, end, dungeon);
-				edges.Enqueue(child, child.Value);
+				edges.Push(child);
 			}
 		}
 

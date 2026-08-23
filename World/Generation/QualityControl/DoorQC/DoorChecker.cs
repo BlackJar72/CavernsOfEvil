@@ -84,7 +84,7 @@ namespace CevarnsOfEvil
 			List<Doorway> output = new List<Doorway>(room.connections.Count);
 			foreach(DoorQueue exits in room.connections)
 			{
-				output.Add(exits.First);
+				output.Add(exits.Peek());
 			}
 			output.Shuffle(random);
 			return output;
@@ -148,9 +148,9 @@ namespace CevarnsOfEvil
 				int doorHeight = dungeon.map.GetDoorway(door.x, door.z);
 				if (!dungeon.map.GetAStared(door.x, door.z))
 				{
-					if (dungeon.map.GetWall(door.x + door.direction.x,
+					if (dungeon.map.GetBlocked(door.x + door.direction.x,
 							door.z + door.direction.y) ||
-						dungeon.map.GetWall(door.x - door.direction.x,
+						dungeon.map.GetBlocked(door.x - door.direction.x,
 							door.z - door.direction.y))
 						dungeon.map.SetDoorway(0, door.x, door.z);
 					if ((dungeon.map.GetPool(door.x + door.direction.x,
@@ -166,9 +166,9 @@ namespace CevarnsOfEvil
 				}
 				else
 				{
-					if (dungeon.map.GetWall(door.x + door.direction.x,
+					if (dungeon.map.GetBlocked(door.x + door.direction.x,
 							door.z + door.direction.y)) {
-						if (!dungeon.map.GetWall(door.x + 2 * door.direction.x,
+						if (!dungeon.map.GetBlocked(door.x + 2 * door.direction.x,
 								door.z + 2 * door.direction.y))
 						{
 							dungeon.map.SetDoorway(doorHeight, door.x + door.direction.x,
@@ -179,7 +179,7 @@ namespace CevarnsOfEvil
 							dungeon.map.SetDoorway(0, door.x, door.z);
 						}
 					}
-					else if(dungeon.map.GetWall(door.x - door.direction.x,
+					else if(dungeon.map.GetBlocked(door.x - door.direction.x,
 							door.z - door.direction.y))
 					{
 						if (!dungeon.map.GetWall(door.x - 2 * door.direction.x,

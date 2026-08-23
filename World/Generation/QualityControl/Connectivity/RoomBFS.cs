@@ -54,8 +54,8 @@ namespace CevarnsOfEvil
 					found.Add(next);
 				}
 				foreach (DoorQueue exit in next.connections) {
-					if (!ok[exit.First.otherside])
-						roomQueue.AddToBack(dungeon.rooms[exit.First.otherside]);
+					if (!ok[exit.Peek().otherside])
+						roomQueue.AddToBack(dungeon.rooms[exit.Peek().otherside]);
 				}
 			}
 			return found;

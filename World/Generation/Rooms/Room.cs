@@ -545,7 +545,7 @@ namespace CevarnsOfEvil
 			if (connections.Count < 1)
 			{
 				DoorQueue pq = new DoorQueue(door.otherside);
-				pq.Push(door, door);
+				pq.Push(door);
 				connections.Add(pq);
 			}
 			else
@@ -555,7 +555,7 @@ namespace CevarnsOfEvil
 				{
 					if (pq.IsRoom(door.otherside))
 					{
-						pq.Push(door, door);
+						pq.Push(door);
 						added = true;
 						break;
 					}
@@ -563,7 +563,7 @@ namespace CevarnsOfEvil
 				if (!added)
 				{
 					DoorQueue pq = new DoorQueue(door.otherside);
-					pq.Push(door, door);
+					pq.Push(door);
 					connections.Add(pq);
 				}
 			}

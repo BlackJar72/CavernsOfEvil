@@ -61,6 +61,7 @@ namespace CevarnsOfEvil
         public int GetPool(int x, int z) => pools[(z * size.width) + x];
         public bool GetWall(int x, int z) => isWall[(z * size.width) + x];
         public bool GetPillar(int x, int z) => isPillar[(z * size.width) + x];
+        public bool GetBlocked(int x, int z) => isWall[(z * size.width) + x] || isPillar[(z * size.width) + x];
         public bool GetAStared(int x, int z) => astared[(z * size.width) + x];
         public bool GetUsed(int x, int z) => used[(z * size.width) + x];
         public bool GetPassable(int x, int z) => !(isWall[(z * size.width) + x]

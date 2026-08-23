@@ -259,7 +259,7 @@ namespace CevarnsOfEvil
         protected void DespawnWallMob()
         {
 #if UNITY_EDITOR
-            if((dungeon != null) && dungeon.map.GetWall((int)transform.position.x, (int)transform.position.z)) Destroy(gameObject);
+            if((dungeon != null) && dungeon.map.GetBlocked((int)transform.position.x, (int)transform.position.z)) Destroy(gameObject);
 #else
             if (dungeon.map.GetWall((int)transform.position.x, (int)transform.position.z)) Destroy(gameObject);
 #endif

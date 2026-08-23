@@ -105,7 +105,7 @@ namespace CevarnsOfEvil
         public bool LocationGoodAI(Vector3 location)
         {
             Vector2Int tile = new Vector2Int((int)location.x, (int)location.z);
-            return !(map.GetWall(tile.x, tile.y) || map.GetPillar(tile.x, tile.y)
+            return !(map.GetBlocked(tile.x, tile.y) || map.GetPillar(tile.x, tile.y)
                 && ((map.GetFloorY(tile.x, tile.y) + map.GetPool(tile.x, tile.y)) < location.y));
         }
 

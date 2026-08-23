@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PriorityQueue;
 
 
 namespace CevarnsOfEvil
 {
 
-    public class DoorQueue : PriorityQueue.SimplePriorityQueue<Doorway, Doorway>
+    public class DoorQueue : PriorityQueue<Doorway>
     {
 		private int roomid;
 
