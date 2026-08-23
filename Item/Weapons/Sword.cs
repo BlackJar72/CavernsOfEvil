@@ -18,7 +18,7 @@ namespace CevarnsOfEvil
 
         private static int held;
 
-        public static int Held { get { return held; } }
+        public static int Held { get { return held; } set { held = value; } }
 
 
         public int Damage { get { return damage; } }
@@ -150,6 +150,13 @@ namespace CevarnsOfEvil
         {
             hotbarScript.Change(icon);
             hotbarScript.Activate();
+            equiped = true;
+        }
+
+
+        public void BeFixed()
+        {
+            hotbarScript.Change(icon);
             equiped = true;
         }
 

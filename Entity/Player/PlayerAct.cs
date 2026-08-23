@@ -15,6 +15,7 @@ namespace CevarnsOfEvil
         public int activeArmor;
         public ArmorData[] armor;
         public AmmoData[] ammo;
+        public int swordHeld;
         public float stamina;
 
         public static ActData FromPlayerAct(PlayerAct pc)
@@ -25,6 +26,7 @@ namespace CevarnsOfEvil
                 activeArmor = pc.ActiveArmorSlot,
                 armor = pc.GetArmorData(),
                 ammo = pc.Ammo,
+                swordHeld = Sword.Held,
                 stamina = pc.Stamina
             };
         }
@@ -54,7 +56,7 @@ namespace CevarnsOfEvil
         private Animator animator;
         private Player player;
         private ToastController toastController;
-        private Item[] allItems;
+        public Item[] allItems;
         private float slotScroll;
 
         [HideInInspector] public bool usingItem = false;
@@ -98,7 +100,7 @@ namespace CevarnsOfEvil
 
         public void Start()
         {
-            Debug.Log("public void Start()");
+            stamina =  baseStamina;
             cam = gameObject.GetComponentInChildren<Camera>();
             player = gameObject.GetComponent<Player>();
             animator = playerBody.GetComponent<Animator>();
@@ -137,7 +139,6 @@ namespace CevarnsOfEvil
 
         public void SetFromData(ActData data)
         {
-            Debug.Log("public void SetFromData(ActData data)");
             activeSlot = data.activeSlot;
             activeArmor = data.activeArmor;
             SetArmorData(data.armor);
@@ -146,7 +147,23 @@ namespace CevarnsOfEvil
             {
                 ammoText[i].text = ammo[i].Amount.ToString();
             }
+            Sword.Held = data.swordHeld;
+            if (Sword.Held > 0)
+            {
+                startingSword.SetActive(false);
+            }
             stamina = data.stamina;
+        }
+
+
+        public void FixSword()
+        {            
+            int aslot = activeSlot;
+            Item item = allItems[Sword.Held];
+            Sword newSword = (Sword)item;
+            newSword.BeFixed();
+            activeSlot = aslot;
+            if(activeSlot != 0) newSword.HotbarSlot.Deselect();
         }
 
 

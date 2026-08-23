@@ -34,7 +34,7 @@ namespace CevarnsOfEvil
 
         private IEnumerator LoadLevel()
         {
-            Time.timeScale = 0.0f;
+            Time.timeScale = 0.0f; 
             yield return null;
             if(GameData.resuming) GameData.LoadGame();
             yield return null;
@@ -48,6 +48,7 @@ namespace CevarnsOfEvil
             yield return null;
             gameObject.SetActive(false);
             Player.PC.EnableInput();
+            if(GameData.resuming) Player.PC.Actor.FixSword();
             UIManager.Instance.SoundManager.UnMuteGame();
             Time.timeScale = 1.0f;
         }

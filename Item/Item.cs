@@ -25,6 +25,7 @@ namespace CevarnsOfEvil {
         public static bool[] acquired = new bool[9];
 
         public virtual string ItemName { get => itemName; }
+        public HotbarSlotControl HotbarSlot => hotbarScript;
 
 
         public virtual void Init()
