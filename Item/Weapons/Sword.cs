@@ -81,7 +81,7 @@ namespace CevarnsOfEvil
 
         public override void OnPlayerDeselect(PlayerAct player)
         {
-            shower.enabled = false;
+            if(shower != null) shower.enabled = false;
             hotbarScript.Deselect();
             gameObject.SetActive(false);
         }
