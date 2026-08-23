@@ -100,10 +100,7 @@ namespace CevarnsOfEvil
 
         public void Start()
         {
-<<<<<<< HEAD
             stamina =  baseStamina;
-=======
->>>>>>> v2.0
             cam = gameObject.GetComponentInChildren<Camera>();
             player = gameObject.GetComponent<Player>();
             animator = playerBody.GetComponent<Animator>();
