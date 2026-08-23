@@ -10,7 +10,7 @@ namespace CevarnsOfEvil
 
 {
 
-    public class GaneStartingScreen : MonoBehaviour
+    public class GameStartingScreen : MonoBehaviour
     {
         [SerializeField] TMP_Text levelText;
         [SerializeField] TMP_Text hintText;
