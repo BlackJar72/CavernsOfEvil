@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using Unity.AI.Navigation;
 using UnityEngine.SceneManagement;
 using QFSW.QC;
 
@@ -19,6 +19,8 @@ namespace CevarnsOfEvil
         public RoomComponents parts;
         public ulong seed = 0;
         public GameObject player => Player.PCObject;
+
+        public NavMeshSurface navSurface;
 
         public PickupLists pickupLists;
 
@@ -292,7 +294,6 @@ namespace CevarnsOfEvil
 
         private void PlaceMobs()
         {
-            NavMeshSurface navSurface = GetComponent<NavMeshSurface>();
             navSurface.BuildNavMesh();
             for (int i = 2; i < rooms.TotalCount; i++)
             {
@@ -469,7 +470,7 @@ namespace CevarnsOfEvil
                 if(mob) {
                     mob.ForgetPlayer();
                     mob.GetComponent<Animator>().enabled = false;
-                    NavMeshAgent agent = mob.GetComponent<NavMeshAgent>();
+                    UnityEngine.AI.NavMeshAgent agent = mob.GetComponent<UnityEngine.AI.NavMeshAgent>();
                     if(agent != null) agent.enabled = false;
                     mob.enabled = false;
                 }

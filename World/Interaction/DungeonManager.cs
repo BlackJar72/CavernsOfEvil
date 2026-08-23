@@ -113,7 +113,7 @@ namespace CevarnsOfEvil
         public bool LocationGoodAI(Vector2 location)
         {
             Vector2Int tile = new Vector2Int((int)location.x, (int)location.y);
-            return !(map.GetWall(tile.x, tile.y) || map.GetPillar(tile.x, tile.y)
+            return !(map.GetBlocked(tile.x, tile.y) || map.GetPillar(tile.x, tile.y)
                 && (map.GetPool(tile.x, tile.y) <= 0.0f));
         }
 

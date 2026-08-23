@@ -81,6 +81,7 @@ namespace CevarnsOfEvil
 			if((((childX > 0) && (childX < dungeon.size.width) 
 					&& (childZ > 0) && (childZ < dungeon.size.width)))
 				&& dungeon.map.GetLevelAstarAvailable(childX, childZ)
+				&& dungeon.map.GetPassableAndSafe(childX, childZ)
 				&& dungeon.map.GetFloorY(childX, childZ) == dungeon.map.GetFloorY(src.x, src.z))
             {
 				dungeon.map.SetUsed(childX, childZ);

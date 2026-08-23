@@ -182,7 +182,7 @@ namespace CevarnsOfEvil
 					else if(dungeon.map.GetBlocked(door.x - door.direction.x,
 							door.z - door.direction.y))
 					{
-						if (!dungeon.map.GetWall(door.x - 2 * door.direction.x,
+						if (!dungeon.map.GetBlocked(door.x - 2 * door.direction.x,
 								door.z + 2 * door.direction.y))
 						{
 							dungeon.map.SetDoorway(doorHeight, door.x - door.direction.x,
