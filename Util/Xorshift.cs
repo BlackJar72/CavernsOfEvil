@@ -124,6 +124,7 @@ namespace CevarnsOfEvil
             return val;
         }
 
+
         public short NextShort()
         {
             return (short)(NextLong() & 0xffff);

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -12,11 +13,12 @@ namespace CevarnsOfEvil
         public int level;
         public DifficultySettings difficultySetting;
         public Size levelSize;
+        public List<int> themeShuffle;
     }
 
 
     public static class GameData
-    {   
+    {  
         public const string saveSubdir = "saves";
         public const string saveFileExtension = ".es3";
         public const string saveFileName = "previous.es3";
@@ -30,8 +32,38 @@ namespace CevarnsOfEvil
         private static DifficultySetting levelDifficulty;
         private static Size levelSize;
         private static SizeData sizeData;
+        private static List<int> themeShuffle;
+        private static List<int> musicShuffle;
+        private static List<int> hintShuffle;
+
+        public static int GetThemeID(int l) => themeShuffle[l % themeShuffle.Count];
 
         public static bool resuming;
+
+
+        static GameData()
+        {
+            themeShuffle = new() {0, 1, 2, 3, 4, 5, 6, 7};
+        }
+
+
+        public static void ShuffleThemes(Xorshift random)
+        {
+            themeShuffle.Shuffle(random);
+        }
+
+
+        public static void MoveThemeToFront(int theme)
+        {
+            if(themeShuffle.Count < 2) return;
+            for(int i = 0; i < themeShuffle.Count; i++) {
+                if(themeShuffle[i] == theme) {
+                    themeShuffle[i] = themeShuffle[0];
+                    themeShuffle[0] = theme;
+                    return;
+                }
+            }
+        }
 
 
         public static string SeedString
@@ -68,7 +100,8 @@ namespace CevarnsOfEvil
                 currentSeed = random.GetCurrentSeed(),
                 level = level,
                 difficultySetting = difficultySetting,
-                levelSize = levelSize
+                levelSize = levelSize,
+                themeShuffle = themeShuffle
             };
             return result;
         }
@@ -84,6 +117,7 @@ namespace CevarnsOfEvil
             baseDifficulty = DifficultyTable.GetDifficultySetting(difficultySetting);
             levelDifficulty = baseDifficulty.FromLevel(Level);
             levelSize = data.levelSize;
+            themeShuffle = data.themeShuffle;
         }
 
 
@@ -152,17 +186,46 @@ namespace CevarnsOfEvil
         }
 
 
+        [QFSW.QC.Command("fake")]
+        public static void FakeSave()
+        {
+            string fileName = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile) 
+                            + System.IO.Path.DirectorySeparatorChar 
+                            + "Tmp" + System.IO.Path.DirectorySeparatorChar + saveFileName;
+            GameDataPersistent gameData = GetPersistentData();
+            PlayerData playerData = Player.PC.GetPlayerData();
+            ES3.Save("GameData", gameData, fileName);
+            ES3.Save("PlayerData", playerData, fileName);
+        }
+
+
 
         public static void LoadGame()
         {
-            GameDataPersistent gameData = GetPersistentData();
-
             string fileName = saveSubdir + System.IO.Path.DirectorySeparatorChar + saveFileName;
+            LoadGameData(fileName);
+            LoadPlayerData(fileName);
+        }
 
+
+        public static void LoadGameData(string fileName = null)
+        {
+            if(fileName == null) fileName = saveSubdir + System.IO.Path.DirectorySeparatorChar + saveFileName;
+            GameDataPersistent gameData = GetPersistentData();
             gameData = ES3.Load("GameData", fileName, gameData);
-            PlayerData playerData = ES3.Load<PlayerData>("PlayerData", fileName);
-
             GameData.SetFromPersistentData(gameData);
+
+            baseDifficulty = DifficultyTable.GetDifficultySetting(difficultySetting);
+            levelDifficulty = baseDifficulty.FromLevel(Level);
+            LoadingScreen.ResetHintShuffle();
+            sizeData = SizeTable.GetData(levelSize);
+        }
+
+
+        public static void LoadPlayerData(string fileName = null)
+        {
+            if(fileName == null) fileName = saveSubdir + System.IO.Path.DirectorySeparatorChar + saveFileName;
+            PlayerData playerData = ES3.Load<PlayerData>("PlayerData", fileName);
             Player.PC.SetPlayerData(playerData);
         }
 

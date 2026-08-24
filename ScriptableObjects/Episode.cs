@@ -9,7 +9,7 @@ namespace CevarnsOfEvil
     public class Episode : ScriptableObject
     {
         [SerializeField] List<DungeonTheme> themes;
-        [SerializeField] DungeonTheme level1Theme;
+        [SerializeField] int level1Theme;
         [SerializeField] bool hasLastLevel;
         [SerializeField] int lastLevel;
         [SerializeField] Episode nextEpisode;
@@ -23,21 +23,14 @@ namespace CevarnsOfEvil
         public DungeonTheme SelectTheme(Xorshift random)
         {
             if(GameData.Level == 1) {
-                themes.Shuffle(random);
-                themes.MoveToFront(level1Theme);
-                return level1Theme;
+                GameData.ShuffleThemes(random);
+                GameData.MoveThemeToFront(level1Theme);
+                return themes[GameData.GetThemeID(0)];
             }
             else {
                 int index = (GameData.Level - 1) % themes.Count;
-                if(index == 0) themes.Shuffle(random);
-                DungeonTheme theme = themes[index];
-                // Should now always be false, but left in as a fail safe
-                if((GameData.Level == 2) && (theme == level1Theme)) {
-                    int tries = 0;
-                    while ((theme == level1Theme) && (tries < 12)) {
-                        theme = themes[random.NextInt(themes.Count)];
-                    }
-                }
+                if(index == 0) GameData.ShuffleThemes(random);
+                DungeonTheme theme = themes[GameData.GetThemeID(index)];
                 return theme;
             }
         }

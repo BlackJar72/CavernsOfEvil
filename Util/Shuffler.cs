@@ -64,11 +64,10 @@ namespace CevarnsOfEvil {
         public static void MoveToFront<T>(this IList<T> list, T first) {
             if(list.Count < 2) return;
             for(int i = 0; i < list.Count; i++) {
-                if(Object.ReferenceEquals(list[i], first)) {
+                if(ReferenceEquals(list[i], first)) {
                     list[i] = list[0];
                     list[0] = first;
-                    i = list.Count;
-                    break;
+                    return;
                 }
             }
         }
