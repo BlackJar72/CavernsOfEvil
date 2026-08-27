@@ -8,7 +8,7 @@ namespace CevarnsOfEvil {
 
     public class EntityGoblinWarrior01 : EntityNavMeshUser
     {
-        [SerializeField] Collider hitbox;
+        [SerializeField] protected Collider hitbox;
         [SerializeField] float prefferedSpeedFactor = 2.0f / 3.0f;
 
         public override void Start() 
@@ -47,7 +47,16 @@ namespace CevarnsOfEvil {
         public override void Die(Damages damages)
         {
             entitySounds.PlayDeath(voice, 0);
+            hitbox.gameObject.SetActive(false);
             base.Die(damages);
+            // FIXME: This is a very hacky way to keep goblins from falling through the floor.
+            //        Its fine currently, as they never leave the ground, but that limitation is 
+            //        itself undesireable.  If they were given the ability to jump up a step this
+            //        system would break.
+            //
+            //        I wonder if changing from a capsule collider + rigidbody to a character controller 
+            //        would fix this in the process...?
+            GetComponent<EntityDeath>().ForceImmediate();
         }
 
 

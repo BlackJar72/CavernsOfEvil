@@ -125,10 +125,25 @@ namespace CevarnsOfEvil
 
         public override void Die(Damages damages)
         {
+            Debug.Log("0: Coords at Death = " + transform.position);
+            StartCoroutine(DebugDeathHeight());
             gameObject.layer = GameConstants.WorldCollideLayer;
             anim.SetTrigger("Die");
             anim.SetBool("Dead", true);
             base.Die(damages);
+        }
+
+
+        private IEnumerator DebugDeathHeight()
+        {
+            yield return new WaitForFixedUpdate();
+            Debug.Log("1: Coords One Update After Death = " + transform.position);
+            yield return null;
+            yield return new WaitForFixedUpdate();
+            Debug.Log("2: Coords Two Updates After Death = " + transform.position);
+            yield return null;
+            yield return new WaitForFixedUpdate();
+            Debug.Log("3: Coords Three Updates After Death = " + transform.position);
         }
 
 

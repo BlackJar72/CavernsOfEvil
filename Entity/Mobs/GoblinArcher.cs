@@ -145,7 +145,15 @@ namespace CevarnsOfEvil
             bowrb.velocity = (Vector3.down * 9.8f) 
                 + new Vector3(Random.value - 0.5f, Random.value - 0.5f, Random.value - 0.5f); ;
             bowrb.angularVelocity = new Vector3(Random.value - 0.5f, Random.value - 0.5f, Random.value - 0.5f);
+            hitbox.gameObject.SetActive(false);
             base.Die(damages);
+            // FIXME: This is a very hacky way to keep goblins from falling through the floor.
+            //        Its fine currently, as they never leave the ground, but that limitation is 
+            //        itself undesireable.  If they were given the ability to jump up a step this
+            //        system would break.
+            //
+            //        I wonder if changing from a capsule collider + rigidbody to a character controller 
+            //        would fix this in the process...?
             death.ForceImmediate();
         }
     }
