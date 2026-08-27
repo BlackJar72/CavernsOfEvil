@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using kfutils;
 
 
 namespace CevarnsOfEvil
@@ -26,10 +27,13 @@ namespace CevarnsOfEvil
 
 
         // Update is called once per frame
+        // This now looks at distance only in the horizonal plane. 
+        // Vertical (y coordinate) may be used to set ShouldJump on 
+        // entity following the seeker.
         void Update()
         {
             Vector3 separation = transform.position - parent.transform.position;
-            agent.isStopped = stopped || (separation.sqrMagnitude > MAX_DIST_SQR);
+            agent.isStopped = stopped || (separation.HSqrMagnitude() > MAX_DIST_SQR);
         }
         
     }

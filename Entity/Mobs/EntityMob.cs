@@ -234,7 +234,7 @@ namespace CevarnsOfEvil
 
         public void AlertNearby(EntityMob src, float range)
         {
-            Collider[] colliders = Physics.OverlapSphere(voice.transform.position, 8, GameConstants.MobMask);
+            Collider[] colliders = Physics.OverlapSphere(voice.transform.position, 8, GameConstants.MobHitMask);
             foreach (Collider collider in colliders)
             {
                 EntityHealth health = collider.gameObject.GetComponent<EntityHealth>();

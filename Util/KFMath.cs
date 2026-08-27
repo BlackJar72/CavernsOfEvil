@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 
@@ -18,6 +20,7 @@ namespace kfutils {
          * @param b the divisor
          * @return the positive modulus
          */
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] [Pure] 
         public static int ModRight(int a, int b) {
             return (a & 0x7fffffff) % b;
         }
@@ -38,7 +41,7 @@ namespace kfutils {
          * @param rate
          * @return
          */
-        public static float Asymptote(float n, float start, float rate) {
+        [Pure] public static float Asymptote(float n, float start, float rate) {
             if(n > start) {
                 float output = (n - start) / rate;
                 output = 1 - (1 / (output + 1));
@@ -64,7 +67,7 @@ namespace kfutils {
          * @param rate
          * @return
          */
-        public static double Asymptote(double n, double start, double rate) {
+        [Pure] public static double Asymptote(double n, double start, double rate) {
             if(n > start) {
                 double output = (n - start) / rate;
                 output = 1 - (1 / (output + 1));
@@ -73,6 +76,16 @@ namespace kfutils {
             }
             return n;
         }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] [Pure]
+        public static float HSqrMagnitude(this Vector3 vector3)
+                => (vector3.x * vector3.x) + (vector3.z * vector3.z);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] [Pure]
+        public static float HMagnitude(this Vector3 vector3)
+                => Mathf.Sqrt((vector3.x * vector3.x) + (vector3.z * vector3.z));
 
     }
 

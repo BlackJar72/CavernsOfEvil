@@ -91,7 +91,7 @@ namespace CevarnsOfEvil
         {
             RaycastHit target;
             GameObject hit;
-            if (Physics.SphereCast(from, 0.25f, toward, out target, 1.75f, GameConstants.MobMask))
+            if (Physics.SphereCast(from, 0.25f, toward, out target, 1.75f, GameConstants.MobHitMask))
             {
                 if ((target.collider != null))
                 {
