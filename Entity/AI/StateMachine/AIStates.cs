@@ -5,6 +5,12 @@ using UnityEngine;
 
 namespace CevarnsOfEvil {
 
+    /*
+    This might be a waste of time.  While this is probably how I should have done this originally (and would in a new 
+    project), and would have simplified the development of a lot of other things, the old system is stable and sufficient. 
+    All the challenges and problems a system like this could have spared me have already been solved in the old system. 
+    */
+
 
     [System.Serializable]
     public enum AIStateLabel
@@ -12,7 +18,7 @@ namespace CevarnsOfEvil {
         idle = 0,
         wander = 1,
         aggro = 2,
-        flee = 3,
+        flee = 3,    // This might should be a sub-state of aggro
         death = 4,
         playerdead = 5
     }
@@ -42,7 +48,7 @@ namespace CevarnsOfEvil {
         private AIState idle;
         private AIState wander;
         private AIState aggro;
-        private AIState flee;
+        private AIState flee;    // This might should be a sub-state of aggro
         private AIState death;
         private AIState playerdead;
         
@@ -50,7 +56,7 @@ namespace CevarnsOfEvil {
         [SerializeField] AIStateID idleID;
         [SerializeField] AIStateID wanderID;
         [SerializeField] AIStateID aggroID;
-        [SerializeField] AIStateID fleeID;
+        [SerializeField] AIStateID fleeID;    // This might should be a sub-state of aggro
         [SerializeField] AIStateID deathID;
         [SerializeField] AIStateID playerdeadID;
 
