@@ -6,6 +6,17 @@ using UnityEngine;
 namespace CevarnsOfEvil
 {
 
+
+    [System.Serializable]
+    public enum MoveType
+    {
+        idle = 0,
+        crouch = 1,
+        walk = 2,
+        run = 3
+    }
+
+
     [RequireComponent(typeof(CharacterController))]
     public class EntitySeekerFollower : EntityMob, IDestinationSeeker
     {
@@ -20,10 +31,17 @@ namespace CevarnsOfEvil
         public Vector3 hVelocity;
         public Vector3 velocity;
         public float vSpeed;
-        protected bool onGround, shouldJump;
+        protected bool onGround;
+        protected bool shouldJump;
+        protected Quaternion rotation;
+        protected Vector3 lastPos;
+        protected bool falling;
 
 
         public float NavmeshTimer { get { return navmeshTimer; } set { navmeshTimer = value; } }
+
+
+#region IDestinationSeeker
 
 
         public bool CanReachDestinationBetter()
@@ -113,10 +131,84 @@ namespace CevarnsOfEvil
         }
 
 
+#endregion
+
+#region Do Movement
+
+
         public void Move()
         {
             // TODO: Handle movement.  That means facing and following the seeker, and maybe jumping
         }
+
+
+#endregion
+
+#region Seeker Control
+
+
+        public void ActivateSeeker()
+        {
+            seeker.transform.parent = transform.parent;
+            seeker.Agent.enabled = true;
+            seeker.gameObject.SetActive(true);
+        }   
+
+
+        public void DeactiveSeeker()
+        {
+            seeker.Agent.enabled = false;
+            seeker.gameObject.SetActive(false);
+            seeker.transform.parent = transform;
+        } 
+
+
+        protected bool ShouldStop()
+        {
+            return /*(moveType == MoveType.idle) ||*/ seeker.Agent.isActiveAndEnabled
+                || (seeker.Agent.remainingDistance <= seeker.Agent.stoppingDistance)
+                || (seeker.Agent.velocity.sqrMagnitude == 0); ;
+        }  
+
+
+        public void StartMoving()
+        {
+            seeker.stopped = false;
+        }
+
+
+        public void StopMoving()
+        {
+            seeker.stopped = true;
+        }  
+
+
+        public bool InStopingRange()
+        {
+            return (destination - transform.position).sqrMagnitude
+                < (seeker.Agent.stoppingDistance * seeker.Agent.stoppingDistance);
+        }
+
+
+#endregion
+
+#region Overrides
+
+
+        public override void Die(Damages damages)
+        {
+            base.Die(damages);
+            StopMoving();
+            DeactiveSeeker();
+            controller.enabled = false;
+        }
+
+
+#endregion
+
+
     }
+
+
 
 }
