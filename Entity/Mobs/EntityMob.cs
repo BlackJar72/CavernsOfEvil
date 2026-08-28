@@ -106,7 +106,6 @@ namespace CevarnsOfEvil
                 health, ref enviroCooldown);
 #endif
             setAnimSpeed();
-            Move();
         }
 
 
@@ -125,9 +124,6 @@ namespace CevarnsOfEvil
 
         public override void Die(Damages damages)
         {
-            Debug.Log("0: Coords at Death = " + transform.position);
-            StartCoroutine(DebugDeathHeight());
-            gameObject.layer = GameConstants.WorldCollideLayer;
             anim.SetTrigger("Die");
             anim.SetBool("Dead", true);
             base.Die(damages);

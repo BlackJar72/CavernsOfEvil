@@ -5,10 +5,25 @@ using UnityEngine;
 
 namespace CevarnsOfEvil
 {
+
+    [RequireComponent(typeof(CharacterController))]
     public class EntitySeekerFollower : EntityMob, IDestinationSeeker
     {
+        [SerializeField] protected NavSeeker seeker;
+        [SerializeField] protected CharacterController controller;
 
-        public float NavmeshTimer { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        protected float navmeshTimer;
+        protected bool useNavmesh;
+
+        protected Vector3 heading;
+        protected Vector3 movement;
+        public Vector3 hVelocity;
+        public Vector3 velocity;
+        public float vSpeed;
+        protected bool onGround, shouldJump;
+
+
+        public float NavmeshTimer { get { return navmeshTimer; } set { navmeshTimer = value; } }
 
 
         public bool CanReachDestinationBetter()
@@ -95,6 +110,12 @@ namespace CevarnsOfEvil
         public void UpdateNavmesh()
         {
             throw new System.NotImplementedException();
+        }
+
+
+        public void Move()
+        {
+            // TODO: Handle movement.  That means facing and following the seeker, and maybe jumping
         }
     }
 
