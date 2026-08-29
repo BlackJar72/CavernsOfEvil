@@ -17,7 +17,7 @@ made the meshing a bit more clever so as not to use so many near cut-n-paste met
 This is over half the code base.
 
 The player model is terrible, suffering a lot from not understanding how Unity worked early in the project, and 
-connect the player, items, and UI through hard-coding in a way that is extremely inflexible and prone to breaking.  
+connect the player, items, and UI through hard-coding in a way that is extremely inflexible and prone to breaking. 
 Further, because of the scene setup, player data is made persistent between levels through an overly complex system 
 of caching into static variables from which the real data is restored at the start of the  new level -- a system 
 the spreads across several classes, including all items due to the hard-coded connection to the player model. 
