@@ -9,8 +9,6 @@ design.  This is a simple game, designed for some good old-fashioned violent fun
 
 https://store.steampowered.com/app/1929380/Caverns_of_Evil
 
-[![Caverns of Evil](https://img.youtube.com/vi/rC-_gfINsoI/0.jpg)]([https://www.youtube.com/watch?v=rC-_gfINsoI](https://www.youtube.com/watch?v=yZsA2YupNCA&list=PLFJXfKtUiVHCjg_aUuUxCADatD-KPjB9P))
-
 ## About the Code
 
 The code is of varying quality.  I'm generally proud of the level generation, both that ported from Doomlike Dungeons 
