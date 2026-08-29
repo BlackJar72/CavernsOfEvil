@@ -34,7 +34,7 @@ visibly outside their hit box).  This was done correctly in my later RPG code, b
 as the simplist, most obvious fix causes game breaking bugs.
 
 These scripts contain reference to third party code, most notably the paid assets Procedural Lightening, Easy Save 3, 
-Quantum Console, and FinalIK.  These entirely separate from this project and not include, but are required to use this 
+Quantum Console, and FinalIK.  These are entirely separate from this project and not include, but are required to use this 
 code as-is.
 
 Also, the game uses art, sound, and other assets, both of my own creation and third party.  These are not included here 
