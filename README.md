@@ -23,7 +23,7 @@ new level -- a system the spreads across several classes, including all items du
 the player model. (That was eventually fixed.)  In short, the player model is probably not a good thing to imitate.
 
 Monster AI was not done well, and should have used a finite state machine similar to Doom instead of the poorly 
-implement (though) hierarchies of preferred states.  A working version of a good FSM was created for my unfinished 
+implement (though snakk) hierarchies of preferred states.  A working version of a good FSM was created for my unfinished 
 RPG project, and the (unused) foundation of an even better system can be found here in the v2.0 branch.
 
 Monsters have only one collider, acting both a combat hit box and for colliding with solid objects such as level 
