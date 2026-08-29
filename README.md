@@ -49,7 +49,7 @@ music, and third party scripts referenced from (but not included with) these are
 actually included in this repository is not covered by the given license, regardless of what is is. This also means that 
 *THE GAME AS A WHOLE IS **NOT** OPEN SOURCE.*
 
-Copyright (C) 2021-2022 Jared Blackburn
+Copyright (C) 2021-2026 Jared Blackburn
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files 
 (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, 
