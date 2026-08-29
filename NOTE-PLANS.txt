@@ -1,0 +1,12 @@
+NEW BRANCH FOR FURTHER DEVELOPMENT
+
+If this is continued with more features, or if age verification
+code is added to fascilitate a relaunch, further development
+should be done a new branch.  This is to keep the Master branch
+in a runnable state until any new code if fully implemented
+and appears stable.  Similarly, the v2.0 branch has changes that
+might break things if not resolved, and new development should
+not be saddled with this if not related.
+
+Once the new features are complete, a merge with the Master
+branch should, of course, be made.
