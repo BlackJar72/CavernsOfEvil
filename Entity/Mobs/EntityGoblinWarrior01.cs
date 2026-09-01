@@ -7,7 +7,7 @@ using UnityEngine.AI;
 namespace CevarnsOfEvil {
 
     public class EntityGoblinWarrior01 : EntityNavMeshUser
-    {
+    { 
         [SerializeField] protected Collider hitbox;
         [SerializeField] float prefferedSpeedFactor = 2.0f / 3.0f;
 
