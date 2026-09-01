@@ -39,6 +39,8 @@ namespace CevarnsOfEvil
         public override void Die(Damages damages)
         {
             entitySounds.PlayDeath(voice, 0);
+            hitbox.enabled = false;
+            hitbox.gameObject.SetActive(false);
             base.Die(damages);
         }
 

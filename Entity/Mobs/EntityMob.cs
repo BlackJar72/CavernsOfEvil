@@ -126,7 +126,6 @@ namespace CevarnsOfEvil
         {
             anim.SetTrigger("Die");
             anim.SetBool("Dead", true);
-            health.gameObject.SetActive(false);
             base.Die(damages);
         }
 
