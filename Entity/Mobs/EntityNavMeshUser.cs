@@ -86,7 +86,20 @@ namespace CevarnsOfEvil
         
         public virtual void FixedUpdate()
         {
+            #if UNITY_EDITOR
+            try
+            {                
+                rb.velocity *= 0.95f;
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log("In Entity " + name + " rigidbody = " + rb);
+                Debug.LogError("In Entity " + name + " rigidbody = " + rb);
+                Debug.LogError(e);
+            } 
+            #else
             rb.velocity *= 0.95f;
+            #endif
         }
 
 

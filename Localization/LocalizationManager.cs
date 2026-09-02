@@ -30,7 +30,7 @@ namespace CevarnsOfEvil {
 
         }
 
-
+ 
         public static string GetTranslation(string table, string key) {
             return LocalizationSettings.StringDatabase.GetLocalizedString(table, key);
         }

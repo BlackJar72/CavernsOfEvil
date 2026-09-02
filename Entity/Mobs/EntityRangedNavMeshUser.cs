@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+ 
 
 namespace CevarnsOfEvil
 {
@@ -15,7 +15,6 @@ namespace CevarnsOfEvil
 
         protected float fireDelay;
         protected float nextFireTime;
-        protected Rigidbody rb;
 
 
         public float FireDelay { get { return fireDelay; } }
@@ -25,7 +24,6 @@ namespace CevarnsOfEvil
 
         public override void Start()
         {
-            rb = GetComponent<Rigidbody>();
             base.Start();
             fireDelay = 1.0f / rateOfFire;
             nextFireTime = Time.time;
@@ -87,11 +85,7 @@ namespace CevarnsOfEvil
             FireProjectile();
         }
 
-        
-        public virtual void FixedUpdate()
-        {
-            rb.velocity *= 0.95f;
-        }
+
     }
 
 }
