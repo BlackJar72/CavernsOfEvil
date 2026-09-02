@@ -11,12 +11,6 @@ namespace CevarnsOfEvil
         [SerializeField] protected Collider hitbox;
 
 
-        /*public override void Start()
-        {
-            base.Start();            
-        }*/
-
-
         public override Collider GetCollider()
         {
             return hitbox;
@@ -39,6 +33,8 @@ namespace CevarnsOfEvil
         public override void Die(Damages damages)
         {
             entitySounds.PlayDeath(voice, 0);
+            hitbox.enabled = false;
+            hitbox.gameObject.SetActive(false);
             base.Die(damages);
         }
 

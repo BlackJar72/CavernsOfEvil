@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace CevarnsOfEvil
 {
-    public abstract partial class EntityNavMeshUser : EntityMob
+    public abstract partial class EntityNavMeshUser : EntityMob, IDestinationSeeker
     {
         protected NavMeshAgent navMeshAgent;
         protected float navmeshTimer;

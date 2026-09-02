@@ -106,7 +106,6 @@ namespace CevarnsOfEvil
                 health, ref enviroCooldown);
 #endif
             setAnimSpeed();
-            Move();
         }
 
 
@@ -125,10 +124,22 @@ namespace CevarnsOfEvil
 
         public override void Die(Damages damages)
         {
-            gameObject.layer = GameConstants.WorldCollideLayer;
             anim.SetTrigger("Die");
             anim.SetBool("Dead", true);
             base.Die(damages);
+        }
+
+
+        private IEnumerator DebugDeathHeight()
+        {
+            yield return new WaitForFixedUpdate();
+            Debug.Log("1: Coords One Update After Death = " + transform.position);
+            yield return null;
+            yield return new WaitForFixedUpdate();
+            Debug.Log("2: Coords Two Updates After Death = " + transform.position);
+            yield return null;
+            yield return new WaitForFixedUpdate();
+            Debug.Log("3: Coords Three Updates After Death = " + transform.position);
         }
 
 
@@ -234,7 +245,7 @@ namespace CevarnsOfEvil
 
         public void AlertNearby(EntityMob src, float range)
         {
-            Collider[] colliders = Physics.OverlapSphere(voice.transform.position, 8, GameConstants.MobMask);
+            Collider[] colliders = Physics.OverlapSphere(voice.transform.position, 8, GameConstants.MobHitMask);
             foreach (Collider collider in colliders)
             {
                 EntityHealth health = collider.gameObject.GetComponent<EntityHealth>();

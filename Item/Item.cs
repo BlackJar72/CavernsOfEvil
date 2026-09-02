@@ -108,7 +108,7 @@ namespace CevarnsOfEvil {
 
         public virtual void AlertListeningMobs(Player user)
         {
-            Collider[] colliders = Physics.OverlapSphere(user.transform.position, soundRadius, GameConstants.MobMask);
+            Collider[] colliders = Physics.OverlapSphere(user.transform.position, soundRadius, GameConstants.MobHitMask);
             foreach (Collider collider in colliders)
             {
                 EntityHealth health = collider.gameObject.GetComponent<EntityHealth>();

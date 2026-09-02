@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+ 
 
 namespace CevarnsOfEvil
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class EntityRangedNavMeshUser : EntityNavMeshUser
     {
         [SerializeField] protected GameObject projectile;
@@ -83,6 +84,8 @@ namespace CevarnsOfEvil
             yield return new WaitForSeconds(FireDelay / 5.0f);
             FireProjectile();
         }
+
+
     }
 
 }

@@ -6,17 +6,20 @@ using UnityEngine.AI;
 
 namespace CevarnsOfEvil
 {
+    [RequireComponent(typeof(Rigidbody))]
     public abstract partial class EntityNavMeshUser : EntityMob
     {
         //Accessors
         public NavMeshAgent RoutingAgent { get { return navMeshAgent; } }
 
         // Delegates
-        private SetAnimSpeed setAnimByNavmesh;
+        protected SetAnimSpeed setAnimByNavmesh;
+        protected Rigidbody rb;
 
 
         public override void Start()
         {
+            rb = GetComponent<Rigidbody>();
             navMeshAgent = GetComponent<NavMeshAgent>();
             if(!navMeshAgent.isOnNavMesh) Destroy(gameObject);
             navMeshAgent.stoppingDistance = meleeStopDistance
@@ -78,6 +81,25 @@ namespace CevarnsOfEvil
         {
             return (destination - transform.position).sqrMagnitude
                 < (navMeshAgent.stoppingDistance * navMeshAgent.stoppingDistance);
+        }
+
+        
+        public virtual void FixedUpdate()
+        {
+            #if UNITY_EDITOR
+            try
+            {                
+                rb.velocity *= 0.95f;
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log("In Entity " + name + " rigidbody = " + rb);
+                Debug.LogError("In Entity " + name + " rigidbody = " + rb);
+                Debug.LogError(e);
+            } 
+            #else
+            rb.velocity *= 0.95f;
+            #endif
         }
 
 

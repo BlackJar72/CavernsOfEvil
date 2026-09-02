@@ -12,16 +12,13 @@ namespace CevarnsOfEvil
 
         protected Vector3 destination;
         protected Vector3 direction, desiredDirection;
-        protected Vector3 velocity, movement, AIVelocity, physicalVelocity;
-        protected float vSpeed;
+        protected Vector3 AIVelocity, physicalVelocity;
 
         // Keeping track of the current enemy
         [HideInInspector] public GameObject targetObject;
         [HideInInspector] public Entity targetEntity;
         [HideInInspector] public bool alerted;
-
-        protected bool onGround;
-        protected bool shouldJump;
+        
         protected bool wandering;
         protected bool fleeing;
 
@@ -155,44 +152,6 @@ namespace CevarnsOfEvil
             direction = (desiredDirection * turnFactor) + (direction * (1 - turnFactor));
             if (direction != Vector3.zero) direction.Normalize();
             AIVelocity = direction * baseMoveSpeed;
-        }
-
-
-        public virtual void Move()
-        {
-            if (stepData.floorEffect == FloorEffect.ice)
-            {
-                float slipFactor = Time.deltaTime * 1.5f;
-                movement = (AIVelocity * slipFactor) + (movement * (1 - slipFactor));
-            }
-            else movement = AIVelocity;
-
-            shouldJump = onGround = IsOnGround();
-
-            if (onGround)
-            {
-                if (shouldJump)
-                {
-                    vSpeed = 5;
-                    // TODO: Jump in animation controller
-                    //animator.SetTrigger("Jump");
-                }
-                else
-                {
-                    vSpeed = Mathf.Max(vSpeed, 0);
-                }
-            }
-            else
-            {
-                vSpeed -= 15 * Time.deltaTime;
-            }
-
-            velocity = movement + physicalVelocity;
-            velocity.y += vSpeed;
-            GetComponent<CharacterController>().Move(velocity * Time.deltaTime);
-            shouldJump = false;
-            physicalVelocity *= (1 - Time.deltaTime);
-            AIVelocity = Vector3.zero;
         }
 
 

@@ -71,6 +71,7 @@ namespace CevarnsOfEvil {
 
 
         public override void Die(Damages damage) {
+            entitySounds.PlayDeath(voice, 0);
             base.Die(damage);
             StartCoroutine(Vanish());
         }
@@ -78,7 +79,7 @@ namespace CevarnsOfEvil {
 
         IEnumerator Vanish()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(3.0f);
             Destroy(gameObject);
         }
 
