@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace CevarnsOfEvil
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class EntityRangedNavMeshUser : EntityNavMeshUser
     {
         [SerializeField] protected GameObject projectile;
@@ -14,6 +15,7 @@ namespace CevarnsOfEvil
 
         protected float fireDelay;
         protected float nextFireTime;
+        protected Rigidbody rb;
 
 
         public float FireDelay { get { return fireDelay; } }
@@ -23,6 +25,7 @@ namespace CevarnsOfEvil
 
         public override void Start()
         {
+            rb = GetComponent<Rigidbody>();
             base.Start();
             fireDelay = 1.0f / rateOfFire;
             nextFireTime = Time.time;
@@ -82,6 +85,12 @@ namespace CevarnsOfEvil
         {
             yield return new WaitForSeconds(FireDelay / 5.0f);
             FireProjectile();
+        }
+
+        
+        public virtual void FixedUpdate()
+        {
+            rb.velocity *= 0.95f;
         }
     }
 

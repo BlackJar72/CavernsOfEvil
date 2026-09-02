@@ -13,8 +13,8 @@ namespace CevarnsOfEvil
         public NavMeshAgent RoutingAgent { get { return navMeshAgent; } }
 
         // Delegates
-        private SetAnimSpeed setAnimByNavmesh;
-        private Rigidbody rb;
+        protected SetAnimSpeed setAnimByNavmesh;
+        protected Rigidbody rb;
 
 
         public override void Start()

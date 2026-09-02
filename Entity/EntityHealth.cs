@@ -77,7 +77,7 @@ namespace CevarnsOfEvil {
                 {
                     GameObject blood = Instantiate(bloodParticles, hit.point,
                         Quaternion.FromToRotation(Vector3.forward, hit.normal));
-                    blood.transform.parent = hit.collider.transform;
+                    blood.transform.parent = owner.transform;
                 }
                 owner.ShowDamage();
             }
