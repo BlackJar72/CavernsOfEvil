@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 namespace CevarnsOfEvil
 {
+    [RequireComponent(typeof(Rigidbody))]
     public abstract partial class EntityNavMeshUser : EntityMob
     {
         //Accessors
@@ -13,10 +14,12 @@ namespace CevarnsOfEvil
 
         // Delegates
         private SetAnimSpeed setAnimByNavmesh;
+        private Rigidbody rb;
 
 
         public override void Start()
         {
+            rb = GetComponent<Rigidbody>();
             navMeshAgent = GetComponent<NavMeshAgent>();
             if(!navMeshAgent.isOnNavMesh) Destroy(gameObject);
             navMeshAgent.stoppingDistance = meleeStopDistance
@@ -78,6 +81,12 @@ namespace CevarnsOfEvil
         {
             return (destination - transform.position).sqrMagnitude
                 < (navMeshAgent.stoppingDistance * navMeshAgent.stoppingDistance);
+        }
+
+        
+        public virtual void FixedUpdate()
+        {
+            rb.velocity *= 0.95f;
         }
 
 
