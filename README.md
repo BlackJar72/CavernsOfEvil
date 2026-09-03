@@ -14,7 +14,7 @@ https://store.steampowered.com/app/1929380/Caverns_of_Evil
 The one design element that is really unnecessary is the shock/wound dual health system.  This would be great in an 
 RPG, where you spend more time exploring, take damage less frequently and have less healing.  I would absolutely 
 use it a something like a "scrolls-like" (which I'd like to make).  However, you take damage and heal so frequently 
-in this game that the wound meter becomes irrelevant as you never die from wounds, only shock.
+in this game that the wound meter becomes relevant as you never die from wounds, only shock.
 
 ## About the Code
 
