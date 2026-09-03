@@ -9,6 +9,13 @@ design.  This is a simple game, designed for some good old-fashioned violent fun
 
 https://store.steampowered.com/app/1929380/Caverns_of_Evil
 
+## Design Critique
+
+The one design element that is really unnecessary is the shock/wound dual health system.  This would be great in an 
+RPG, where you spend more time exploring, take damage less frequently and have less healing.  I would absolutely 
+use it a something like a "scrolls-like" (which I'd like to make).  However, you take damage and heal so frequently 
+in this game that the wound meter becomes irrelevant as you never die from wounds, only shock.
+
 ## About the Code
 
 The code is of varying quality.  I'm generally proud of the level generation, both that ported from Doomlike Dungeons 
