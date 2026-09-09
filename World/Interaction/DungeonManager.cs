@@ -200,15 +200,18 @@ namespace CevarnsOfEvil
         //
         // * For sound propigation range should be half (or less) that of the full straight line 
         // range (mostly for balance reasons, so we aren't waking whole unexplored rooms).  Total 
-        // distance travelled might also be needed, and both for better modelling (realism) and 
-        // for balance (nerfing).  This means A* Euclidean and handling of diagnals.  Diagnals 
+        // distance travelled might also be needed, and both for better modelling (realism) and
+        // for balance (nerfing).  This might mean A* Euclidean and handling of diagnals.  Diagnals
         // can be considered along with adjacent tiles.  
         //     1. That is, check the for tiles rachable by axis aligned movement.
         //     2. If the tile is added, add those to its left and right if they also qualify.
         //         * That is left and right relative to the direction for the current tile.
         //     3. Proceed through all four non-diagnoally adjacent tiles.
         // Hopefully, this is not too expensive as these are longer distances than those use for 
-        // AoE's and would need to be done more often.
+        // AoE's and would need to be done more often.  However, sticking with the system planned
+        // for AoE might still be better, as further nerfing enemy hearing range (dianals being
+        // effectively treat as a distance of 2 instead of the square root of 2) might actually
+        // be a good thing, along side the simplicity and likely greater efficiency.
         //
         // * Also, for retreating archers, it might be good to find a place that is the farthest 
         // reachable in 10 steps, using only those a mob could take (excluded height change, pool, 
