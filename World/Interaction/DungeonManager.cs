@@ -171,6 +171,64 @@ namespace CevarnsOfEvil
             return map.GetRoom((int)a.x, (int)a.z) == map.GetRoom((int)b.x, (int)b.z);
         }
 
+        
+        /*
+        // TODO: Special Pathing
+        //
+        // Special pathings based on A* (probably) or BFS to help with certain features.
+        //
+        // These can be done using a new boolean table, like that used for quality control 
+        // pathing, but separate and different from it.  This can be used to keep track of 
+        // already used (selected, tested, included, rejected) tiles.  When a tile is added 
+        // to the priority queue it can also be added to a list of used tile (both as Vector2Int) 
+        // and the bool for those coordinates set to true (used).  The bool[,] can be test 
+        // while running the algorithm (much faster then searching a list), while the list 
+        // can be iterated once at the end to set all bools back to false then cleared (a 
+        // clean-up step). This prevents allocation of a huge 2D array with every run of the 
+        // algorithm, while still allow fast checks and a fast simple clean-up.
+        //
+        // For specific use cases:
+        //
+        // * For AoE attacks (notable fireballs from the wand or fire), any tile can be added 
+        // as long as it (1) is not a wall or pillar and (2) is in range.  If a path can be 
+        // found from the AoE origin to the target it is hit, otherwise it is not.  This should 
+        // not run very long, as AoE ranges are small, so it should either succeed or run out 
+        // of valid tiles before many iteration.  This would be run after the current test for 
+        // in room and line of sight.  Because actual number of tiles traversed is not important 
+        // (as it must stay in range anyway) no special handling of diagonals is needed and 
+        // A* Manhattan can be used while only considering axis-aligned steps.
+        //
+        // * For sound propigation range should be half (or less) that of the full straight line 
+        // range (mostly for balance reasons, so we aren't waking whole unexplored rooms).  Total 
+        // distance travelled might also be needed, and both for better modelling (realism) and 
+        // for balance (nerfing).  This means A* Euclidean and handling of diagnals.  Diagnals 
+        // can be considered along with adjacent tiles.  
+        //     1. That is, check the for tiles rachable by axis aligned movement.
+        //     2. If the tile is added, add those to its left and right if they also qualify.
+        //         * That is left and right relative to the direction for the current tile.
+        //     3. Proceed through all four non-diagnoally adjacent tiles.
+        // Hopefully, this is not too expensive as these are longer distances than those use for 
+        // AoE's and would need to be done more often.
+        //
+        // * Also, for retreating archers, it might be good to find a place that is the farthest 
+        // reachable in 10 steps, using only those a mob could take (excluded height change, pool, 
+        // etc., besides the usual walls, used, and out of range).  This might then be achievable 
+        // by using A* but maximizing rather than minimizing the distance (perhaps by making 
+        // distance negative to longer is a lower number).  If it works and was not to demanding 
+        // on processing power it would be an improvement over the current system the has them 
+        // path to a location 10 m in the opposite direction as the player (and which can be off 
+        // the navmesh resulting a the archer just standing there).
+        //
+        // Not sure when or if I'll get around to this, but it would likely be a huge improvement.
+        //
+        // Then, better sound propigation / hearing modelling might need to be balanced by a buff 
+        // to the player character.  Already the game seems harder than it did, possibly because 
+        // preventing mobs from getting stuck in corners leads to more enemies reaching the player 
+        // faster! 
+        // */
+
+
+
 
         #endregion
 
