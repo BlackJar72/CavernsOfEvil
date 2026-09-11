@@ -222,6 +222,15 @@ namespace CevarnsOfEvil
         // path to a location 10 m in the opposite direction as the player (and which can be off 
         // the navmesh resulting a the archer just standing there).
         //
+        // Also, if the search succeeds, all attempted steps could be marked as connected so that
+        // finding them again (tests for other targets) could treat fingind them as success.
+        // Likewise, if the search fails (having exhausted all reachable tiles), the tested tiles
+        // could be marked as disconnect so that finding on (by having it as the start) can be
+        // immediately determined a failure.  This could speed things up a lot of multiple targets
+        // need to be searched for out source.  Perhaps an enum could be used as a data type for
+        // map table (2D array).  This would probably need to encode four states: Unused, Considering,
+        // Success, Failure. A 2D array of this would take the place of the bool[,] mentioned above.
+        //
         // Not sure when or if I'll get around to this, but it would likely be a huge improvement.
         //
         // Then, better sound propigation / hearing modelling might need to be balanced by a buff 

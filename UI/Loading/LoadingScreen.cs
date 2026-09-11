@@ -61,6 +61,8 @@ namespace CevarnsOfEvil
 
     public class LoadingScreen : MonoBehaviour
     {
+        public const string LB_MAX_LEVEL = "Max Level Reached";
+
         [SerializeField] TMP_Text levelText;
         [SerializeField] TMP_Text timeText;
         [SerializeField] TMP_Text killsText;
@@ -76,7 +78,8 @@ namespace CevarnsOfEvil
         private static List<string> shuffledHints = new List<string>();
         private static bool hintsShuffled = false;
 
-        [SerializeField] SteamAchievementsAndStats steam;
+        [SerializeField] SteamAchievementsAndStats steamAchievements;
+
 
 
         public void Init()
@@ -91,8 +94,8 @@ namespace CevarnsOfEvil
                     GameData.SaveGame();
                     quitButton.SetActive(!((GameData.Level == 17) && isNormal));
                     StartCoroutine(ShowPieces());
-                    if (steam != null) {
-                        steam.AddStat("HIGH_LEVEL", GameData.Level);
+                    if (steamAchievements != null) {
+                        steamAchievements.AddStat("HIGH_LEVEL", GameData.Level);
                     }
                 }
             }
