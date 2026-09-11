@@ -235,20 +235,23 @@ namespace CevarnsOfEvil
         
         public class TilePather
         {
-            public struct StepTile : System.IComparable<StepTile> 
+            // This needs to be a reference type (class) so the same StepTile object can be
+            // in multiple places at once, specifically, the MapMatrix, PriorityQueue, and
+            // List of in use steps.
+            public class StepTile : System.IComparable<StepTile>
             {
                 public int traversed, heuristic;
                 public Vector2Int location;
-                public readonly int Cost => traversed + heuristic;
-                public readonly int CompareTo(StepTile other) => Cost.CompareTo(other.Cost);
+                public int Cost => traversed + heuristic;
+                public int CompareTo(StepTile other) => Cost.CompareTo(other.Cost);
                 public static bool operator >(StepTile a, StepTile b) => a.CompareTo(b) > 0;
                 public static bool operator <(StepTile a, StepTile b) => a.CompareTo(b) < 0;
                 public static bool operator >=(StepTile a, StepTile b) => a.CompareTo(b) >= 0;
                 public static bool operator <=(StepTile a, StepTile b) => a.CompareTo(b) <= 0;
                 public static bool operator ==(StepTile a, StepTile b) => a.CompareTo(b) == 0;
                 public static bool operator !=(StepTile a, StepTile b) => a.CompareTo(b) != 0;
-                public override readonly bool Equals(object obj) => base.Equals(obj);
-                public override readonly int GetHashCode() => base.GetHashCode();
+                public override bool Equals(object obj) => base.Equals(obj);
+                public override int GetHashCode() => base.GetHashCode();
             }
 
             private Vector2 origin;
