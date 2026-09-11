@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -47,45 +48,20 @@ namespace CevarnsOfEvil
             return data;
         }
 
+
         #region Routing and AI
         #region Location Equality Tests
-        public bool SameVoxel(Vector3 a, Vector3 b)
-        {
-            return (((int)a.x == (int)b.x) && ((int)a.y == (int)b.y) && ((int)a.z == (int)b.z));
-        }
-
-
-        public bool SameTile(Vector3 a, Vector3 b)
-        {
-            return (((int)a.x == (int)b.x) && ((int)a.z == (int)b.z));
-        }
-
-
-        public bool SameTile(Vector2 a, Vector2 b)
-        {
-            return (((int)a.x == (int)b.x) && ((int)a.y == (int)b.y));
-        }
-
-
-        public bool SameVoxel(Vector3Int a, Vector3Int b)
-        {
-            return ((a.x == b.x) && (a.y == b.y) && (a.z == b.z));
-        }
-
-
-        public bool SameTile(Vector3Int a, Vector3Int b)
-        {
-            return ((a.x == b.x) && (a.z == b.z));
-        }
-
-
-        public bool SameTile(Vector2Int a, Vector2Int b)
-        {
-            return ((a.x == b.x) && (a.y == b.y));
-        }
+        public bool SameVoxel(Vector3 a, Vector3 b) => (((int)a.x == (int)b.x) 
+                                                    && ((int)a.y == (int)b.y) 
+                                                    && ((int)a.z == (int)b.z));
+        public bool SameTile(Vector3 a, Vector3 b) => (((int)a.x == (int)b.x) && ((int)a.z == (int)b.z));
+        public bool SameTile(Vector2 a, Vector2 b) => (((int)a.x == (int)b.x) && ((int)a.y == (int)b.y));
+        public bool SameVoxel(Vector3Int a, Vector3Int b) => ((a.x == b.x) && (a.y == b.y) && (a.z == b.z));
+        public bool SameTile(Vector3Int a, Vector3Int b) => ((a.x == b.x) && (a.z == b.z));
+        public bool SameTile(Vector2Int a, Vector2Int b) => ((a.x == b.x) && (a.y == b.y));
         #endregion
 
-
+        #region AI Location Checking 
         public bool LocationSafe(Vector3 location)
         {
             Vector2Int tile = new Vector2Int((int)location.x, (int)location.z);
@@ -170,8 +146,9 @@ namespace CevarnsOfEvil
         {
             return map.GetRoom((int)a.x, (int)a.z) == map.GetRoom((int)b.x, (int)b.z);
         }
+        #endregion
 
-        
+        #region Reachability Testing
         /*
         // TODO: Special Pathing
         //
@@ -238,6 +215,53 @@ namespace CevarnsOfEvil
         // preventing mobs from getting stuck in corners leads to more enemies reaching the player 
         // faster! 
         // */
+
+
+        public bool TileInBounds(Vector2Int tile) => map.GetInBounds(tile);
+        public bool TileInBounds(Vector3Int tile) => map.GetInBounds(tile);
+
+
+        public bool TileInRange(Vector2Int origin, Vector2Int candidate, int range)
+        {
+            int xDiff = candidate.x - origin.x;
+            int yDiff = candidate.y - origin.y;
+            return ((xDiff * xDiff) + (yDiff * yDiff)) <= (range * range);
+        }
+
+
+        public bool TileEnergyPassable(Vector2Int candidate) => map.GetPassable(candidate.x, candidate.y); 
+
+
+        
+        public class TilePather
+        {
+            public struct StepTile : System.IComparable<StepTile> 
+            {
+                public int traversed, heuristic;
+                public Vector2Int location;
+                public readonly int Cost => traversed + heuristic;
+                public readonly int CompareTo(StepTile other) => Cost.CompareTo(other.Cost);
+                public static bool operator >(StepTile a, StepTile b) => a.CompareTo(b) > 0;
+                public static bool operator <(StepTile a, StepTile b) => a.CompareTo(b) < 0;
+                public static bool operator >=(StepTile a, StepTile b) => a.CompareTo(b) >= 0;
+                public static bool operator <=(StepTile a, StepTile b) => a.CompareTo(b) <= 0;
+                public static bool operator ==(StepTile a, StepTile b) => a.CompareTo(b) == 0;
+                public static bool operator !=(StepTile a, StepTile b) => a.CompareTo(b) != 0;
+                public override readonly bool Equals(object obj) => base.Equals(obj);
+                public override readonly int GetHashCode() => base.GetHashCode();
+            }
+
+            private Vector2 origin;
+            private Vector2 destination;
+            private PriorityQueue<StepTile> priority;
+            private List<StepTile> considred;
+
+        }
+
+
+
+
+        # endregion
 
 
 

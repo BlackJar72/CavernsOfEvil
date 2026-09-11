@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics.Contracts;
+using UnityEngine;
 
 
 namespace CevarnsOfEvil
@@ -49,39 +50,42 @@ namespace CevarnsOfEvil
 
 
         // Getters
-        public int GetRoom(int x, int z) => room[(z * size.width) + x];
-        public int GetType(int x, int z) => type[(z * size.width) + x];
-        public int GetFloorY(int x, int z) => floorY[(z * size.width) + x];
-        public int GetFloorY(int i) => floorY[i];
-        public int GetCeilY(int x, int z) => ceilY[(z * size.width) + x];
-        public int GetCeilY(int i) => ceilY[i];
-        public int GetNFloorY(int x, int z) => nFloorY[(z * size.width) + x];
-        public int GetNCeilY(int x, int z) => nCeilY[(z * size.width) + x];
-        public int GetDoorway(int x, int z) => doors[(z * size.width) + x];
-        public int GetPool(int x, int z) => pools[(z * size.width) + x];
-        public bool GetWall(int x, int z) => isWall[(z * size.width) + x];
-        public bool GetPillar(int x, int z) => isPillar[(z * size.width) + x];
-        public bool GetBlocked(int x, int z) => isWall[(z * size.width) + x] || isPillar[(z * size.width) + x];
-        public bool GetAStared(int x, int z) => astared[(z * size.width) + x];
-        public bool GetUsed(int x, int z) => used[(z * size.width) + x];
-        public bool GetPassable(int x, int z) => !(isWall[(z * size.width) + x]
+        [Pure] public int GetRoom(int x, int z) => room[(z * size.width) + x];
+        [Pure] public int GetType(int x, int z) => type[(z * size.width) + x];
+        [Pure] public int GetFloorY(int x, int z) => floorY[(z * size.width) + x];
+        [Pure] public int GetFloorY(int i) => floorY[i];
+        [Pure] public int GetCeilY(int x, int z) => ceilY[(z * size.width) + x];
+        [Pure] public int GetCeilY(int i) => ceilY[i];
+        [Pure] public int GetNFloorY(int x, int z) => nFloorY[(z * size.width) + x];
+        [Pure] public int GetNCeilY(int x, int z) => nCeilY[(z * size.width) + x];
+        [Pure] public int GetDoorway(int x, int z) => doors[(z * size.width) + x];
+        [Pure] public int GetPool(int x, int z) => pools[(z * size.width) + x];
+        [Pure] public bool GetWall(int x, int z) => isWall[(z * size.width) + x];
+        [Pure] public bool GetPillar(int x, int z) => isPillar[(z * size.width) + x];
+        [Pure] public bool GetBlocked(int x, int z) => isWall[(z * size.width) + x] || isPillar[(z * size.width) + x];
+        [Pure] public bool GetAStared(int x, int z) => astared[(z * size.width) + x];
+        [Pure] public bool GetUsed(int x, int z) => used[(z * size.width) + x];
+        [Pure] public bool GetPassable(int x, int z) => !(isWall[(z * size.width) + x]
                     && !isPillar[(z * size.width) + x]) 
                     || (doors[(z * size.width) + x] > 2);
-        public bool GetPassableAndSafe(int x, int z) => ((!isWall[(z * size.width) + x]
+        [Pure] public bool GetPassableAndSafe(int x, int z) => ((!isWall[(z * size.width) + x]
                     && !isPillar[(z * size.width) + x]) || (doors[(z * size.width) + x] > 2)) 
                     && (pools[(z * size.width) + x] < 1);
-        public bool GetGoodSmallMobSpawn(int x, int z) => !isWall[(z * size.width) + x]
+        [Pure] public bool GetGoodSmallMobSpawn(int x, int z) => !isWall[(z * size.width) + x]
                     && !isPillar[(z * size.width) + x] && (pools[(z * size.width) + x] < 1)
 	                && (rooms[(z * size.width) + x] > 0) && !astared[(z * size.width) + x]
                     && ((GetCeilY(x, z) - GetFloorY(x, z)) > 1);
-        public bool GetGoodLargeMobSpawn(int x, int z) => !isWall[(z * size.width) + x]
+        [Pure] public bool GetGoodLargeMobSpawn(int x, int z) => !isWall[(z * size.width) + x]
                     && !isPillar[(z * size.width) + x] && (pools[(z * size.width) + x] < 1)
                     && (rooms[(z * size.width) + x] > 0) && !astared[(z * size.width) + x]
                     && ((GetCeilY(x, z) - GetFloorY(x, z)) > 2);
-	    public int GetWallBottom(int x, int z) => floorY[(z * size.width) + x] + doors[(z * size.width) + x];
-        public int GetWallBottom(int i) => floorY[i] + doors[i];
-        public int GetSurfaceHeight(int x, int z) => floorY[(z * size.width) + x] + pools[(z * size.width) + x];
-        public bool GetInBounds(int x, int z) => ((x > -1) && (z > -1) && (x < size.width) && (z < size.width));
+	    [Pure] public int GetWallBottom(int x, int z) => floorY[(z * size.width) + x] + doors[(z * size.width) + x];
+        [Pure] public int GetWallBottom(int i) => floorY[i] + doors[i];
+        [Pure] public int GetSurfaceHeight(int x, int z) => floorY[(z * size.width) + x] + pools[(z * size.width) + x];
+        [Pure] public bool GetInBounds(int x, int z) => ((x > -1) && (z > -1) && (x < size.width) && (z < size.width));
+        [Pure] public bool GetInBounds(Vector2Int v) => ((v.x > -1) && (v.y > -1) && (v.x < size.width) && (v.y < size.width));
+        [Pure] public bool GetInBounds(Vector3Int v) => ((v.x > -1) && (v.z > -1) && (v.x < size.width) && (v.z < size.width));
+        [Pure] public bool GetInBounds(Vector3 v) => ((v.x > 0) && (v.z > 0) && ((v.x -1) < size.width) && ((v.z - 1) < size.width));
 
 
         // Setters
