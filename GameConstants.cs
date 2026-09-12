@@ -32,6 +32,7 @@ namespace CevarnsOfEvil
         public const int ProjectileLayer     = 16;
         public const int GhostLayer          = 17;
         public const int MonsterBody         = 18;
+        public const int AttackArea          = 19;
         //TODO/FIXME: Include all layers!
 
         // Layer Masks
@@ -45,6 +46,7 @@ namespace CevarnsOfEvil
         public const int JumpMask = 0x1 << DamageableeLayer | LevelMask | 1;
         public const int InteractMask = LevelMask | 0x1 << InteractiveLayer;
         public const int WorldCollideMask = 0x1 << MonsterBody;
+        public const int AttackAreaMask = 0x1 << AttackArea;
         
         // Generator
         public const int BaseDoorHeight = 3;
