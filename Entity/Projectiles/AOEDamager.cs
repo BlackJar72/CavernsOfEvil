@@ -27,12 +27,13 @@ namespace CevarnsOfEvil
                 EntityHealth health = collider.GetComponent<EntityHealth>();
                 if ((health != null) && (InSameRoom(attacker, hit, collider) || (CheckSight(collider, hit))))
                 {
-                    health.BeHitByAttack(damage, damageType, attacker);
-                }
-                // This should be fine, as I don't think anything else used this besides wand of fire fire balls
-                // (if another uses is created, the script can be duplicated and this removed).
-                if(health is PlayerHealth) {
-                    ((Player)health.Owner).ActivateFireOverlay();
+                    // This should be fine, as I don't think anything else used this besides wand of fire fire balls
+                    // (if another uses is created, the script can be duplicated and this removed).
+                    if(health is PlayerHealth) {
+                        health.BeHitByAttack((damage * 3) / 4, damageType, attacker);
+                        ((Player)health.Owner).ActivateFireOverlay();
+                    }
+                    else health.BeHitByAttack(damage, damageType, attacker);
                 }
             }
             Destroy(gameObject);
