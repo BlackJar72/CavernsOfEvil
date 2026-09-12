@@ -53,7 +53,7 @@ namespace CevarnsOfEvil
 
         private bool InSameRoom(Entity entity, Collision hit, Collider collider)
         {
-            if(entity is Player) {
+            //if(entity is Player) { // Why did I ever have this limitation; it was supposed to test same room for all targers!
                 Player player = entity as Player;
                 #if UNITY_EDITOR
                 return (player.Mover.dungeon == null) || (player.Mover.dungeon.Manager
@@ -63,8 +63,8 @@ namespace CevarnsOfEvil
                 return player.Mover.dungeon.Manager
                 .InSameRoom(transform.position, collider.bounds.center);
                 #endif
-            }
-            else return false;
+            //}
+            //else return false;
         }
     }
 

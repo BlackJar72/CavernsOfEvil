@@ -12,6 +12,9 @@ namespace CevarnsOfEvil
     {
         private const float SQRT10 = 3.1622776601683793319988935444327f;
 
+        private static Resolution fullSreenRes;
+        private static Resolution windowedRes;
+
         [SerializeField] AudioMixer audioMixer;
 
         [SerializeField] GameObject parentMenu;
@@ -77,6 +80,13 @@ namespace CevarnsOfEvil
 
         public void Init()
         {
+            // Screen Resolution
+            fullSreenRes = Screen.currentResolution;
+            fullSreenRes.height = Display.main.systemHeight;
+            fullSreenRes.width = Display.main.systemWidth;
+            windowedRes = Screen.currentResolution;
+            windowedRes.height = Mathf.Min(810, (fullSreenRes.height * 7) / 8);
+            windowedRes.width = Mathf.Min(1440, (fullSreenRes.width * 7) / 8);
             // Input Variables
             lookSensitivity = PlayerPrefs.GetFloat("LookSensitivity", 0.5f);
             moveSensitivity = PlayerPrefs.GetFloat("MoveSensitivity", 1.0f);
@@ -102,6 +112,8 @@ namespace CevarnsOfEvil
         public void SetFullscreen(bool fullscreen)
         {
             Screen.fullScreen = isFullscreen = fullscreen;
+            if(isFullscreen) Screen.SetResolution(fullSreenRes.width, fullSreenRes.height, isFullscreen);
+            else Screen.SetResolution(windowedRes.width, windowedRes.height, isFullscreen);
         }
 
 
