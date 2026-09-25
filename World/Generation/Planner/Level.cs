@@ -497,10 +497,10 @@ namespace CevarnsOfEvil
             for(int i = 0; i < map.Size.width; i++)
                 for (int j = 0; j < map.Size.width; j++)
                 {
-                    if(map.GetAStared(i, j))
+                    if(!map.GetGoodSmallMobSpawn(i, j))
                     {
                         Vector3 location = new Vector3(i + 0.5f,
-                                                       map.GetFloorY(i, j) + 0.5f,
+                                                       map.GetFloorY(i, j),
                                                        j + 0.5f);
                         GameObject item = Instantiate(testObject,
                             location, testObject.transform.rotation);
@@ -521,7 +521,7 @@ namespace CevarnsOfEvil
                     if(map.GetAStared(i, j))
                     {
                         Vector3 location = new Vector3(i + 0.5f,
-                                                       map.GetFloorY(i, j) + 0.5f,
+                                                       map.GetFloorY(i, j),
                                                        j + 0.5f);
                         GameObject item = Instantiate(testObject,
                             location, testObject.transform.rotation);

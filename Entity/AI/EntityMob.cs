@@ -12,7 +12,7 @@ namespace CevarnsOfEvil
 
         protected Vector3 destination;
         protected Vector3 direction, desiredDirection;
-        protected Vector3 AIVelocity, physicalVelocity;
+        protected Vector3 AIVelocity;
 
         // Keeping track of the current enemy
         [HideInInspector] public GameObject targetObject;
