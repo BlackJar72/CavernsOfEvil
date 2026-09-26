@@ -10,12 +10,19 @@ namespace CevarnsOfEvil
     {
         [SerializeField] BehaviorObject fleeState;
         [SerializeField] BehaviorObject chaseState;
+        [SerializeField] float vocalRate = 2.0f;
 
         public override bool StateUpdate(EntityMob entityMob)
         {
             EntityNavMeshUser ownerIn = entityMob as EntityNavMeshUser;
             if (IsValidState(ownerIn))
             {
+                if((ownerIn.NextIdleTalk < Time.time) && (Random.value < (Time.deltaTime * vocalRate)
+                        && ownerIn.DistanceSqrToPlayer() < 1024))
+                {
+                    ownerIn.Sounds.PlayIdle(ownerIn.Voice);
+                    ownerIn.NextIdleTalk += (2 / vocalRate) + (Random.value * 3);
+                }
                 if (ownerIn.IsFleeing)
                 {
                     ownerIn.CurrentBehavior = fleeState;

@@ -10,6 +10,7 @@ namespace CevarnsOfEvil
     {
         [SerializeField] ArcherManeuver maneuverState;
         [SerializeField] ArcherAttack attackState;
+        [SerializeField] float vocalRate = 1.0f;
 
 
         public override void StateEnter(EntityMob entityMob)
@@ -49,6 +50,12 @@ namespace CevarnsOfEvil
                     float fullTime = Mathf.Max(ownerIn.NextAttack, ownerIn.NavmeshTimer);
                     ownerIn.NextAttack = fullTime;
                     ownerIn.NavmeshTimer = fullTime;
+                    if((ownerIn.NextIdleTalk < Time.time) && (Random.value < (Time.deltaTime * vocalRate)
+                            && ownerIn.DistanceSqrToPlayer() < 1024))
+                    {
+                        ownerIn.Sounds.PlayIdle(ownerIn.Voice);
+                        ownerIn.NextIdleTalk += (2 / vocalRate) + (Random.value * 3);
+                    }
                 }
             }
             else
