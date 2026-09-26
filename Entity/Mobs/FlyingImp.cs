@@ -7,45 +7,48 @@ namespace CevarnsOfEvil
 {
 
     [RequireComponent(typeof(Rigidbody))]
-    public class FlyingImp : EntityRangedMob, IWorldSensorUser
+    public class FlyingImp : PhysicalMob, IWorldSensorUser
     {
         [SerializeField] WorldSensor sensor;
-        private Rigidbody rb;
-
-        private float looky;
-        public Vector3 movement;
-        private Vector3 hVelocity;
-        private Vector3 velocity;
-        private float vSpeed;
 
         private bool movementDecided;
 
 
-        // Start is called before the first frame update
-        public override void Start()
+        public override void Attack()
         {
-            rb = GetComponent<Rigidbody>();
-            base.Start();
+            nextAttack = Time.time + attackTime;
+            if ((nextFireTime < Time.time) && (DistanceSqrToPlayer() > meleeStopDistance))
+            {
+                RangedAttack();
+            } else if(DistanceSqrToPlayer() < meleeStopDistance) {
+                MeleeAttack();
+            }
         }
 
 
-        // Update is called once per frame
-        public override void Update()
+        public override void MeleeAttack()
         {
-            base.Update();
-            DecideMovement();
+            ToTargetDir();
+            base.MeleeAttack();
+            anim.SetInteger("AnimID", 2);
+            entitySounds.PlayAttack(voice, 1);
+            nextFireTime = Mathf.Max(nextFireTime, nextAttack);
         }
 
 
-        private void DecideMovement()
+        public void RangedAttack()
         {
-            if(movementDecided) return;
-        }
-
-
-        public virtual void FixedUpdate()
-        {
-            movementDecided = false;           
+            if ((targetEntity != null) && (targetEntity.enabled))
+            {   
+                ToTargetDir();
+                NextFireTime = nextAttack + FireDelay + Random.value;
+                AimParams aim;
+                GetAimParams(out aim);
+                GameObject proj = Instantiate(projectile, aim.from, ProjSpawn.rotation);
+                proj.GetComponent<SimpleProjectile>().LaunchSimple(aim.toward, this);
+            }
+            anim.SetInteger("AnimID", 1);
+            entitySounds.PlayAttack(voice, 0);
         }
 
 

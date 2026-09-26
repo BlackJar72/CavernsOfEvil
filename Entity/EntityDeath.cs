@@ -7,9 +7,9 @@ namespace CevarnsOfEvil
 
     public class EntityDeath : MonoBehaviour
     {
-        [SerializeField] Collider[] colliders;
+        [SerializeField] protected Collider[] colliders;
 
-        void Update()
+        public virtual void Update()
         {
             Rigidbody rb = GetComponent<Rigidbody>();
             if (rb && (rb.velocity.magnitude < 0.01) && (rb.angularVelocity.magnitude < 0.01f))

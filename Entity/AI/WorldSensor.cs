@@ -16,6 +16,9 @@ namespace CevarnsOfEvil
         [SerializeField] Collider sensorCollider;
 
         private StepDataAI stepData;
+        private DungeonManager dungeonManager;
+        private MapMatrix mapMatrix;
+
 
 
         void OnTriggerEnter(Collider other) => owner.OnWorldSensorTriggered(other);
@@ -25,7 +28,8 @@ namespace CevarnsOfEvil
         // Start is called before the first frame update
         void Start()
         {
-            
+            dungeonManager = DungeonManager.Instance;
+            mapMatrix = GameManager.Instance.Dungeon.map;
         }
 
 

@@ -11,8 +11,8 @@ namespace CevarnsOfEvil
 
         private MapMatrix map;
 
-        public DungeonManager Instance => instance;
-        public Level Dungeon => Level.Instance;
+        public static DungeonManager Instance => instance;
+        public static Level Dungeon => Level.Instance;
 
 
         private void Awake()

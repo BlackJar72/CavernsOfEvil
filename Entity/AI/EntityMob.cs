@@ -120,7 +120,7 @@ namespace CevarnsOfEvil
 
         public virtual void SetDirection(Vector3 dir)
         {
-            desiredDirection = dir;
+            desiredDirection = dir.normalized;
         }
 
 
