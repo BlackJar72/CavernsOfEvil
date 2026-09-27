@@ -65,7 +65,7 @@ namespace CevarnsOfEvil
             int floory = GameManager.Instance.Dungeon.map.GetFloorY((int)rb.position.x, (int)rb.position.z);
             if(rb.position.y < floory)
             {
-                rb.MovePosition(new Vector3(rb.position.x, floory, rb.position.z));
+                rb.position = new Vector3(rb.position.x, floory, rb.position.z);
             }
         }
 
@@ -124,7 +124,6 @@ namespace CevarnsOfEvil
                     toTarget.y = 0;
                     velocity = toTarget.normalized * baseMoveSpeed;
                     hVelocity = toTarget.normalized * baseMoveSpeed;
-                    NewTurnCooldown();
                 }
                 NewTurnCooldown();
             } 

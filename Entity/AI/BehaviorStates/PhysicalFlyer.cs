@@ -16,9 +16,6 @@ namespace CevarnsOfEvil {
             PhysicalMob owner = entityMob as PhysicalMob;
             if (IsValidState(owner))
             {
-                owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, 
-                    Quaternion.LookRotation(owner.targetObject.transform.position - owner.transform.position, 
-                        owner.transform.up), Time.deltaTime);
                 if ((owner != null) && owner.CanSeeTarget() && (owner.NextAttack < Time.time))
                 {
                     owner.CurrentBehavior = attackState;

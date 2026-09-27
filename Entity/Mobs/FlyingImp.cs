@@ -54,7 +54,7 @@ namespace CevarnsOfEvil
 
         public void OnWorldSensorTriggered(Collider other)
         {
-            Debug.Log("Sensor collided with " + other.gameObject.name);
+            //Debug.Log("Sensor collided with " + other.gameObject.name);
         }
 
 
