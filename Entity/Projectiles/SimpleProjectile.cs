@@ -29,10 +29,8 @@ namespace CevarnsOfEvil
         /// <param name="collision"></param>
         public override void OnCollisionEnter(Collision collision)
         {            
-            Entity victim = collision.gameObject.GetComponent<Entity>();
-            if (victim != null)
+            if(collision.gameObject.TryGetComponent<EntityHealth>(out var health))
             {
-                EntityHealth health = collision.gameObject.GetComponent<Entity>().Health;
                 health.BeHitByAttack(damageBase, damageType, attacker);
             }
             Instantiate(impactEffect, transform.position, transform.rotation).SetActive(true);

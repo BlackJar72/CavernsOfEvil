@@ -7,13 +7,8 @@ namespace CevarnsOfEvil
 {
 
     [RequireComponent(typeof(Rigidbody))]
-    public class FlyingImp : PhysicalMob, IWorldSensorUser
+    public class FlyingImp : PhysicalMob
     {
-        [SerializeField] WorldSensor sensor;
-
-        private bool movementDecided;
-
-
         public override void Attack()
         {
             nextAttack = Time.time + attackTime;
@@ -52,15 +47,16 @@ namespace CevarnsOfEvil
         }
 
 
-        public void OnWorldSensorTriggered(Collider other)
+        public override bool TakeDamage(ref Damages damage)
         {
-            //Debug.Log("Sensor collided with " + other.gameObject.name);
-        }
-
-
-        public void OnWorldSensorExit(Collider other)
-        {
-            //Debug.Log("Sensor left " + other.gameObject.name);
+            if (damage.type == DamageType.fire) return false;
+            else if (Random.value < 0.2)
+            {
+                entitySounds.PlayHurt(voice, 0);
+                anim.SetTrigger("Pain");
+                nextAttack += 0.625f;
+            }
+            return base.TakeDamage(ref damage);
         }
 
 
