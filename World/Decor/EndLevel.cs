@@ -22,7 +22,7 @@ namespace CevarnsOfEvil {
         [Command("jump")]
         public void jump(int to)
         {
-            GameData.Level = to - 1;
+            GameData.Level = Mathf.Min(to - 1, LoadingScreen.MAX_DEMO_LEVEL - 1);
             level = Level.Instance; // GameObject.Find("Level").GetComponent<Level>();
             ScoreData.endTime = Time.time;
             ScoreData.totalKills = level.MobsKilled();

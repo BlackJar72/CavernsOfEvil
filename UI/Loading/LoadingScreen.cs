@@ -1,10 +1,8 @@
 using UnityEngine;
 using TMPro;
-using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using LeastSquares;
 
 namespace CevarnsOfEvil
 
@@ -62,14 +60,19 @@ namespace CevarnsOfEvil
     public class LoadingScreen : MonoBehaviour
     {
         public const string LB_MAX_LEVEL = "Max Level Reached";
+        public const string STEAM_URL = "https://store.steampowered.com/app/1929380/Caverns_of_Evil/";
+        public const int MAX_DEMO_LEVEL = 5;
 
         [SerializeField] TMP_Text levelText;
         [SerializeField] TMP_Text timeText;
         [SerializeField] TMP_Text killsText;
         [SerializeField] TMP_Text hintText;
+        [SerializeField] GameObject hintTextObj;
 
         [SerializeField] GameObject scores;
         [SerializeField] GameObject buttons;
+        [SerializeField] GameObject endButtons;
+        [SerializeField] GameObject buyText;
 
         [SerializeField] bool isNormal;
         [SerializeField] GameObject quitButton;
@@ -78,25 +81,23 @@ namespace CevarnsOfEvil
         private static List<string> shuffledHints = new List<string>();
         private static bool hintsShuffled = false;
 
-        [SerializeField] SteamAchievementsAndStats steamAchievements;
-
 
 
         public void Init()
         {
             if (GameData.Level > 0) {
                 if (isNormal) {
-                    levelText.text = LocalizationManager.GetTranslation("UIStrings", "LevelN", GameData.Level.ToString());
+                    if(GameData.Level >= MAX_DEMO_LEVEL) levelText.text = "Demo Completed!";
+                    else levelText.text = LocalizationManager.GetTranslation("UIStrings", "LevelN", GameData.Level.ToString());
                     timeText.text = ScoreData.GetTimeString();
                     killsText.text = ScoreData.GetKillsString();
                     ShowHint();
                     GameData.NextLevel();
                     GameData.SaveGame();
+                    buttons.SetActive(false);
+                    scores.SetActive(false);
                     quitButton.SetActive(!((GameData.Level == 17) && isNormal));
                     StartCoroutine(ShowPieces());
-                    if (steamAchievements != null) {
-                        steamAchievements.AddStat("HIGH_LEVEL", GameData.Level);
-                    }
                 }
             }
         }
@@ -108,18 +109,27 @@ namespace CevarnsOfEvil
             scores.SetActive(true);
             yield return new WaitForSecondsRealtime(1);
             Cursor.lockState = CursorLockMode.None;
-            buttons.SetActive(true);
+            if(GameData.Level <= MAX_DEMO_LEVEL) buttons.SetActive(true);
+            else
+            {
+                buttons.SetActive(false);
+                hintTextObj.SetActive(false);
+                endButtons.SetActive(true);
+                buyText.SetActive(true);
+                GameData.Level = 1;
+            }
         }
 
 
         public void StartNextLevel()
         {
-            // 17 because the level has now incremented, though to end at 16 we need 17
-            if((GameData.Level == 17) && isNormal) {
-                UIManager.Instance.ShowVictory();
-            } else {
-                GameManager.Instance.NextLevel();
-            }
+            GameManager.Instance.NextLevel();
+        }
+
+
+        public void ShowSteamPage()
+        {
+            System.Diagnostics.Process.Start(STEAM_URL);
         }
 
 
@@ -140,6 +150,12 @@ namespace CevarnsOfEvil
 
 
         private void ShowHint() {
+            hintText.gameObject.SetActive(GameData.Level < MAX_DEMO_LEVEL);
+            if(GameData.Level >= MAX_DEMO_LEVEL) 
+            {
+                hintText.gameObject.SetActive(false);
+                return;
+            }
             if(!hintsShuffled || (shuffledHints.Count < 1)) ShuffleHints();
             int which = GameData.Level - 1;
             if(which < shuffledHints.Count) {
@@ -154,11 +170,6 @@ namespace CevarnsOfEvil
         public static void ResetHintShuffle() {
             hintsShuffled = false;
         }
-
-
-        /*public void OnSceneLoaded() {
-            //Debug.Log("SceneLoaded");
-        }*/
 
     }
 

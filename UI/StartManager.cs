@@ -30,7 +30,6 @@ namespace CevarnsOfEvil
         [SerializeField] GameObject startButton;
         [SerializeField] GameObject optBackButton;
         [SerializeField] GameObject helpBackButton;
-        [SerializeField] GameObject resumeButton;
 
 
         void Start()
@@ -44,7 +43,6 @@ namespace CevarnsOfEvil
             } else {
                 TakeDownBackstory();
             }
-            resumeButton.SetActive(GameData.DoesSaveExist());
             justLoaded = false;
         }
 
@@ -95,14 +93,7 @@ namespace CevarnsOfEvil
         }
 
 
-        public void ResumeGame()
-        {
-            GameData.Init(seedString, difficulty);
-            GameData.resuming = true;
-            //SceneManager.LoadScene(GameConstants.DUNGEON_SCENE);
-            SceneManager.LoadScene(GameConstants.PLAYER_SCENE, LoadSceneMode.Single);
-            //SceneManager.LoadScene(GameConstants.DUNGEON_SCENE, LoadSceneMode.Additive);
-        }
+        public void ResumeGame() => StartGame(); // No resuming in demo!
 
 
         public void GoToOptions()
@@ -123,6 +114,14 @@ namespace CevarnsOfEvil
             helpScreen.SetActive(false);
             eventSystem.SetSelectedGameObject(startButton);
         }
+
+
+        public void ShowSteamPage()
+        {
+            System.Diagnostics.Process.Start(LoadingScreen.STEAM_URL);
+        }
+
+
     }
 
 }
