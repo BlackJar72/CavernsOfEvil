@@ -205,6 +205,30 @@ namespace CevarnsOfEvil
                 && !Physics.Linecast(eyes.position, otherLoc, GameConstants.LevelMask));
         }
 
+        
+        public bool HasLineOfSighToCollider(GameObject other)
+        {
+            Vector3 otherLoc = other.GetComponent<Collider>().bounds.center;
+            Vector3 toOther = otherLoc - eyes.position;
+            return (!Physics.Linecast(eyes.position, otherLoc, GameConstants.LevelMask));
+        }
+
+
+        public bool HasLineOfSighToCollider(Entity other)
+        {
+            Vector3 otherLoc = other.GetCollider().bounds.center;
+            Vector3 toOther = otherLoc - eyes.position;
+            return (!Physics.Linecast(eyes.position, otherLoc, GameConstants.LevelMask));
+        }
+
+
+        public bool HasLineOfSighToTarget()
+        {
+            return ((targetObject != null)
+                && (targetObject.GetComponent<Collider>() != null)
+                && HasLineOfSighToCollider(targetObject));
+        }
+
 
         public bool CanSeePlayerCollider(Player other)
         {

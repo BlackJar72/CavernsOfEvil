@@ -17,6 +17,8 @@ namespace CevarnsOfEvil
         protected Vector3 velocity;
         protected float vSpeed;
         protected float turnCooldown = float.NegativeInfinity;
+        protected float collisionCooldown = float.NegativeInfinity;
+
         [SerializeField] protected GameObject projectile;
         [SerializeField] protected Transform projectileSpawn;
         [SerializeField] protected float inaccuracy;
@@ -75,7 +77,8 @@ namespace CevarnsOfEvil
             Vector3 collisionNormal = collision.contacts[0].normal;
             collisionNormal.y = 0;
             if((collision.gameObject.CompareTag("Wall") || (collisionNormal.sqrMagnitude > 0)) && 
-               ((Vector3.Angle(transform.forward, collisionNormal) < 15))) {
+               ((Vector3.Angle(transform.forward, collisionNormal) < 15)) && (Time.time > collisionCooldown)) {
+                collisionCooldown = Time.time + 0.1f;
                 RandomLookyFromDirection(collisionNormal);
                 Vector3 toTarget = desiredDirection;
                 vSpeed = toTarget.y = 0;
@@ -113,7 +116,7 @@ namespace CevarnsOfEvil
         public virtual void GetNewDirection()
         {
             if(turnCooldown < Time.time) {
-                if(CanSeeTarget() || InSameRoom(targetObject)) {                
+                if(HasLineOfSighToTarget() || InSameRoom(targetObject)) {                
                     Vector3 toTarget = (targetEntity.transform.position - transform.position);
                     velocity = toTarget.normalized * baseMoveSpeed;
                     toTarget.y = 0;
@@ -138,7 +141,7 @@ namespace CevarnsOfEvil
 
         public virtual void LookAndMoveCurrentDir()
         {
-            rb.MoveRotation(Quaternion.Lerp(rb.rotation, Quaternion.LookRotation(hVelocity), Time.fixedDeltaTime * 5));
+            rb.MoveRotation(Quaternion.Lerp(rb.rotation, Quaternion.LookRotation(hVelocity), Time.fixedDeltaTime * 10));
             rb.velocity = velocity;
         }
 
@@ -177,18 +180,15 @@ namespace CevarnsOfEvil
             Vector3 straight = destination - transform.position;
             straight.y = 0;
             Quaternion.LookRotation(straight, Vector3.up).ToAngleAxis(out float theta, out Vector3 up);
-            switch (Random.Range(0, 4))
+            switch (Random.Range(0, 3))
             {
                 case 0:
-                    theta += 30;
+                    theta = Random.Range(0.0f, 360.0f);
                     break;
                 case 1: 
-                    theta -= 30;
-                    break;
-                case 2:
                     theta += Random.Range(0.0f, 45.0f) - Random.Range(0.0f, 45.0f);
                     break;
-                case 3:
+                case 2:
                 default: break;
             }
             return new Vector3(Mathf.Sin(theta * Mathf.Deg2Rad), 0, Mathf.Cos(theta * Mathf.Deg2Rad));
@@ -200,18 +200,15 @@ namespace CevarnsOfEvil
         {
             dir.y = 0;
             Quaternion.LookRotation(dir, Vector3.up).ToAngleAxis(out float theta, out Vector3 up);
-            switch (Random.Range(0, 4))
+            switch (Random.Range(0, 3))
             {
                 case 0:
-                    theta += 30;
+                    theta = Random.Range(0.0f, 360.0f);
                     break;
                 case 1: 
-                    theta -= 30;
-                    break;
-                case 2:
                     theta += Random.Range(0.0f, 45.0f) - Random.Range(0.0f, 45.0f);
                     break;
-                case 3:
+                case 2:
                 default: break;
             }
             if(theta < 0.0f) theta = 360.0f - theta;
