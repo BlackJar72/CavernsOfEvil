@@ -8,7 +8,7 @@ namespace CevarnsOfEvil
 
     public class SimpleProjectile : BasicProjectile
     {
-        [SerializeField] GameObject impactEffect;
+        [SerializeField] protected GameObject impactEffect;
 
         /*
          * If this game was intended to include outdoor settings these would 

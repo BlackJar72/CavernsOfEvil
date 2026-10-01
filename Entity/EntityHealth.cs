@@ -53,6 +53,11 @@ namespace CevarnsOfEvil {
             BeHitByRaycastAttack(hit, 20, attacker);
         }
 
+        public void BeHitByPlasma(RaycastHit hit, Entity attacker)
+        {
+            BeHitByRaycastAttack(hit, 40, DamageType.physicalPlus, attacker);
+        }
+
 
         public void BeHitByRaycastAttack(RaycastHit hit, int damageBase, Entity attacker)
         {

@@ -116,6 +116,7 @@ namespace CevarnsOfEvil
         public virtual void GetNewDirection()
         {
             if(turnCooldown < Time.time) {
+                if(!GameManager.Instance.Dungeon.map.GetInBounds((int)transform.position.x, (int)transform.position.z)) Destroy(gameObject);
                 if(HasLineOfSighToTarget() || InSameRoom(targetObject)) {                
                     Vector3 toTarget = (targetEntity.transform.position - transform.position);
                     velocity = toTarget.normalized * baseMoveSpeed;

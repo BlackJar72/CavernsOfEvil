@@ -13,6 +13,7 @@ namespace CevarnsOfEvil
 
         public GameObject projectile;
         public AudioSource fireSound;
+        public GameObject hitParticles;
 
 
         public void Start()
@@ -34,6 +35,7 @@ namespace CevarnsOfEvil
                 AimParams aim;
                 player.GetAimParams(out aim);
                 aim.from = aimTransform.position;
+                FirePlasmaPlayer(aim.from, aim.toward, player.PlayerScript);
                 SpawnProjectile(aim, player.PlayerScript);
                 anim.SetTrigger("Act");
                 fireSound.Play();
@@ -46,6 +48,26 @@ namespace CevarnsOfEvil
         {
             GameObject proj = Instantiate(projectile, aim.from, aimTransform.rotation);
             proj.GetComponent<SimpleProjectile>().LaunchSimple(aim.toward, attacker);
+        }
+
+
+        protected void FirePlasmaPlayer(Vector3 from, Vector3 toward, Entity attacker)
+        {
+            RaycastHit target;
+            GameObject hit;
+            if (Physics.Raycast(from, toward, out target, 256, GameConstants.PlayerAttackMask))
+            {
+                if (target.collider != null)
+                {
+                    hit = target.collider.gameObject;
+                    EntityHealth victim = hit.GetComponent<EntityHealth>();
+                    Instantiate(hitParticles, target.point, Quaternion.FromToRotation(Vector3.forward, target.normal));
+                    if (victim != null)
+                    {
+                        victim.BeHitByPlasma(target, attacker);
+                    }
+                }
+            }
         }
     }
 
