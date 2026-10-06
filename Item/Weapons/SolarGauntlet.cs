@@ -35,8 +35,8 @@ namespace CevarnsOfEvil
                 AimParams aim;
                 player.GetAimParams(out aim);
                 aim.from = aimTransform.position;
-                FirePlasmaPlayer(aim.from, aim.toward, player.PlayerScript);
-                SpawnProjectile(aim, player.PlayerScript);
+                FirePlasmaPlayer(aim, player.PlayerScript);
+                //SpawnProjectile(aim, player.PlayerScript);
                 anim.SetTrigger("Act");
                 fireSound.Play();
                 AlertListeningMobs(player.PlayerScript);
@@ -44,28 +44,25 @@ namespace CevarnsOfEvil
         }
 
 
-        public void SpawnProjectile(AimParams aim, Entity attacker)
+        public void SpawnProjectile(AimParams aim, Entity attacker, RaycastHit target, EntityHealth victim)
         {
             GameObject proj = Instantiate(projectile, aim.from, aimTransform.rotation);
-            proj.GetComponent<SimpleProjectile>().LaunchSimple(aim.toward, attacker);
+            proj.GetComponent<HomingProjectileFX>().Launch(aim.toward, attacker, target, victim);
         }
 
 
-        protected void FirePlasmaPlayer(Vector3 from, Vector3 toward, Entity attacker)
+        protected void FirePlasmaPlayer(AimParams aim, Entity attacker)
         {
             RaycastHit target;
             GameObject hit;
-            if (Physics.Raycast(from, toward, out target, 256, GameConstants.PlayerAttackMask))
+            if (Physics.Raycast(aim.from, aim.toward, out target, 256, GameConstants.PlayerAttackMask))
             {
                 if (target.collider != null)
                 {
                     hit = target.collider.gameObject;
                     EntityHealth victim = hit.GetComponent<EntityHealth>();
                     Instantiate(hitParticles, target.point, Quaternion.FromToRotation(Vector3.forward, target.normal));
-                    if (victim != null)
-                    {
-                        victim.BeHitByPlasma(target, attacker);
-                    }
+                    SpawnProjectile(aim, attacker, target, victim);
                 }
             }
         }
