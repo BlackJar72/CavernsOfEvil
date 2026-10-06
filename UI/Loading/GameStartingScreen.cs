@@ -1,10 +1,8 @@
 using UnityEngine;
 using TMPro;
-using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using LeastSquares;
 
 namespace CevarnsOfEvil
 

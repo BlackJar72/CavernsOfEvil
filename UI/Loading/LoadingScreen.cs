@@ -1,10 +1,8 @@
 using UnityEngine;
 using TMPro;
-using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using LeastSquares;
 
 namespace CevarnsOfEvil
 
@@ -78,9 +76,6 @@ namespace CevarnsOfEvil
         private static List<string> shuffledHints = new List<string>();
         private static bool hintsShuffled = false;
 
-        [SerializeField] SteamAchievementsAndStats steamAchievements;
-
-
 
         public void Init()
         {
@@ -94,9 +89,6 @@ namespace CevarnsOfEvil
                     GameData.SaveGame();
                     quitButton.SetActive(!((GameData.Level == 17) && isNormal));
                     StartCoroutine(ShowPieces());
-                    if (steamAchievements != null) {
-                        steamAchievements.AddStat("HIGH_LEVEL", GameData.Level);
-                    }
                 }
             }
         }
@@ -154,11 +146,7 @@ namespace CevarnsOfEvil
         public static void ResetHintShuffle() {
             hintsShuffled = false;
         }
-
-
-        /*public void OnSceneLoaded() {
-            //Debug.Log("SceneLoaded");
-        }*/
+        
 
     }
 
