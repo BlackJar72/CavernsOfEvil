@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -20,7 +18,10 @@ namespace CevarnsOfEvil
     /// 
     /// This only works with fast moving projectiles, so that the target can't move to much (thus 
     /// hiding the homing so the path looks straight) and not allowing angle between the current 
-    /// and initial trajectory to become shallow (reducing the cosine),
+    /// and initial trajectory to become shallow (reducing the cosine).  It should also not be used 
+    /// with anything you might want to give the player a chance to dodge (not mater how small).
+    /// 
+    /// This is designed and used specifically for plasma bullets.
     /// </summary>
     public class HomingProjectileFX : MonoBehaviour
     {
