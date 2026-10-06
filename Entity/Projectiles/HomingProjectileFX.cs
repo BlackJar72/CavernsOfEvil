@@ -34,11 +34,17 @@ namespace CevarnsOfEvil
         [HideInInspector] public Vector3 initialDir;
         [HideInInspector] public GameObject target;
         [HideInInspector] public EntityHealth victim;
+        [HideInInspector] public float timeToDie;
 
 
         // Update is called once per frame
         void Update()
         {
+            if((target == null) || (Time.time > timeToDie)) 
+            {
+                Destroy(gameObject);
+                return;
+            }
             Vector3 movement = (target.transform.position - transform.position).normalized * speed * Time.deltaTime;
             transform.position = transform.position + movement;
             if(Vector3.Dot(movement, initialDir) < (Time.deltaTime / speed)) Hit();
@@ -53,6 +59,7 @@ namespace CevarnsOfEvil
             target.transform.rotation.SetLookRotation(rayhit.normal);
             transform.rotation = Quaternion.LookRotation(dir);
             initialDir = dir.normalized;
+            timeToDie = Time.time + 12.0f;
             this.attacker = attacker;
             this.victim = victim;
         }
